@@ -807,6 +807,50 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 @keyframes fabpop{from{transform:scale(.6)}to{transform:none}}
 @media(max-width:520px){.q-fab.mini{width:50px}}
 #bruit>.edu{max-width:1240px;margin-inline:auto}
+/* Carte pleine largeur, résultat en dessous */
+#bruit .sim{grid-template-columns:minmax(0,1fr)!important;gap:20px!important}
+#bruit .fig{width:100vw;margin-left:calc(50% - 50vw);border-radius:0;border-left:0;border-right:0;height:min(80vh,820px)}
+#bruit .card{position:static;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:8px 36px;padding:26px;border-radius:20px;align-items:start;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 18px 40px -28px rgba(0,0,0,.35)}
+#bruit .card>.where{grid-column:1/-1}
+#bruit .card>.impact{grid-row:span 2;margin:0}
+#bruit .card>.plain{align-self:end}
+@media(max-width:900px){#bruit .card{grid-template-columns:minmax(0,1fr);padding:18px}#bruit .card>.impact{grid-row:auto}#bruit .fig{height:72vh}}
+/* Filtre Chantier : sous-texte au survol */
+#yr button{position:relative}
+.ytip{position:absolute;left:50%;top:calc(100% + 10px);z-index:8;transform:translate(-50%,-4px);opacity:0;pointer-events:none;white-space:nowrap;padding:7px 10px;border-radius:8px;background:#000;color:#fff;font:600 12px/1 "Instrument Sans",sans-serif;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);transition:opacity .18s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.ytip::before{content:"";position:absolute;left:50%;top:-4px;width:8px;height:8px;background:#000;transform:translateX(-50%) rotate(45deg)}
+#yr button:hover .ytip,#yr button:focus-visible .ytip{opacity:1;transform:translate(-50%,0)}
+.mfil .mgrp:has(#yr){position:relative;z-index:2}
+@media(hover:none){.ytip{display:none}}
+/* Questions publiées : tableau compact */
+.qtab-w{border-radius:18px;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04),0 16px 34px -24px rgba(0,0,0,.35);overflow:hidden}
+.qtab{width:100%;border-collapse:collapse;font-size:14px}
+.qtab thead th{padding:12px 16px;background:var(--panel);text-align:left;font:800 11px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.qtab td{padding:0 16px;border-top:1px solid var(--line);vertical-align:middle}
+.qtab tbody[hidden]{display:none}
+.qr-m{cursor:pointer}.qr-m:hover{background:#fafafa}.qr.open .qr-m{background:#fafafa}
+.qtab .c-q{width:58%}.qtab .c-th{color:var(--mute);white-space:nowrap}.qtab .c-dt{color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums}.qtab .c-ch{width:40px;text-align:right;padding-left:0}
+.qr-btn{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:10px 0;border:0;background:none;text-align:left;color:var(--ink);font:600 15px/1.4 "Instrument Sans",sans-serif;cursor:pointer}
+.qr-btn:focus-visible{outline:3px solid var(--acc);outline-offset:-2px;border-radius:8px}
+.qr-cat{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--panel);font-size:16px}
+.qr-t{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.qr.open .qr-t{display:block}
+.qr-m:hover .qr-t{color:var(--acc)}.qr-m:active .qr-t{opacity:.7}
+.c-ch svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.qr.open .c-ch svg{transform:rotate(180deg)}
+.qs{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:999px;font:700 12px/1 "Instrument Sans",sans-serif;white-space:nowrap}
+.qs i{width:7px;height:7px;border-radius:50%;background:currentColor}.qs em{font-style:normal;font-weight:600;opacity:.85}
+.qs.ok{background:#e3f6ee;color:#00613f}.qs.fw{background:#ffe6e5;color:#b00400}.qs.wt{background:#fff4c2;color:#6b5500}
+.qr-d td{border-top:0;padding:0 16px 18px 60px}
+.qr-in{display:grid;gap:14px;max-width:760px}
+.qr-in .qx-txt{display:block;-webkit-line-clamp:unset}
+.qx-steps li small{display:inline}
+@media(max-width:760px){.qtab thead,.qtab .c-th,.qtab .c-dt{display:none}
+ .qtab tr.qr-m{display:grid;grid-template-columns:minmax(0,1fr) 28px;padding:4px 0 12px}
+ .qtab .qr-m td{border:0;padding:0 14px;width:auto}.qtab tbody.qr{border-top:1px solid var(--line);display:block}.qtab tbody.qr[hidden]{display:none}.qtab tbody.qr:first-of-type{border-top:0}
+ .qtab .qr-m .c-st{grid-row:2;padding-left:58px}.qtab .qr-m .c-ch{grid-row:1/3;grid-column:2;display:grid;place-items:center;padding:0 12px 0 0}
+ .qtab .qr-d{display:block}.qtab .qr-d[hidden]{display:none}.qtab .qr-d td{display:block;padding:0 14px 16px}
+ .qtab{display:block}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -866,7 +910,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <div class="mgrp" role="group" aria-label="Moment"><span class="mlab">Moment</span><div class="mseg" id="mper"><button data-v="jour" aria-pressed="true"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></svg>Jour</button><button data-v="nuit" aria-pressed="false"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 10A6 6 0 0 1 6 2.5 6 6 0 1 0 13.5 10z"/></svg>Nuit</button></div></div>
 <div class="mgrp" role="group" aria-label="Scénario"><span class="mlab">Scénario</span><div class="mseg" id="mscn"><button data-v="normal" aria-pressed="true" title="Fonctionnement habituel du campus">Normal</button><button data-v="essai" aria-pressed="false" title="Essai des groupes électrogènes de secours"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2a3.5 3.5 0 0 0-3.3 4.6L2.5 11.3a1.4 1.4 0 0 0 2 2l4.7-4.7A3.5 3.5 0 0 0 14 5.5l-2 2-1.8-.3-.3-1.8 2-2A3.5 3.5 0 0 0 10.5 2z"/></svg>Essai<span class="lg"> groupes</span></button><button data-v="secours" aria-pressed="false" title="Coupure du réseau électrique : les groupes de secours tournent"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M9 1 3 9h4l-1 6 6-8H8z"/></svg>Panne<span class="lg"> réseau</span></button></div></div>
 <div class="mgrp" id="mEssai" style="display:none"><span class="mlab">Groupes testés</span><input type="range" id="mnGE" min="1" max="10" value="2" aria-label="Groupes testés simultanément"><output id="mnGEo">2</output></div>
-<div class="mgrp" role="group" aria-label="Évolution du chantier"><span class="mlab">Évolution chantier</span><div class="mseg" id="yr"><button data-v="0" aria-pressed="true" title="2026 : chantier, aucun data center">2026<span class="lg"> · Chantier</span></button><button data-v="1" aria-pressed="false" title="Fin 2027 : DC01 en service">2027<span class="lg"> · DC01 en service</span></button><button data-v="2" aria-pressed="false" title="2029 : DC01 + DC02 (estimation)">2029<span class="lg"> · + DC02</span></button><button data-v="3" aria-pressed="false" title="Fin 2030 : campus complet">2030<span class="lg"> · Campus complet</span></button></div></div>
+<div class="mgrp" role="group" aria-label="Chantier"><span class="mlab">Chantier</span><div class="mseg" id="yr"><button data-v="0" aria-pressed="true" aria-describedby="yt0">2026<span class="ytip" id="yt0" role="tooltip">Chantier, aucun data center</span></button><button data-v="1" aria-pressed="false" aria-describedby="yt1">2027<span class="ytip" id="yt1" role="tooltip">DC01 en service</span></button><button data-v="2" aria-pressed="false" aria-describedby="yt2">2029<span class="ytip" id="yt2" role="tooltip">+ DC02 (estimation)</span></button><button data-v="3" aria-pressed="false" aria-describedby="yt3">2030<span class="ytip" id="yt3" role="tooltip">Campus complet</span></button></div></div>
 </div>
 <div class="mbar" role="toolbar" aria-label="Affichage de la carte">
 <div class="mseg" id="fond"><button data-v="photo" aria-pressed="true">Photo</button><button data-v="plan" aria-pressed="false">Plan</button></div>
@@ -1465,35 +1509,40 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
  // affichage
  const WHO={data4:['Data4','Réponse officielle','d4'],mairie:['Mairie de Nozay','Réponse de la commune','mai'],observatoire:['Observatoire citoyen','D\'après les documents publics','obs'],autre:['Réponse','','obs']};
  const AV={d4:'D4',mai:'<svg viewBox="0 0 16 16"><path d="M2 14h12M3 14V7l5-4 5 4v7M6.5 14v-4h3v4"/></svg>',obs:'<svg viewBox="0 0 16 16"><path d="M3 10v-2M6 12V5M9 13V3M12 11V6"/></svg>'};
+ const MS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],sd=s=>{const d=new Date(s);return d.getDate()+' '+MS[d.getMonth()]};
+ const pill=q=>q.status==='answered'?'<span class="qs ok"><i></i>Répondue'+(q.answer_by&&WHO[q.answer_by]?'<em> · '+WHO[q.answer_by][0].replace(' de Nozay','').replace(' citoyen','')+'</em>':'')+'</span>'
+  :q.status==='forwarded'?'<span class="qs fw"><i></i>Transmise'+(q.forwarded_to?'<em> à '+esc(q.forwarded_to)+'</em>':'')+'</span>':'<span class="qs wt"><i></i>En attente</span>';
  const steps=q=>{const fw=q.status!=='published'||!!q.forwarded_to,an=q.status==='answered';
-  return '<ol class="qx-steps" aria-label="Suivi de la question"><li class="done"><i></i>Posée</li><li class="'+(fw?'done':'')+(fw&&!an?' cur':'')+'"><i></i>Transmise'+(q.forwarded_to?'<small> à '+esc(q.forwarded_to)+'</small>':'')+'</li><li class="'+(an?'done cur':'')+'"><i></i>Répondue</li></ol>'};
- const card=q=>{const w=WHO[q.answer_by]||WHO.autre,c=CL[q.category]||CL.autre;
-  return '<article class="qx is-'+q.status+'" data-cat="'+(CL[q.category]?q.category:'autre')+'"><div class="qx-top"><span class="qx-cat">'+c+'</span><span class="qx-date">'+fd(q.created_at)+'</span></div>'
-   +'<p class="qx-q">'+esc(q.question)+'</p>'+steps(q)
-   +(q.answer?'<div class="qx-a"><span class="qx-av av-'+w[2]+'" aria-hidden="true">'+AV[w[2]]+'</span><div class="qx-bub"><p class="qx-by"><b>'+w[0]+'</b>'+(w[1]?' · '+w[1]:'')+(q.answered_at?' · '+fd(q.answered_at):'')+'</p><p class="qx-txt">'+esc(q.answer)+'</p><div class="qx-foot"><button type="button" class="qx-more" hidden>Lire la suite</button>'+(q.answer_source?(/^https?:\/\//.test(q.answer_source)?'<a class="qx-src" href="'+esc(q.answer_source)+'" target="_blank" rel="noopener">Voir la source ↗</a>':'<span class="qx-src">Source : '+esc(q.answer_source)+'</span>'):'')+'</div></div></div>'
-    :'<p class="qx-wait"><span class="qx-pulse" aria-hidden="true"></span>'+(q.forwarded_to?'En attente de la réponse de '+esc(q.forwarded_to):'Réponse en préparation')+'</p>')+'</article>'};
- const RANK={answered:0,forwarded:1,published:2},PAGE=6;
+  return '<ol class="qx-steps" aria-label="Suivi de la question"><li class="done"><i></i>Posée le '+sd(q.created_at)+'</li><li class="'+(fw?'done':'')+(fw&&!an?' cur':'')+'"><i></i>Transmise'+(q.forwarded_to?'<small> à '+esc(q.forwarded_to)+'</small>':'')+'</li><li class="'+(an?'done cur':'')+'"><i></i>Répondue'+(q.answered_at?'<small> le '+sd(q.answered_at)+'</small>':'')+'</li></ol>'};
+ const detail=q=>{const w=WHO[q.answer_by]||WHO.autre;
+  return q.answer?'<div class="qx-a"><span class="qx-av av-'+w[2]+'" aria-hidden="true">'+AV[w[2]]+'</span><div class="qx-bub"><p class="qx-by"><b>'+w[0]+'</b>'+(w[1]?' · '+w[1]:'')+'</p><p class="qx-txt">'+esc(q.answer)+'</p>'+(q.answer_source?'<div class="qx-foot">'+(/^https?:\/\//.test(q.answer_source)?'<a class="qx-src" href="'+esc(q.answer_source)+'" target="_blank" rel="noopener">Voir la source ↗</a>':'<span class="qx-src">Source : '+esc(q.answer_source)+'</span>')+'</div>':'')+'</div></div>'
+   :'<p class="qx-wait"><span class="qx-pulse" aria-hidden="true"></span>'+(q.forwarded_to?'En attente de la réponse de '+esc(q.forwarded_to)+'. Elle sera publiée ici.':'Réponse en préparation. Elle sera publiée ici.')+'</p>'};
+ const CHV='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg>';
+ const row=(q,i)=>'<tbody class="qr is-'+q.status+'" data-cat="'+(CL[q.category]?q.category:'autre')+'"><tr class="qr-m"><td class="c-q"><button type="button" class="qr-btn" aria-expanded="false" aria-controls="qd'+i+'"><span class="qr-cat" aria-hidden="true">'+(CL[q.category]||CL.autre).split(' ')[0]+'</span><span class="qr-t">'+esc(q.question)+'</span></button></td>'
+  +'<td class="c-th">'+(CL[q.category]||CL.autre).split(' ').slice(1).join(' ')+'</td><td class="c-st">'+pill(q)+'</td><td class="c-dt">'+sd(q.created_at)+'</td><td class="c-ch">'+CHV+'</td></tr>'
+  +'<tr class="qr-d" id="qd'+i+'" hidden><td colspan="5"><div class="qr-in">'+steps(q)+detail(q)+'</div></td></tr></tbody>';
+ const RANK={answered:0,forwarded:1,published:2},PAGE=8;
  api('questions_public?select=*&order=created_at.desc&limit=500').then(r=>r.ok?r.json():Promise.reject()).then(rows=>{
   $('qn').textContent=rows.length?rows.length:'';
   if(!rows.length){$('qlist').innerHTML='<p class="q-empty">Aucune question publiée pour l\'instant. <a href="#" data-ask>Soyez le premier à poser la vôtre</a></p>';$('qf').hidden=true;return}
   rows.sort((x,y)=>(RANK[x.status]??3)-(RANK[y.status]??3)||new Date(y.answered_at||y.created_at)-new Date(x.answered_at||x.created_at));
   const ans=rows.filter(q=>q.status==='answered').length;
   $('qn').innerHTML=rows.length+' <em>dont '+ans+' répondue'+(ans>1?'s':'')+'</em>';
-  $('qlist').innerHTML='<div class="qx-grid" id="qgrid">'+rows.map(card).join('')+'</div><p class="q-none" id="qnone" hidden>Aucune question ne correspond.</p><div class="qx-morewrap"><button type="button" class="qx-all" id="qall" hidden></button></div>';
-  const cards=[...$('qgrid').children];
+  $('qlist').innerHTML='<div class="qtab-w"><table class="qtab"><thead><tr><th class="c-q">Question</th><th class="c-th">Thème</th><th class="c-st">Suivi</th><th class="c-dt">Posée le</th><th class="c-ch"><span class="sr">Détail</span></th></tr></thead>'+rows.map(row).join('')+'</table></div><p class="q-none" id="qnone" hidden>Aucune question ne correspond.</p><div class="qx-morewrap"><button type="button" class="qx-all" id="qall" hidden></button></div>';
+  const tb=[...$('qlist').querySelectorAll('tbody.qr')];
   const cats=CATS.filter(([k])=>rows.some(q=>(CL[q.category]?q.category:'autre')===k));
-  $('qf').innerHTML=[['all','Tous les thèmes']].concat(cats).map(([k,l],i)=>'<button type="button" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+l+' <span class="fc">'+(k==='all'?rows.length:cards.filter(c=>c.dataset.cat===k).length)+'</span></button>').join('');
+  $('qf').innerHTML=[['all','Tous les thèmes']].concat(cats).map(([k,l],i)=>'<button type="button" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+l+' <span class="fc">'+(k==='all'?rows.length:tb.filter(c=>c.dataset.cat===k).length)+'</span></button>').join('');
   const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   let fc='all',all=false;const srch=$('qsearch');srch.hidden=rows.length<6;
-  const clamp=()=>cards.forEach(c=>{const t=c.querySelector('.qx-txt'),m=c.querySelector('.qx-more');if(!t||c.hidden||c.classList.contains('open'))return;m.hidden=t.scrollHeight<=t.clientHeight+2});
   const apply=()=>{const t=norm(srch.value.trim());let n=0;
-   cards.forEach((c,i)=>{const q=rows[i],ok=(fc==='all'||c.dataset.cat===fc)&&(!t||norm(q.question+' '+(q.answer||'')).includes(t));c.hidden=!ok||(!all&&!t&&n>=PAGE);if(ok)n++});
+   tb.forEach((c,i)=>{const q=rows[i],ok=(fc==='all'||c.dataset.cat===fc)&&(!t||norm(q.question+' '+(q.answer||'')).includes(t));c.hidden=!ok||(!all&&!t&&n>=PAGE);if(ok)n++});
    const hid=Math.max(0,n-PAGE);$('qall').hidden=all||!!t||!hid;$('qall').textContent='Voir les '+hid+' autre'+(hid>1?'s':'')+' question'+(hid>1?'s':'');
-   $('qnone').hidden=!!n;requestAnimationFrame(clamp)};
+   $('qnone').hidden=!!n};
   $('qf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;fc=b.dataset.v;for(const x of $('qf').children)x.setAttribute('aria-pressed',x===b);apply()});
   $('qall').addEventListener('click',()=>{all=true;apply()});
-  $('qgrid').addEventListener('click',e=>{const m=e.target.closest('.qx-more');if(!m)return;const c=m.closest('.qx'),o=c.classList.toggle('open');m.textContent=o?'Réduire':'Lire la suite'});
-  srch.addEventListener('input',apply);addEventListener('resize',()=>requestAnimationFrame(clamp));apply()})
+  $('qlist').addEventListener('click',e=>{const m=e.target.closest('tr.qr-m');if(!m||e.target.closest('a'))return;const btn=m.querySelector('.qr-btn'),o=btn.getAttribute('aria-expanded')!=='true';
+   btn.setAttribute('aria-expanded',o);m.closest('tbody').classList.toggle('open',o);$(btn.getAttribute('aria-controls')).hidden=!o});
+  srch.addEventListener('input',apply);apply()})
  .catch(()=>{$('qlist').innerHTML='<p class="q-empty">Les questions publiées ne peuvent pas être chargées pour le moment.</p>';$('qf').hidden=true})}
 {const fab=$('qfab'),dlg=$('qdlg');
  const open=()=>{if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');fab.classList.add('in-dlg');($('qform').hidden?$('qagain'):$('qtext')).focus()};
