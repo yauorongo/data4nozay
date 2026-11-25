@@ -268,6 +268,20 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+.mfil{position:absolute;left:10px;top:62px;z-index:4;display:flex;flex-direction:column;align-items:flex-start;gap:6px;max-width:calc(100% - 64px)}
+.mgrp{display:flex;align-items:center;gap:6px;padding:4px 4px 4px 12px;background:rgba(255,255,255,.95);border-radius:20px;box-shadow:0 1px 2px rgba(0,0,0,.12),0 6px 16px -6px rgba(0,0,0,.35)}
+.mlab{font:700 10px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.06em;text-transform:uppercase;color:#5e5e5e;white-space:nowrap}
+.mfil .mseg button{font:600 13px/1 "Instrument Sans",sans-serif;color:#111;border:0;background:transparent;height:30px;padding:0 11px;border-radius:15px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.mfil .mseg button:hover{background:rgba(0,0,0,.06)}.mfil .mseg button:active{transform:scale(.94)}
+.mfil .mseg button:focus-visible{outline:2px solid #f50500;outline-offset:1px}
+.mfil .mseg button[aria-pressed=true]{background:#fff;color:#000;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#yr button[aria-pressed=true]{background:#f50500;color:#fff;box-shadow:0 2px 6px -1px rgba(245,5,0,.6)}
+.mi{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#mEssai input{width:110px;height:22px;accent-color:#f50500}#mEssai output{font:700 13px "Instrument Sans",sans-serif;min-width:22px;padding-right:8px}
+.adtip{position:absolute;left:0;top:0;z-index:3;pointer-events:none;background:#000;color:#fff;font:400 13px/1.3 "Instrument Sans",sans-serif;padding:7px 10px;white-space:nowrap;opacity:0;transition:opacity .15s;box-shadow:0 2px 4px rgba(0,0,0,.3),0 10px 24px -8px rgba(0,0,0,.6);border-left:3px solid #f50500}
+.adtip.on{opacity:1}.adtip b{font:800 16px/1 "Archivo",sans-serif;font-stretch:112%;color:#ffc900}
+.adtip small{display:block;margin-top:3px;font-size:11px;color:#aeaeae}
+@media(max-width:600px){.mfil{gap:4px}.mgrp{padding-left:9px}.mfil .mseg button{padding:0 8px;font-size:12px;height:28px}.mfil .lg{display:none}.mlab{display:none}.mgrp{padding-left:4px}.rcv.home.on span{white-space:normal;width:210px;text-align:center}}
 .impact{margin-top:10px}.impact+.plain{margin-top:20px}
 .rcv.home{position:relative;gap:6px;outline:none}
 .rcv.home i,.rcv.home.on i{width:44px;height:44px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#f50500;border:3px solid #fff;display:grid;place-items:center;box-shadow:0 0 0 1px rgba(0,0,0,.25),0 8px 18px -4px rgba(0,0,0,.55);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
@@ -368,12 +382,13 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 </div></div>
 <div class="sim">
 <div>
-<div class="fig" id="fig"><div id="mapgl"></div><div class="search" role="search"><label for="q" class="sr">Votre adresse</label><svg class="loupe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input id="q" type="search" placeholder="Tapez votre adresse…" autocomplete="off" role="combobox" aria-controls="sug" enterkeyhint="search"><ul id="sug" role="listbox"></ul></div><details class="mopt" id="mopt"><summary><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><path d="M3 5h9M15 5h2M3 10h3M9 10h8M3 15h7M13 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="13.5" cy="5" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="7.5" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="11.5" cy="15" r="2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="mstat">Options</span><svg class="chev" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></summary>
-<div class="mrow"><b>Période</b><div class="seg" id="mper"><button data-v="jour" aria-pressed="true">Jour</button><button data-v="nuit" aria-pressed="false">Nuit</button></div></div>
-<div class="mrow"><b>Scénario</b><div class="seg" id="mscn"><button data-v="normal" aria-pressed="true">Normal</button><button data-v="essai" aria-pressed="false">Essai groupes</button><button data-v="secours" aria-pressed="false">Panne réseau</button></div></div>
-<div class="mrow" id="mEssai" style="display:none"><b>Groupes testés : <output id="mnGEo">2</output></b><input type="range" id="mnGE" min="1" max="10" value="2" aria-label="Groupes testés simultanément"></div>
-</details><span hidden id="yinfo"></span><details class="ychip" id="ychip"><summary><svg class="cal" viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 8.5h14M7 2.5v4M13 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="yq">Quand ?</span><span id="ystat">2026 · chantier</span><svg class="chev" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></summary>
-<div class="ypop"><div class="ylist" id="yr"><button data-v="0" aria-pressed="true"><b>2026</b><span>Chantier, aucun data center</span></button><button data-v="1" aria-pressed="false"><b>fin 2027</b><span>DC01 en service</span></button><button data-v="2" aria-pressed="false"><b>2029</b><span>DC01 + DC02 (estimation)</span></button><button data-v="3" aria-pressed="false"><b>fin 2030</b><span>Campus complet</span></button></div><button class="yplay" id="play" aria-pressed="false"><svg viewBox="0 0 20 20" width="12" height="12" aria-hidden="true"><path d="M5 3l12 7-12 7z" fill="currentColor"/></svg> Voir l'évolution</button></div></details>
+<div class="fig" id="fig"><div id="mapgl"></div><div class="search" role="search"><label for="q" class="sr">Votre adresse</label><svg class="loupe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input id="q" type="search" placeholder="Tapez votre adresse…" autocomplete="off" role="combobox" aria-controls="sug" enterkeyhint="search"><ul id="sug" role="listbox"></ul></div><span hidden id="yinfo"></span><span hidden id="ystat"></span><span hidden id="mstat"></span><button hidden id="play" type="button"></button>
+<div class="mfil" role="toolbar" aria-label="Filtres de la simulation">
+<div class="mgrp" role="group" aria-label="Moment"><span class="mlab">Moment</span><div class="mseg" id="mper"><button data-v="jour" aria-pressed="true"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></svg>Jour</button><button data-v="nuit" aria-pressed="false"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 10A6 6 0 0 1 6 2.5 6 6 0 1 0 13.5 10z"/></svg>Nuit</button></div></div>
+<div class="mgrp" role="group" aria-label="Scénario"><span class="mlab">Scénario</span><div class="mseg" id="mscn"><button data-v="normal" aria-pressed="true" title="Fonctionnement habituel du campus">Normal</button><button data-v="essai" aria-pressed="false" title="Essai des groupes électrogènes de secours"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2a3.5 3.5 0 0 0-3.3 4.6L2.5 11.3a1.4 1.4 0 0 0 2 2l4.7-4.7A3.5 3.5 0 0 0 14 5.5l-2 2-1.8-.3-.3-1.8 2-2A3.5 3.5 0 0 0 10.5 2z"/></svg>Essai<span class="lg"> groupes</span></button><button data-v="secours" aria-pressed="false" title="Coupure du réseau électrique : les groupes de secours tournent"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M9 1 3 9h4l-1 6 6-8H8z"/></svg>Panne<span class="lg"> réseau</span></button></div></div>
+<div class="mgrp" id="mEssai" style="display:none"><span class="mlab">Groupes testés</span><input type="range" id="mnGE" min="1" max="10" value="2" aria-label="Groupes testés simultanément"><output id="mnGEo">2</output></div>
+<div class="mgrp" role="group" aria-label="Quand ?"><span class="mlab">Quand ?</span><div class="mseg" id="yr"><button data-v="0" aria-pressed="true" title="2026 : chantier, aucun data center">2026</button><button data-v="1" aria-pressed="false" title="Fin 2027 : DC01 en service">2027</button><button data-v="2" aria-pressed="false" title="2029 : DC01 + DC02 (estimation)">2029</button><button data-v="3" aria-pressed="false" title="Fin 2030 : campus complet">2030</button></div></div>
+</div>
 <div class="mbar" role="toolbar" aria-label="Affichage de la carte">
 <div class="mseg" id="fond"><button data-v="photo" aria-pressed="true">Photo</button><button data-v="plan" aria-pressed="false">Plan</button></div>
 <div class="mseg" id="vue"><button data-v="2d" aria-pressed="true">2D</button><button data-v="3d" aria-pressed="false">3D</button></div>
@@ -606,7 +621,15 @@ if(hasGL){
       el.addEventListener('keydown',ev=>{if(ev.key==='Escape')el.classList.remove('tipon')})}
     el.addEventListener('click',e=>{e.stopPropagation();$('hint').style.display='none';setPt(p.k)});
     MK[p.k]=new maplibregl.Marker({element:el,anchor:home?'bottom':'center'}).setLngLat(toLL(p.x,p.y)).addTo(map)});
-  map.on('click',e=>{if($('mopt').open||$('ychip').open){$('mopt').open=false;$('ychip').open=false;return}$('hint').style.display='none';const[x,y]=fromLL(e.lngLat.lng,e.lngLat.lat),q=P.find(o=>o.k==='perso');q.x=x;q.y=y;S.addr='';S.home=1;setPt('perso')});
+  map.on('click',e=>{$('hint').style.display='none';const na=nearAddr(e.lngLat.lat,e.lngLat.lng,hovR()),[x,y]=na?fromLL(na.lon,na.lat):fromLL(e.lngLat.lng,e.lngLat.lat),q=P.find(o=>o.k==='perso');q.x=x;q.y=y;S.addr=na?na.s:'';if(na)$('q').value=$('q2').value=na.s;S.home=1;setPt('perso')});
+  {const tip=mkEl('adtip','');tip.setAttribute('aria-hidden','true');$('fig').appendChild(tip);let rq=0,last=null;
+   map.on('mousemove',e=>{last=e;if(rq)return;rq=requestAnimationFrame(()=>{rq=0;const ev=last,na=nearAddr(ev.lngLat.lat,ev.lngLat.lng,hovR());
+     if(!na||ev.originalEvent.target.closest('.rcv,.dclab')){tip.classList.remove('on');map.getCanvas().style.cursor='';return}
+     const m=na.s.match(/^(\S+) (.+?), (.+)$/)||[,'',na.s,''];
+     tip.innerHTML='<b>'+esc(m[1])+'</b> '+esc(m[2])+'<small>'+esc(m[3])+' · cliquez pour simuler ici</small>';
+     const W=$('fig').clientWidth,left=ev.point.x>W-240;tip.style.transform='translate('+(left?ev.point.x-14:ev.point.x+16)+'px,'+(ev.point.y+16)+'px)'+(left?' translateX(-100%)':'');
+     tip.classList.add('on');map.getCanvas().style.cursor='pointer'})});
+   map.getCanvas().addEventListener('mouseleave',()=>tip.classList.remove('on'));map.on('movestart',()=>tip.classList.remove('on'))}
   map.on('load',()=>{ready=true;drawMap();const at=document.querySelector('.maplibregl-ctrl-attrib');if(at)at.classList.remove('maplibregl-compact-show')});
 }else{$('mapgl').innerHTML='<p style="padding:20px">La carte interactive n\'a pas pu se charger. Le simulateur reste utilisable avec la liste des points d\'écoute.</p>'}
 const setSeg=(id,v)=>{for(const x of $(id).children)x.setAttribute('aria-pressed',x.dataset.v===v)};
@@ -630,6 +653,8 @@ function plain(c){if(S.ph===0)return'En 2026, le campus est en chantier : aucun 
 let AD=[];const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
 fetch('adresses.csv').then(r=>r.ok?r.text():Promise.reject()).then(t=>{AD=t.trim().split('\n').slice(1).map(l=>{const c=l.split(';');const s=c[0]+' '+c[1]+', '+c[2];return{s,n:norm(s),lat:+c[3],lon:+c[4]}});$('q').placeholder='Tapez votre adresse (ex. 12 rue de Villarceau)'}).catch(()=>{$('q').placeholder='Tapez votre adresse…'});
 // Deux champs d'adresse (sur la carte : #q, dans le hero : #q2). Adresses du plan en local, au-delà : Géoplateforme (BAN).
+function nearAddr(lat,lon,r){let best=null,bd=r;for(const a of AD){const d=Math.hypot((a.lon-lon)*73516,(a.lat-lat)*111319.5);if(d<bd){bd=d;best=a}}return best}
+const hovR=()=>Math.min(80,Math.max(18,14*103000/2**(map?map.getZoom():14)));
 let sel=-1,hits=[],cur='q',banT=0,banN=0;const SB={q:'sug',q2:'sug2'};
 const inPlan=(lat,lon)=>lon>=2.178791&&lon<=2.301209&&lat>=48.624557&&lat<=48.70541;
 function render(){const L=$(SB[cur]);for(const k in SB)if(k!==cur)$(SB[k]).innerHTML='';
@@ -710,9 +735,8 @@ let ctPlay=()=>{};
  $('yr').addEventListener('click',()=>{if(S.ph!==ph){ph=S.ph;if(!raf)setT(X[ph],true)}});
  addEventListener('resize',()=>setT(t,true));setT(t,true);}
 const YI=['2026 : chantier en cours, aucun data center en service','Fin 2027 : premier data center (DC01) · ~400 GWh/an','2029 (estimation) : DC01 + DC02 en service','Fin 2030 : campus complet · ~1 378 GWh/an à pleine charge'];
-$('mopt').addEventListener('toggle',()=>{if($('mopt').open)$('ychip').open=false});$('ychip').addEventListener('toggle',()=>{if($('ychip').open)$('mopt').open=false});
 $('vid').addEventListener('click',()=>{$('vwrap').querySelector('.vid').outerHTML='<iframe src="https://www.youtube-nocookie.com/embed/IasSO4DZy6o?autoplay=1&rel=0" title="PAR03, plus grand campus de data centers dédié à l\'IA en France (Data4)" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>'});
-$('play').addEventListener('click',()=>{$('ychip').open=false;ctPlay()});
+
 $('mnGE').addEventListener('input',()=>{$('nGE').value=$('mnGE').value;update()});
 
 $('res').addEventListener('input',()=>{S.resMan=true;for(const x of $('rue').children)x.setAttribute('aria-pressed',false);update()});
