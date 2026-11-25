@@ -9,11 +9,12 @@
 --  • Quand un modérateur répond à une question « personnelle », la réponse
 --    part automatiquement par email, puis l'adresse est effacée.
 --
---  Envoi via Brevo (gratuit, 300 emails/jour). AVANT d'exécuter :
---    1. remplacez VOTRE_EMAIL_EXPEDITEUR ci-dessous (« Réglages ») ;
---    2. enregistrez votre clé API Brevo dans le coffre-fort Supabase avec
+--  Envoi via Resend (même service que le projet Morin). AVANT d'exécuter :
+--    1. remplacez VOTRE_EMAIL_EXPEDITEUR ci-dessous (« Réglages ») par une
+--       adresse d'un domaine VÉRIFIÉ dans Resend (ex. observatoire@votre-domaine.com) ;
+--    2. enregistrez une clé API Resend dans le coffre-fort Supabase avec
 --       une requête SÉPARÉE (ne la mettez jamais dans un fichier) :
---         select vault.create_secret('xkeysib-…votre clé…', 'brevo_api_key');
+--         select vault.create_secret('re_…votre clé…', 'resend_api_key');
 -- =====================================================================
 
 create extension if not exists pg_net;
@@ -49,17 +50,17 @@ create or replace function public.send_mail(to_email text, subject text, html te
 returns boolean language plpgsql security definer set search_path = public, extensions as $$
 declare k text; s public.mail_settings;
 begin
-  select decrypted_secret into k from vault.decrypted_secrets where name = 'brevo_api_key' limit 1;
+  select decrypted_secret into k from vault.decrypted_secrets where name = 'resend_api_key' limit 1;
   select * into s from public.mail_settings limit 1;
   if k is null or s.sender_email is null or position('@' in s.sender_email) = 0 then return false; end if;
   perform net.http_post(
-    url     := 'https://api.brevo.com/v3/smtp/email',
-    headers := jsonb_build_object('api-key', k, 'Content-Type', 'application/json', 'accept', 'application/json'),
+    url     := 'https://api.resend.com/emails',
+    headers := jsonb_build_object('Authorization', 'Bearer ' || k, 'Content-Type', 'application/json'),
     body    := jsonb_build_object(
-      'sender', jsonb_build_object('name', s.sender_name, 'email', s.sender_email),
-      'to', jsonb_build_array(jsonb_build_object('email', to_email)),
+      'from', s.sender_name || ' <' || s.sender_email || '>',
+      'to', jsonb_build_array(to_email),
       'subject', subject,
-      'htmlContent', '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#111;max-width:560px">' || html || '</div>'));
+      'html', '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#111;max-width:560px">' || html || '</div>'));
   return true;
 end $$;
 revoke all on function public.send_mail(text, text, text) from public, anon, authenticated;
@@ -143,7 +144,7 @@ begin
         new.answer_emailed_at := now();
         new.email := null;
       else
-        raise exception 'L''envoi des emails n''est pas encore configuré (clé Brevo ou expéditeur manquant).';
+        raise exception 'L''envoi des emails n''est pas encore configuré (clé Resend ou expéditeur manquant).';
       end if;
     end if;
   end if;
