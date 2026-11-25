@@ -39,6 +39,9 @@ label{display:block;font-weight:700;font-size:13px;margin:10px 0 4px}
 .empty{color:var(--mute);padding:20px;text-align:center}
 table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--mute)}
 .help{font-size:13px;color:var(--mute);margin:6px 0 0}
+.q.priv{border-left-color:#000}.pv{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:#000;color:#fff;font-size:12px;font-weight:700}
+.pv a{color:#fff}.pv.done{background:var(--panel);color:var(--mute);box-shadow:inset 0 0 0 1px var(--line)}
+.mailbox{margin-top:10px;padding:12px;border-radius:10px;background:var(--panel)}.mailbox .acts{margin-top:10px}
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
 </style>
 </head>
@@ -74,17 +77,21 @@ function login(){
 async function logout(){await sb.auth.signOut();me=null;$('#me').textContent='';login()}
 
 async function load(){
-  const {data,error}=await sb.from('questions').select('id,created_at,question,category,status,forwarded_to,forwarded_at,answer,answer_by,answer_source,answered_at').order('created_at',{ascending:false});
+  const C='id,created_at,question,category,status,forwarded_to,forwarded_at,answer,answer_by,answer_source,answered_at';
+  let {data,error}=await sb.from('questions').select(C+',private,email').order('created_at',{ascending:false});
+  if(error&&/private|email/.test(error.message))({data,error}=await sb.from('questions').select(C).order('created_at',{ascending:false})); // mise à jour SQL n°2 pas encore faite
   if(error){app.innerHTML='<p class="msg err">Erreur de chargement : '+esc(error.message)+'</p>';return}
   rows=data;render();
 }
 function render(){
-  const T=[['pending','⏳ À modérer'],['published','📣 Publiées, sans réponse'],['forwarded','📨 Transmises'],['answered','✅ Répondues'],['rejected','🚫 Rejetées']];
+  const T=[['pending','⏳ À modérer'],['private','🔒 Réponses personnelles'],['published','📣 Publiées, sans réponse'],['forwarded','📨 Transmises'],['answered','✅ Répondues'],['rejected','🚫 Rejetées']];
   if(me.role==='admin')T.push(['team','👥 Équipe']);
-  const n=k=>rows.filter(r=>r.status===k).length;
+  const open=r=>r.private&&!['answered','rejected'].includes(r.status);
+  const inTab=(r,k)=>k==='private'?open(r):r.status===k&&!open(r);
+  const n=k=>rows.filter(r=>inTab(r,k)).length;
   let h='<div class="tabs">'+T.map(([k,l])=>'<button data-t="'+k+'" aria-pressed="'+(tab===k)+'">'+l+(k!=='team'?'<span class="n">'+n(k)+'</span>':'')+'</button>').join('')+'</div>';
   if(tab==='team'){app.innerHTML=h+'<div id="team"></div>';bindTabs();return team()}
-  const list=rows.filter(r=>r.status===tab);
+  const list=rows.filter(r=>inTab(r,tab));
   h+=list.length?list.map(qHTML).join(''):'<div class="card empty">Rien ici pour le moment.</div>';
   app.innerHTML=h;bindTabs();
   app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>act(b.dataset.act,b.dataset.id,b));
@@ -93,13 +100,21 @@ function bindTabs(){app.querySelectorAll('.tabs button').forEach(b=>b.onclick=()
 function qHTML(q){
   const admin=me.role==='admin';
   let a='';
-  if(q.status==='pending')a+='<button class="btn green sm" data-act="publish" data-id="'+q.id+'">✔ Publier</button><button class="btn ghost sm" data-act="reject" data-id="'+q.id+'">Rejeter</button>';
-  if(q.status==='rejected')a+='<button class="btn ghost sm" data-act="publish" data-id="'+q.id+'">Republier</button>';
+  if(q.private){if(!['answered','rejected'].includes(q.status))a+='<button class="btn ghost sm" data-act="reject" data-id="'+q.id+'">Rejeter (hors sujet)</button>'}
+  else if(q.status==='pending')a+='<button class="btn green sm" data-act="publish" data-id="'+q.id+'">✔ Publier</button><button class="btn ghost sm" data-act="reject" data-id="'+q.id+'">Rejeter</button>';
+  if(q.status==='rejected'&&!q.private)a+='<button class="btn ghost sm" data-act="publish" data-id="'+q.id+'">Republier</button>';
   if(admin)a+='<button class="btn ghost sm" data-act="delete" data-id="'+q.id+'" title="Suppression définitive">🗑 Supprimer</button>';
   const fwd=q.status!=='rejected'?'<details><summary>📨 Marquer comme transmise</summary><div class="grid2"><div><label>Transmise à</label><select id="fw-'+q.id+'"><option>Data4</option><option>Mairie de Nozay</option><option>Préfecture</option></select></div><div><label>&nbsp;</label><button class="btn sm" data-act="forward" data-id="'+q.id+'">Enregistrer</button></div></div></details>':'';
   const def=me.role==='data4'?'data4':me.role==='mairie'?'mairie':'observatoire';
-  const ans=q.status!=='rejected'?'<details'+(q.status==='forwarded'||q.status==='published'?'':'')+'><summary>✍️ '+(q.answer?'Modifier la réponse':'Répondre')+'</summary><label for="an-'+q.id+'">Réponse (publique)</label><textarea id="an-'+q.id+'" rows="4">'+esc(q.answer)+'</textarea><div class="grid2"><div><label>Réponse de</label><select id="by-'+q.id+'">'+Object.entries(BY).map(([k,l])=>'<option value="'+k+'"'+((q.answer_by||def)===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div><div><label>Source (lien ou référence)</label><input id="so-'+q.id+'" value="'+esc(q.answer_source)+'" placeholder="https://… ou « Réunion publique du 1er déc. 2026 »"></div></div><p class="help">La réponse est publiée immédiatement sur le site.</p><button class="btn red sm" data-act="answer" data-id="'+q.id+'">Publier la réponse</button></details>':'';
-  return '<article class="q '+q.status+'"><div class="meta"><span>'+(CAT[q.category]||q.category)+'</span><span>Reçue le '+fd(q.created_at)+'</span>'+(q.forwarded_to?'<span>Transmise à '+esc(q.forwarded_to)+' le '+fd(q.forwarded_at)+'</span>':'')+'</div><p class="txt">« '+esc(q.question)+' »</p>'+(q.answer?'<div class="ans"><b>'+(BY[q.answer_by]||'')+'</b> · '+fd(q.answered_at)+'<br>'+esc(q.answer)+'</div>':'')+'<div class="acts">'+a+'</div>'+fwd+ans+'</article>';
+  const ans=q.private?privAns(q,def):q.status!=='rejected'?'<details'+(q.status==='forwarded'||q.status==='published'?'':'')+'><summary>✍️ '+(q.answer?'Modifier la réponse':'Répondre')+'</summary><label for="an-'+q.id+'">Réponse (publique)</label><textarea id="an-'+q.id+'" rows="4">'+esc(q.answer)+'</textarea><div class="grid2"><div><label>Réponse de</label><select id="by-'+q.id+'">'+Object.entries(BY).map(([k,l])=>'<option value="'+k+'"'+((q.answer_by||def)===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div><div><label>Source (lien ou référence)</label><input id="so-'+q.id+'" value="'+esc(q.answer_source)+'" placeholder="https://… ou « Réunion publique du 1er déc. 2026 »"></div></div><p class="help">La réponse est publiée immédiatement sur le site.</p><button class="btn red sm" data-act="answer" data-id="'+q.id+'">Publier la réponse</button></details>':'';
+  const pv=q.private?(q.email?'<span class="pv">🔒 Réponse personnelle · <a href="mailto:'+esc(q.email)+'">'+esc(q.email)+'</a></span>':'<span class="pv done">🔒 Réponse personnelle envoyée par email · non publiée</span>'):'';
+  return '<article class="q '+q.status+(q.private?' priv':'')+'"><div class="meta">'+pv+'<span>'+(CAT[q.category]||q.category)+'</span><span>Reçue le '+fd(q.created_at)+'</span>'+(q.forwarded_to?'<span>Transmise à '+esc(q.forwarded_to)+' le '+fd(q.forwarded_at)+'</span>':'')+'</div><p class="txt">« '+esc(q.question)+' »</p>'+(q.answer?'<div class="ans"><b>'+(BY[q.answer_by]||'')+'</b> · '+fd(q.answered_at)+'<br>'+esc(q.answer)+'</div>':'')+'<div class="acts">'+a+'</div>'+fwd+ans+'</article>';
+}
+function privAns(q,def){
+  if(q.status==='rejected'||!q.email)return '';
+  return '<div class="mailbox"><label for="an-'+q.id+'">Votre réponse (envoyée par email, jamais publiée)</label><textarea id="an-'+q.id+'" rows="5">'+esc(q.answer)+'</textarea><div class="grid2"><div><label>Réponse de</label><select id="by-'+q.id+'">'+Object.entries(BY).map(([k,l])=>'<option value="'+k+'"'+((q.answer_by||def)===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div><div><label>Source (facultatif)</label><input id="so-'+q.id+'" value="'+esc(q.answer_source)+'" placeholder="https://…"></div></div>'
+   +'<p class="help">① Ouvrez l’email pré-rempli dans votre messagerie et envoyez-le. ② Cliquez ensuite « C’est envoyé » : la réponse est archivée et l’adresse email effacée.</p>'
+   +'<div class="acts"><button class="btn red sm" data-act="mail" data-id="'+q.id+'">📧 Ouvrir l’email pré-rempli</button><button class="btn green sm" data-act="sent" data-id="'+q.id+'">✔ C’est envoyé</button></div></div>';
 }
 async function act(k,id,b){
   b.disabled=true;let r;
@@ -108,6 +123,14 @@ async function act(k,id,b){
   if(k==='forward')r=await sb.from('questions').update({status:'forwarded',forwarded_to:$('#fw-'+id).value,forwarded_at:new Date().toISOString()}).eq('id',id);
   if(k==='answer'){const t=$('#an-'+id).value.trim();if(t.length<3){alert('La réponse est vide.');b.disabled=false;return}
     r=await sb.from('questions').update({answer:t,answer_by:$('#by-'+id).value,answer_source:$('#so-'+id).value.trim()||null,status:'answered'}).eq('id',id)}
+  if(k==='mail'){const q=rows.find(x=>x.id===id),t=$('#an-'+id).value.trim();b.disabled=false;
+    if(t.length<3){alert('Écrivez d’abord la réponse.');return}
+    const so=$('#so-'+id).value.trim(),sig={data4:'Data4',mairie:'Mairie de Nozay',observatoire:'Observatoire citoyen',autre:'Observatoire citoyen'}[$('#by-'+id).value];
+    const body=['Bonjour,','','Vous avez posé la question suivante sur l’observatoire citoyen :','« '+q.question+' »','',t,...(so?['','Source : '+so]:[]),'','Cordialement,',sig].join('\n');
+    location.href='mailto:'+encodeURIComponent(q.email)+'?subject='+encodeURIComponent('Réponse à votre question — Observatoire citoyen')+'&body='+encodeURIComponent(body);return}
+  if(k==='sent'){const t=$('#an-'+id).value.trim();if(t.length<3){alert('La réponse est vide.');b.disabled=false;return}
+    if(!confirm('L’email est bien parti ? La réponse sera archivée et l’adresse email effacée.')){b.disabled=false;return}
+    r=await sb.from('questions').update({answer:t,answer_by:$('#by-'+id).value,answer_source:$('#so-'+id).value.trim()||null,status:'answered',email:null}).eq('id',id)}
   if(k==='delete'){if(!confirm('Supprimer définitivement cette question ?')){b.disabled=false;return}r=await sb.from('questions').delete().eq('id',id)}
   if(r&&r.error){alert('Erreur : '+r.error.message);b.disabled=false;return}
   load();

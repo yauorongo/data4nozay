@@ -635,9 +635,6 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 .q-steps li:last-child b{background:var(--acc)}
 .q-list-head h3{font-size:18px;margin:0 0 12px;text-transform:none}.q-list-head h3 span{font-size:12px;vertical-align:3px;background:#000;color:#fff;padding:3px 7px;border-radius:4px;margin-left:4px}.q-list-head h3 span:empty{display:none}
 .q-empty{padding:22px;border-radius:16px;background:var(--panel);color:var(--mute);margin:0}.q-empty a{color:var(--ink);font-weight:600}
-#qlist.car .qa{border-radius:16px;overflow:hidden;position:relative;padding:18px;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.05),0 12px 28px -14px rgba(0,0,0,.28);display:flex;flex-direction:column;gap:8px;border:0}
-#qlist.car .qa::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:#ffc900}
-#qlist.car .qa.is-forwarded::before{background:var(--acc)}#qlist.car .qa.is-answered::before{background:#00a36e}
 .qa-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.qa-cat{font-size:12px;font-weight:600;color:var(--mute)}
 .qa-st.ok{background:#00a36e;color:#fff}
 .qa-q{margin:0;font:700 16px/1.4 "Instrument Sans",sans-serif}.qa-d{margin:0;font-size:12.5px;color:var(--mute)}
@@ -646,6 +643,72 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 .qa-wait{background:var(--panel);color:var(--mute);font-size:13px}.qa-src{font-size:12.5px;color:var(--mute)}
 @media(max-width:900px){.q-grid{grid-template-columns:minmax(0,1fr)}.q-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.q-steps{grid-template-columns:minmax(0,1fr)}.q-form{padding:16px}}
+/* Questions : option privée */
+.q-priv{margin:0 0 16px;padding:14px;border-radius:14px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.q-sw{display:flex;gap:12px;align-items:flex-start;cursor:pointer;position:relative}
+.q-sw input{position:absolute;opacity:0;width:1px;height:1px}
+.q-sw-ui{flex:none;width:42px;height:24px;border-radius:12px;background:#c9c9c9;position:relative;margin-top:1px}
+.q-sw-ui::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.q-sw input:checked+.q-sw-ui{background:#000}.q-sw input:checked+.q-sw-ui::after{transform:translateX(18px)}
+.q-sw input:focus-visible+.q-sw-ui{outline:3px solid var(--acc);outline-offset:2px}.q-sw:hover .q-sw-ui::after{transform:scale(1.08)}.q-sw:hover input:checked+.q-sw-ui::after{transform:translateX(18px) scale(1.08)}
+.q-sw b{display:block;font-size:14px;line-height:1.4}.q-sw small{display:block;font-size:12.5px;color:var(--mute);line-height:1.45}
+.q-mail{margin-top:14px}.q-mail input{width:100%;border:0;border-radius:12px;padding:12px 14px;background:var(--bg);font:16px/1.3 "Instrument Sans",sans-serif;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.q-mail input:focus{outline:none;box-shadow:inset 0 0 0 2px var(--acc)}.q-note{margin:6px 0 0;font-size:12px;color:var(--mute);line-height:1.45}
+.q-done[hidden],.q-mail[hidden],.q-search[hidden],.qt[hidden],.qi[hidden]{display:none!important}
+/* Questions : confirmation */
+.q-done{display:grid;justify-items:center;text-align:center;gap:10px;padding:40px 24px 32px;border-radius:18px;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.05),0 16px 36px -18px rgba(0,0,0,.3);outline:none}
+.q-ok{position:relative;width:96px;height:96px;animation:qpop .7s cubic-bezier(.34,1.56,.64,1) both}
+.q-ok::before{content:"";position:absolute;inset:0;border-radius:50%;background:#00a36e;opacity:0;animation:qhalo 1.4s .25s ease-out both}
+.q-ok svg{position:relative;width:100%;height:100%;fill:#00a36e;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 10px 18px rgba(0,163,110,.35))}
+.q-ok circle{stroke:none}
+@keyframes qpop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes qhalo{from{transform:scale(1);opacity:.35}to{transform:scale(1.7);opacity:0}}
+.q-done h3{font-size:clamp(24px,2.6vw,30px);letter-spacing:-.03em;margin:6px 0 0;text-transform:none}
+.q-done p{margin:0;max-width:46ch;color:var(--mute);line-height:1.6}.q-done p b{color:var(--ink)}
+.q-done-acts{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 18px;margin-top:12px}
+.q-again{background:#000;box-shadow:0 2px 4px rgba(0,0,0,.15),0 14px 28px -12px rgba(0,0,0,.6)}
+.q-seel{font-size:14px;font-weight:600;color:var(--ink);text-underline-offset:3px}.q-seel:hover{color:var(--acc)}.q-seel:focus-visible{outline:2px solid var(--acc);outline-offset:3px}.q-seel:active{opacity:.6}
+/* Questions : bouton flottant + fenêtre */
+.q-fab{position:fixed;right:max(16px,2vw);bottom:max(16px,2vw);z-index:40;display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 22px 0 18px;border:0;border-radius:999px;background:var(--acc);color:#fff;font:700 14px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 0 4px rgba(255,255,255,.85),0 2px 6px rgba(245,5,0,.3),0 18px 36px -12px rgba(245,5,0,.7);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .25s ease}
+.q-fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.q-fab:hover{transform:translateY(-3px)}.q-fab:active{transform:scale(.95)}.q-fab:focus-visible{outline:3px solid #000;outline-offset:5px}
+.q-fab.is-off,.q-fab.in-dlg{transform:translateY(160%);opacity:0;pointer-events:none}
+.q-dlg{width:min(640px,calc(100% - 32px));max-height:calc(100dvh - 32px);border:0;border-radius:22px;padding:0;background:var(--bg);color:var(--ink);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 30px 80px -20px rgba(0,0,0,.55);overflow:auto;overscroll-behavior:contain}
+.q-dlg[open]{animation:qin .5s cubic-bezier(.34,1.56,.64,1)}
+.q-dlg::backdrop{background:rgba(0,0,0,.45)}
+@keyframes qin{from{transform:translateY(28px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.q-dlg-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 22px 0}.q-dlg-head h2{font-size:24px;margin:0;letter-spacing:-.03em}
+.q-x{flex:none;width:40px;height:40px;border:0;border-radius:50%;background:var(--panel);color:var(--ink);font-size:16px;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.q-x:hover{transform:rotate(90deg)}.q-x:active{transform:scale(.9)}.q-x:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.q-dlg .q-form,.q-dlg .q-done{box-shadow:none;border-radius:0}.q-dlg .q-form{padding:16px 22px 22px}.q-dlg .q-seel{display:none}
+@media(max-width:520px){.q-fab{right:12px;bottom:12px;min-height:50px;padding:0 16px 0 14px;font-size:12.5px}
+ .q-dlg{width:100%;max-width:100%;margin:auto 0 0;border-radius:22px 22px 0 0;max-height:94dvh}.q-dlg .q-form{padding:14px 16px 20px}}
+/* Questions publiées : accordéon par thème */
+.q-list-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;margin-bottom:14px}.q-list-head h3{margin:0}
+.q-search{min-height:42px;width:min(300px,100%);border:0;border-radius:999px;padding:0 18px;background:var(--bg);color:var(--ink);font:14px "Instrument Sans",sans-serif;box-shadow:0 0 0 1px var(--line),0 6px 16px -10px rgba(0,0,0,.35)}
+.q-search:focus{outline:none;box-shadow:0 0 0 2px var(--acc),0 6px 16px -10px rgba(0,0,0,.35)}
+#qf{margin:0 0 14px}
+.q-acc{display:grid;gap:10px}
+.qt{border-radius:16px;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04),0 10px 24px -16px rgba(0,0,0,.3);overflow:hidden}
+.qt>summary{list-style:none;display:flex;align-items:center;gap:14px;padding:12px 16px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.qt>summary::-webkit-details-marker,.qi>summary::-webkit-details-marker{display:none}
+.qt>summary:focus-visible,.qi>summary:focus-visible{outline:3px solid var(--acc);outline-offset:-3px;border-radius:12px}
+.qt-ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--panel);font-size:19px}
+.qt-l{font:800 16px/1.2 "Archivo",sans-serif;font-stretch:112%;letter-spacing:-.01em}
+.qt-n{margin-left:auto;font-size:13px;color:var(--mute);text-align:right}.qt-n b{color:#00794f;font-weight:700}
+.qt-chev{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--panel);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.qt-chev svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.qt>summary:hover .qt-chev{background:#000;color:#fff}.qt>summary:active .qt-chev{transform:scale(.88)}.qt[open]>summary .qt-chev{transform:rotate(180deg)}
+.qt-b{padding:0 16px 6px}
+.qi{border-top:1px solid var(--line)}
+.qi>summary{list-style:none;display:flex;gap:12px;align-items:flex-start;padding:13px 2px;cursor:pointer}
+.qi>summary::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;margin-top:7px;background:#ffc900}
+.qi.is-forwarded>summary::before{background:var(--acc)}.qi.is-answered>summary::before{background:#00a36e}
+.qi-q{flex:1;font-weight:600;font-size:15px;line-height:1.5}.qi>summary:hover .qi-q{color:var(--acc)}.qi>summary:active .qi-q{opacity:.7}.qi[open]>summary .qi-q{font-weight:700}
+.qi .qa-st{flex:none;margin-top:2px}
+.qi-b{display:grid;gap:8px;padding:0 2px 16px 21px}
+.q-none{margin:0;padding:18px;border-radius:14px;background:var(--panel);color:var(--mute)}
+@media(max-width:640px){.qt-n{display:none}.qi>summary{flex-wrap:wrap}.qi .qa-st{margin-left:21px}.qi>summary .qa-st{order:3}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -795,17 +858,29 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <section class="band" id="questions"><div class="wrap">
 <div class="q-head"><h2>Vos questions</h2><p>Posez votre question sur le projet. Elle est relue, publiée anonymement, transmise à Data4 ou à la commune, et la réponse s'affiche ici.</p></div>
 <div class="q-grid">
+<div class="q-box" id="qbox">
 <form class="q-form" id="qform" novalidate>
 <label class="q-lab" for="qtext">Votre question</label>
 <textarea id="qtext" maxlength="1000" rows="4" required placeholder="Ex. : À quelle fréquence les groupes électrogènes seront-ils testés, et à quelles heures ?"></textarea>
 <div class="q-row"><span class="q-count" id="qcount">0 / 1000</span></div>
 <div class="q-lab" id="qcatl">Thème</div>
 <div class="q-cats" id="qcats" role="radiogroup" aria-labelledby="qcatl"></div>
+<div class="q-priv">
+<label class="q-sw"><input type="checkbox" id="qpriv" aria-controls="qmailw"><span class="q-sw-ui" aria-hidden="true"></span><span><b>Je préfère une réponse personnelle</b><small>Réponse envoyée par email. Votre question ne sera pas publiée sur le site.</small></span></label>
+<div class="q-mail" id="qmailw" hidden><label class="q-lab" for="qmail">Votre email</label><input type="email" id="qmail" autocomplete="email" maxlength="254" inputmode="email" placeholder="prenom.nom@exemple.fr"><p class="q-note">Visible uniquement par les personnes chargées de répondre, puis effacé une fois la réponse envoyée.</p></div>
+</div>
 <input type="text" id="qhp" name="website" tabindex="-1" autocomplete="off" class="q-hp" aria-hidden="true">
 <button type="submit" class="q-send" id="qsend">Envoyer ma question<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
 <p class="q-msg" id="qmsg" role="status" aria-live="polite"></p>
-<p class="q-legal">🔒 Anonyme : ni nom, ni email demandés. N'écrivez pas d'informations personnelles. Les questions sont relues avant publication (lien avec le projet, ton respectueux).</p>
+<p class="q-legal">🔒 Anonyme par défaut : aucun nom demandé. N'écrivez pas d'informations personnelles dans la question. Les questions sont relues avant publication (lien avec le projet, ton respectueux).</p>
 </form>
+<div class="q-done" id="qdone" hidden tabindex="-1">
+<div class="q-ok" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg></div>
+<h3>Question envoyée !</h3>
+<p id="qdonet"></p>
+<div class="q-done-acts"><button type="button" class="q-send q-again" id="qagain">Poser une autre question<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></button><a class="q-seel" id="qseel" href="#qlisth">Voir les questions publiées ↓</a></div>
+</div>
+</div>
 <ol class="q-steps" aria-label="Comment ça marche">
 <li><b>1</b><span><strong>Vous posez</strong> votre question, sans créer de compte.</span></li>
 <li><b>2</b><span><strong>Relecture</strong> par l'observatoire, puis publication anonyme.</span></li>
@@ -813,10 +888,12 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <li><b>4</b><span><strong>Réponse publiée ici</strong>, avec son auteur et sa source.</span></li>
 </ol>
 </div>
-<div class="q-list-head"><h3>Questions publiées <span id="qn"></span></h3></div>
+<div class="q-list-head"><h3 id="qlisth">Questions publiées <span id="qn"></span></h3><input type="search" class="q-search" id="qsearch" placeholder="Rechercher une question…" aria-label="Rechercher une question" hidden></div>
 <div class="rt-filters" id="qf" role="group" aria-label="Filtrer les questions"></div>
-<div class="nr-list" id="qlist"><p class="q-empty">Chargement des questions…</p></div>
+<div class="q-acc" id="qlist"><p class="q-empty">Chargement des questions…</p></div>
 </div></section>
+<button type="button" class="q-fab" id="qfab" aria-haspopup="dialog" aria-controls="qdlg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/><path d="M9.6 9.6a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.2M12 16.4h.01"/></svg><span>Poser une question</span></button>
+<dialog class="q-dlg" id="qdlg" aria-labelledby="qdlgt"><div class="q-dlg-head"><h2 id="qdlgt">Poser une question</h2><button type="button" class="q-x" id="qx" aria-label="Fermer">✕</button></div><div id="qdlgb"></div></dialog>
 
 <section class="band" id="avancement" style="background:var(--panel)"><div class="wrap">
 <div class="av-head"><h2>Où en est le projet ?</h2><p>Toutes les autorisations sont obtenues. Prochaines étapes visibles : le raccordement électrique RTE, puis l'allumage du premier data center fin 2027.</p></div>
@@ -1272,30 +1349,55 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
  $('qcats').innerHTML=CATS.map(([k,l])=>'<button type="button" role="radio" data-v="'+k+'" aria-checked="'+(k===cat)+'">'+l+'</button>').join('');
  $('qcats').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cat=b.dataset.v;for(const x of $('qcats').children)x.setAttribute('aria-checked',x===b)});
  const ta=$('qtext');ta.addEventListener('input',()=>{$('qcount').textContent=ta.value.length+' / 1000'});
+ const priv=$('qpriv'),mail=$('qmail');
+ priv.addEventListener('change',()=>{$('qmailw').hidden=!priv.checked;if(priv.checked)mail.focus()});
+ const done=(p,em)=>{$('qform').hidden=true;$('qdonet').innerHTML=p?'Merci ! Vous recevrez la réponse par email à <b>'+esc(em)+'</b>. Votre question ne sera pas publiée sur le site.':'Merci ! Elle va être relue puis publiée anonymement sur cette page. La réponse s\'affichera dessous dès qu\'elle arrive.';$('qdone').hidden=false;$('qdone').focus({preventScroll:true});if(!$('qdone').closest('dialog'))$('qdone').scrollIntoView({block:'nearest',behavior:'smooth'})};
+ $('qagain').addEventListener('click',()=>{ta.value='';$('qcount').textContent='0 / 1000';priv.checked=false;mail.value='';$('qmailw').hidden=true;$('qmsg').textContent='';$('qdone').hidden=true;$('qform').hidden=false;ta.focus()});
+ $('qseel').addEventListener('click',e=>{e.preventDefault();$('qlisth').scrollIntoView({behavior:'smooth',block:'start'})});
  const msg=(t,ok)=>{$('qmsg').textContent=t;$('qmsg').className='q-msg '+(ok?'ok':'err')};
  $('qform').addEventListener('submit',async e=>{e.preventDefault();const q=ta.value.trim();
   if($('qhp').value)return msg('Merci !',true);
   if(q.length<10)return msg('Votre question est un peu courte : précisez-la (10 caractères minimum).');
+  const em=mail.value.trim().toLowerCase(),p=priv.checked;
+  if(p&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){mail.focus();return msg('Indiquez une adresse email valide pour recevoir la réponse personnelle.')}
   const btn=$('qsend');btn.disabled=true;msg('Envoi…',true);
-  try{const r=await api('questions',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({question:q,category:cat})});
+  try{const r=await api('questions',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify(p?{question:q,category:cat,private:true,email:em}:{question:q,category:cat})});
    if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(/Trop de questions/.test(j.message||'')?j.message:'Envoi impossible pour le moment. Réessayez plus tard.')}
-   ta.value='';$('qcount').textContent='0 / 1000';msg('✔ Merci ! Votre question a bien été reçue. Elle sera publiée ici après relecture.',true)}
+   msg('',true);done(p,em)}
   catch(err){msg(err.message||'Envoi impossible pour le moment.')}finally{btn.disabled=false}});
  // affichage
  const ST={published:['En attente de réponse','soon'],forwarded:['Transmise','live'],answered:['Répondue','ok']};
- const card=q=>{const s=ST[q.status]||ST.published;
-  return '<article class="nr qa is-'+q.status+'" data-st="'+q.status+'"><div class="qa-top"><span class="qa-cat">'+(CL[q.category]||CL.autre)+'</span><span class="nx-st qa-st '+s[1]+'">'+s[0]+'</span></div>'
-   +'<p class="qa-q">« '+esc(q.question)+' »</p><p class="qa-d">Posée le '+fd(q.created_at)+(q.forwarded_to?' · transmise à <b>'+esc(q.forwarded_to)+'</b>'+(q.forwarded_at?' le '+fd(q.forwarded_at):''):'')+'</p>'
-   +(q.answer?'<div class="qa-a"><span class="qa-by">'+(BY[q.answer_by]||BY.autre)+(q.answered_at?' · '+fd(q.answered_at):'')+'</span><p>'+esc(q.answer)+'</p>'+(q.answer_source?(/^https?:\/\//.test(q.answer_source)?'<a class="nr-src" href="'+esc(q.answer_source)+'" target="_blank" rel="noopener">Source ↗</a>':'<span class="qa-src">Source : '+esc(q.answer_source)+'</span>'):'')+'</div>':'<div class="qa-a qa-wait">Réponse attendue. Elle sera publiée ici dès réception.</div>')+'</article>'};
- api('questions_public?select=*&order=created_at.desc&limit=200').then(r=>r.ok?r.json():Promise.reject()).then(rows=>{
+ const body=q=>'<p class="qa-d">Posée le '+fd(q.created_at)+(q.forwarded_to?' · transmise à <b>'+esc(q.forwarded_to)+'</b>'+(q.forwarded_at?' le '+fd(q.forwarded_at):''):'')+'</p>'
+   +(q.answer?'<div class="qa-a"><span class="qa-by">'+(BY[q.answer_by]||BY.autre)+(q.answered_at?' · '+fd(q.answered_at):'')+'</span><p>'+esc(q.answer)+'</p>'+(q.answer_source?(/^https?:\/\//.test(q.answer_source)?'<a class="nr-src" href="'+esc(q.answer_source)+'" target="_blank" rel="noopener">Source ↗</a>':'<span class="qa-src">Source : '+esc(q.answer_source)+'</span>'):'')+'</div>':'<div class="qa-a qa-wait">Réponse attendue. Elle sera publiée ici dès réception.</div>');
+ const item=q=>{const s=ST[q.status]||ST.published;return '<details class="qi is-'+q.status+'" data-st="'+q.status+'"><summary><span class="qi-q">'+esc(q.question)+'</span><span class="nx-st qa-st '+s[1]+'">'+s[0]+'</span></summary><div class="qi-b">'+body(q)+'</div></details>'};
+ const CHEV='<span class="qt-chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 4.5l4 4 4-4"/></svg></span>';
+ api('questions_public?select=*&order=created_at.desc&limit=500').then(r=>r.ok?r.json():Promise.reject()).then(rows=>{
   $('qn').textContent=rows.length?rows.length:'';
   if(!rows.length){$('qlist').innerHTML='<p class="q-empty">Aucune question publiée pour l\'instant. <a href="#qform">Soyez le premier à poser la vôtre ↑</a></p>';$('qf').hidden=true;return}
-  $('qlist').innerHTML=rows.map(card).join('');
-  const F=[['all','Tout'],['answered','✅ Répondues'],['forwarded','📨 Transmises'],['published','⏳ En attente']],cards=[...$('qlist').children];
-  $('qf').innerHTML=F.map(([k,l],i)=>'<button type="button" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+l+' <span class="fc">'+(k==='all'?cards.length:cards.filter(c=>c.dataset.st===k).length)+'</span></button>').join('');
-  const car=makeCar($('qlist'),'Questions publiées');
-  $('qf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;for(const x of $('qf').children)x.setAttribute('aria-pressed',x===b);for(const c of cards)c.hidden=b.dataset.v!=='all'&&c.dataset.st!==b.dataset.v;requestAnimationFrame(car.reset)})})
+  const groups=CATS.map(([k,l])=>({k,l,rows:rows.filter(q=>(CL[q.category]?q.category:'autre')===k)})).filter(g=>g.rows.length);
+  $('qlist').innerHTML=groups.map((g,i)=>{const sp=g.l.indexOf(' ');return '<details class="qt" data-cat="'+g.k+'"'+(i===0?' open':'')+'><summary><span class="qt-ic" aria-hidden="true">'+g.l.slice(0,sp)+'</span><span class="qt-l">'+g.l.slice(sp+1)+'</span><span class="qt-n"></span>'+CHEV+'</summary><div class="qt-b">'+g.rows.map(item).join('')+'</div></details>'}).join('')+'<p class="q-none" id="qnone" hidden>Aucune question ne correspond.</p>';
+  const gEls=[...$('qlist').querySelectorAll('.qt')],data=groups.flatMap(g=>g.rows),items=[...$('qlist').querySelectorAll('.qi')];
+  const F=[['all','Tout'],['answered','✅ Répondues'],['forwarded','📨 Transmises'],['published','⏳ En attente']];
+  $('qf').innerHTML=F.map(([k,l],i)=>'<button type="button" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+l+' <span class="fc">'+(k==='all'?rows.length:rows.filter(q=>q.status===k).length)+'</span></button>').join('');
+  const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  let fst='all';const srch=$('qsearch');srch.hidden=rows.length<6;
+  const apply=()=>{const t=norm(srch.value.trim());let any=0;
+   items.forEach((el,i)=>{const q=data[i];el.hidden=!((fst==='all'||q.status===fst)&&(!t||norm(q.question+' '+(q.answer||'')).includes(t)))});
+   gEls.forEach(g=>{const vis=[...g.querySelectorAll('.qi')].filter(x=>!x.hidden),n=vis.length,ans=vis.filter(x=>x.dataset.st==='answered').length;g.hidden=!n;any+=n;
+    g.querySelector('.qt-n').innerHTML=n+' question'+(n>1?'s':'')+(ans?' · <b>'+ans+' réponse'+(ans>1?'s':'')+'</b>':'');if(t&&n)g.open=true});
+   $('qnone').hidden=!!any};
+  $('qf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;fst=b.dataset.v;for(const x of $('qf').children)x.setAttribute('aria-pressed',x===b);apply()});
+  srch.addEventListener('input',apply);apply()})
  .catch(()=>{$('qlist').innerHTML='<p class="q-empty">Les questions publiées ne peuvent pas être chargées pour le moment.</p>';$('qf').hidden=true})}
+{const fab=$('qfab'),dlg=$('qdlg'),box=$('qbox'),home=box.parentNode;
+ fab.addEventListener('click',()=>{if(typeof dlg.showModal!=='function'){$('questions').scrollIntoView({behavior:'smooth'});return $('qtext').focus({preventScroll:true})}
+  $('qdlgb').append(box);dlg.showModal();fab.classList.add('in-dlg');($('qform').hidden?$('qagain'):$('qtext')).focus()});
+ $('qx').addEventListener('click',()=>dlg.close());
+ dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+ dlg.addEventListener('close',()=>{home.prepend(box);fab.classList.remove('in-dlg');fab.focus({preventScroll:true})});
+ // caché quand la rubrique Questions est à l'écran
+ const io=new IntersectionObserver(es=>{for(const e of es)fab.classList.toggle('is-off',e.isIntersecting)},{rootMargin:'-20% 0px -20% 0px'});
+ io.observe($('questions'))}
 // Sources : regroupées par type, une ligne par document
 {const G=[['Documents officiels',/mrae|registre-numerique|essonne\.gouv|pappers|nozay91|villebon/],['Data4, mairie & presse',/data4group|echo-des-villes|laclepublique|dcmag|facebook|synthmedia|universite-paris-saclay/],['Données & méthode',/./]];
  const grp=G.map(g=>({g,items:[]}));for(const s of SR){grp[G.findIndex(g=>g[1].test(s[1]))].items.push(s)}
