@@ -269,6 +269,39 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+/* Hero 50/50 (inspiré de data4group.com) */
+.d4hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:0;min-height:min(82vh,660px)}
+.d4hero::before{background:radial-gradient(ellipse 60% 70% at 0% 100%,rgba(245,5,0,.16),transparent 70%)}
+.hx-text{display:flex;align-items:center;padding:clamp(40px,6vw,88px) clamp(24px,4vw,56px) clamp(40px,6vw,88px) max(5vw,16px)}
+.hx-in{width:100%;max-width:620px;margin-left:auto}
+.hx-media{position:relative;overflow:hidden;background:#000 center/cover;container-type:size;min-height:320px}
+.hx-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .8s}
+.hx-video{position:absolute;top:50%;left:50%;width:max(100cqw,177.78cqh);height:max(100cqh,56.25cqw);transform:translate(-50%,-50%) scale(1.18);border:0;pointer-events:none;opacity:0;transition:opacity 1s}
+.hx-media.playing .hx-video{opacity:1}.hx-media.playing .hx-poster{opacity:0}
+.hx-tint{position:absolute;inset:0;background:#2a0705;mix-blend-mode:multiply;opacity:.25;pointer-events:none}
+.hx-fade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#000 0,rgba(0,0,0,.75) 9%,rgba(0,0,0,0) 32%),linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0) 30%)}
+.hx-cap{position:absolute;left:clamp(16px,6%,48px);right:16px;bottom:16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:12px;color:#e3e3e3}
+.hx-cap>span{margin-right:auto;max-width:44ch;line-height:1.4;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.hx-snd,.hx-yt{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:0;border-radius:17px;background:rgba(255,255,255,.92);color:#000;font:600 12px/1 "Instrument Sans",sans-serif;text-decoration:none;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.hx-snd:hover,.hx-yt:hover{transform:translateY(-1px)}.hx-snd:active,.hx-yt:active{transform:scale(.95)}
+.hx-snd:focus-visible,.hx-yt:focus-visible{outline:3px solid #ffc900;outline-offset:2px}
+.hx-snd svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.hx-snd svg path:first-child{fill:currentColor}
+.hx-snd .w1,.hx-snd .w2{display:none}.hx-snd[aria-pressed=true] .w1,.hx-snd[aria-pressed=true] .w2{display:block}.hx-snd[aria-pressed=true] .x{display:none}
+@media(max-width:900px){.d4hero{grid-template-columns:minmax(0,1fr);min-height:0}.hx-in{margin:0}.hx-text{padding:40px max(5vw,16px) 32px}.hx-media{aspect-ratio:16/10;min-height:0}.hx-fade{background:linear-gradient(180deg,#000 0,rgba(0,0,0,0) 22%),linear-gradient(to top,rgba(0,0,0,.65),rgba(0,0,0,0) 40%)}.hx-cap>span{display:none}}
+/* Actualités */
+#actus{background:var(--bg);border-top:1px solid var(--line)}
+.nx-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:8px 40px;margin-bottom:24px}.nx-head h2{margin:0}.nx-head p{margin:0;color:var(--mute);max-width:56ch}
+.nx-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.nx{display:flex;gap:16px;padding:22px 20px;background:var(--bg);position:relative}
+.nx.is-live{background:#fff8f7}.nx.is-live::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--acc)}
+.nx-date{flex:none;width:58px;text-align:center}.nx-date b{display:block;font:800 34px/1 "Archivo",sans-serif;font-stretch:112%;color:var(--acc)}.nx-date span{display:block;margin-top:4px;font:700 11px/1.2 "Archivo",sans-serif;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+.nx-body{min-width:0}.nx-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.nx-tag,.nx-st{font:700 10px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.06em;text-transform:uppercase;padding:5px 7px}
+.nx-tag{background:#000;color:#fff}.nx-st.live{background:var(--acc);color:#fff}.nx-st.soon{background:#ffc900;color:#000}
+.nx h3{font-size:18px;line-height:1.2;text-transform:none;margin:0 0 8px}.nx p{font-size:14px;line-height:1.6;margin:0 0 10px;color:#333}
+.nx-src{font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--acc);padding-bottom:1px}.nx-src:hover{color:var(--acc)}.nx-src:active{opacity:.6}
+.nx-note{margin-top:20px;padding:16px 18px;background:var(--panel);border-left:4px solid #ffc900;font-size:14px;line-height:1.6}.nx-note b{display:block;margin-bottom:2px}
+@media(max-width:1000px){.nx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){.nx-grid{grid-template-columns:minmax(0,1fr)}}
 .ring{display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 5px;background:rgba(255,255,255,.95);color:#000;border-radius:11px;font:700 11px/1 "Archivo",sans-serif;font-stretch:112%;white-space:nowrap;pointer-events:auto;cursor:default;box-shadow:0 1px 2px rgba(0,0,0,.2),0 4px 10px -4px rgba(0,0,0,.4)}
 .ring i{width:10px;height:10px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}.ring .emo{font-size:12px;vertical-align:0}
 .fig.night .ring{background:rgba(18,24,38,.92);color:#fff}
@@ -349,24 +382,25 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 </div></div>
 <nav class="mainnav" aria-label="Menu principal"><div>
 <a class="brand" href="#top" aria-label="Observatoire Nozay PAR3, haut de page"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" fill="#000"/><g fill="#f50500"><rect x="7" y="15" width="3.2" height="6"/><rect x="12.2" y="11" width="3.2" height="14"/><rect x="17.4" y="7" width="3.2" height="22"/></g><g fill="#ffc900"><rect x="22.6" y="12" width="3.2" height="12"/></g><g fill="#fff"><rect x="27.8" y="16" width="3.2" height="4"/></g></svg><span><b>NOZAY · PAR3</b><small>Observatoire citoyen</small></span></a>
-<div class="menu"><a href="#bruit">Simulateur de bruit</a><a href="#projet-bref">En bref</a><a href="#avancement">Avancement</a><a href="#projet">Le projet en chiffres</a><a href="#ecarts">Points ouverts</a></div>
+<div class="menu"><a href="#bruit">Simulateur de bruit</a><a href="#actus">Actualités</a><a href="#avancement">Avancement</a><a href="#projet">Le projet en chiffres</a><a href="#ecarts">Points ouverts</a></div>
 <a class="cta-y" href="#bruit">Simuler le bruit</a>
 </div></nav>
 </header>
 
-<section class="d4hero" id="top"><div class="wrap">
-<div>
-<div class="eyebrow rv"><svg viewBox="0 0 46 30" aria-hidden="true"><g fill="#f50500"><rect x="0" y="11" width="5" height="8"/><rect x="8" y="5" width="5" height="20"/><rect x="16" y="0" width="5" height="30"/></g><rect x="24" y="7" width="5" height="16" fill="#ffc900"/><rect x="32" y="11" width="5" height="8" fill="#fff"/><rect x="40" y="13" width="5" height="4" fill="#5e5e5e"/></svg>Observatoire citoyen · Nozay 91620</div>
+<section class="d4hero" id="top">
+<div class="hx-text"><div class="hx-in"><div class="eyebrow rv"><svg viewBox="0 0 46 30" aria-hidden="true"><g fill="#f50500"><rect x="0" y="11" width="5" height="8"/><rect x="8" y="5" width="5" height="20"/><rect x="16" y="0" width="5" height="30"/></g><rect x="24" y="7" width="5" height="16" fill="#ffc900"/><rect x="32" y="11" width="5" height="8" fill="#fff"/><rect x="40" y="13" width="5" height="4" fill="#5e5e5e"/></svg>Observatoire citoyen · Nozay 91620</div>
 <h1 class="rv">Campus de data centers PAR3 <span>à Nozay</span></h1>
 <p class="lede rv">Data4 présente son campus de l'ancien site Nokia comme <q>le plus grand campus de data centers dédié à l'IA en France</q>. Ce site indépendant rassemble les chiffres publics et vous laisse simuler ce que vous entendrez chez vous.</p>
 <div class="hbtns rv"><a class="btn-r" href="#bruit">Écouter chez moi<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
-<ul class="facts rv"><li>127,5 MW IT</li><li>3 data centers</li><li>2 Md€</li><li>2027 → 2030</li><small>Puissance informatique et calendrier : dossier d'autorisation. Investissement : annonce Data4 du 16 mai 2025.</small></ul>
+<ul class="facts rv"><li>127,5 MW IT</li><li>3 data centers</li><li>2 Md€</li><li>2027 → 2030</li><small>Puissance informatique et calendrier : dossier d'autorisation. Investissement : annonce Data4 du 16 mai 2025.</small></ul></div></div>
+<div class="hx-media" id="hxm">
+<img class="hx-poster" src="https://i.ytimg.com/vi/IasSO4DZy6o/maxresdefault.jpg" alt="Image de la vidéo Data4 sur le campus PAR03" width="1280" height="720">
+<div class="hx-tint" aria-hidden="true"></div><div class="hx-fade" aria-hidden="true"></div>
+<div class="hx-cap"><span>Vidéo Data4 · « PAR03, plus grand campus de data centers dédié à l'IA en France » · 30 mai 2025</span>
+<button type="button" class="hx-snd" id="hxsnd" aria-pressed="false" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h3l4-3.5v11L6 12H3z"/><path class="w1" d="M13 7.5a3.5 3.5 0 0 1 0 5"/><path class="w2" d="M15.2 5.2a6.6 6.6 0 0 1 0 9.6"/><path class="x" d="M13.5 8l4 4m0-4-4 4"/></svg><span>Activer le son</span></button>
+<a class="hx-yt" href="https://www.youtube.com/watch?v=IasSO4DZy6o" target="_blank" rel="noopener">YouTube ↗</a></div>
 </div>
-<div class="vwrap rv" id="vwrap">
-<button class="vid" id="vid" type="button" aria-label="Lire la vidéo de présentation de Data4 (YouTube)"><img src="https://i.ytimg.com/vi/IasSO4DZy6o/hqdefault.jpg" alt="" loading="eager" width="480" height="360"><span class="tint"></span><span class="shade"></span><span class="pl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5l15 8.5-15 8.5z"/></svg></span><span class="vt">PAR03, plus grand campus de data centers dédié à l'IA en France</span></button>
-<p class="vcap">Vidéo publiée par Data4 le 30 mai 2025 (1 min 47) · lecture via YouTube, sans cookie tant que vous ne cliquez pas.</p>
-</div>
-</div></section>
+</section>
 
 
 
@@ -457,6 +491,12 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <div class="kpi"><strong>170 m</strong><span>entre la limite sud et les premières habitations</span></div>
 <div class="kpi"><strong>2027→2030</strong><span>mises en service progressives</span></div>
 </div>
+</div></section>
+
+<section class="band" id="actus"><div class="wrap">
+<div class="nx-head"><h2>Actualités &amp; rendez-vous</h2><p>Enquêtes publiques, décisions et réunions d'information autour du campus. Seules les informations publiées par une source officielle sont listées.</p></div>
+<div class="nx-grid" id="news"></div>
+<div class="nx-note"><b>Réunion d'information citoyenne ?</b> À la date du 25 novembre 2026, aucune réunion publique de Data4 sur PAR3 n'est annoncée sur les sites de la mairie de Nozay, de la préfecture ni de Data4. Une réunion publique à laquelle Data4 a participé est mentionnée dans le rapport du commissaire enquêteur, sans date publiée. Vous avez une convocation ou un lien officiel ? Il sera ajouté ici.</div>
 </div></section>
 
 <section class="band" id="avancement" style="background:var(--panel)"><div class="wrap cols">
@@ -771,7 +811,16 @@ let ctPlay=()=>{};
  $('yr').addEventListener('click',()=>{if(S.ph!==ph){ph=S.ph;if(!raf)setT(X[ph],true)}});
  addEventListener('resize',()=>setT(t,true));setT(t,true);}
 const YI=['2026 : chantier en cours, aucun data center en service','Fin 2027 : premier data center (DC01) · ~400 GWh/an','2029 (estimation) : DC01 + DC02 en service','Fin 2030 : campus complet · ~1 378 GWh/an à pleine charge'];
-$('vid').addEventListener('click',()=>{$('vwrap').querySelector('.vid').outerHTML='<iframe src="https://www.youtube-nocookie.com/embed/IasSO4DZy6o?autoplay=1&rel=0" title="PAR03, plus grand campus de data centers dédié à l\'IA en France (Data4)" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>'});
+// Vidéo du hero : lecture automatique, muette, en boucle, sans interface (YouTube, mode confidentialité renforcée)
+{const box=$('hxm'),snd=$('hxsnd');
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const fr=document.createElement('iframe');fr.className='hx-video';fr.title='Vidéo Data4 : PAR03, plus grand campus de data centers dédié à l\'IA en France';fr.tabIndex=-1;
+  fr.allow='autoplay; encrypted-media; picture-in-picture';fr.setAttribute('aria-hidden','true');
+  fr.src='https://www.youtube-nocookie.com/embed/IasSO4DZy6o?autoplay=1&mute=1&loop=1&playlist=IasSO4DZy6o&controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&rel=0&playsinline=1&enablejsapi=1';
+  fr.addEventListener('load',()=>setTimeout(()=>{box.classList.add('playing');snd.hidden=false},1200));
+  box.insertBefore(fr,box.querySelector('.hx-tint'));
+  const cmd=c=>fr.contentWindow&&fr.contentWindow.postMessage(JSON.stringify({event:'command',func:c,args:[]}),'*');
+  snd.addEventListener('click',()=>{const on=snd.getAttribute('aria-pressed')!=='true';cmd(on?'unMute':'mute');if(on)cmd('playVideo');snd.setAttribute('aria-pressed',on);snd.querySelector('span').textContent=on?'Couper le son':'Activer le son'})}}
 
 $('mnGE').addEventListener('input',()=>{$('nGE').value=$('mnGE').value;update()});
 
@@ -787,6 +836,18 @@ const PW=[['Puissance informatique (dossier)',127.5,''],['Alimentation électriq
 $('pw').innerHTML=PW.map(p=>`<div class="bar">${p[0]} · <strong>${f(p[1])} MW</strong><div><i class="${p[2]}" style="width:${p[1]/250*100}%"></i></div></div>`).join('');
 // ---------- Sources ----------
 const SR=[['Avis MRAe APJIF-2025-091 du 8 octobre 2025 (PAR3)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['Dossier d\'autorisation, pièce PJ-46 « Présentation du projet » (Bureau Veritas, juillet 2025)','https://www.villebon-sur-yvette.fr/app/uploads/2025/10/DEL_2025_10_089_PJ-Presentation-du-projet-DATA4-PAR3.pdf'],['Rapport et conclusions du commissaire enquêteur (registre numérique)','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Préfecture de l\'Essonne — page de l\'enquête publique PAR3','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'],['Recueil des actes administratifs 91-2026-118 (DUP RTE, 5 mai 2026)','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],['Avis MRAe APJIF-2025-083 — ZAC du Verger, Nozay','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/2025-09-16_avis_projet_zac_nozay_91_delibere.pdf'],['Communiqué Data4 du 16 mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Plan IGN — Géoplateforme (data.geopf.fr), licence ouverte Etalab 2.0','https://geoservices.ign.fr/services-geoplateforme-diffusion'],['Base Adresse Nationale (adresse.data.gouv.fr), licence ouverte Etalab 2.0','https://adresse.data.gouv.fr/donnees-nationales'],['Commune de Nozay — annonce de l\'enquête publique','https://nozay91.fr/fr/nw/2296972/2683696/enquete-publique-du-projet-de-construction-dun-campus-de-data-center-par3'],['Écho des villes — autorisation du 29 mai 2026','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],['La Clé publique — enquête Ballainvilliers (octobre 2026)','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],['Seuils d\'émergence : arrêté du 23 janvier 1997 (ICPE)','https://guidedatacenter.fr/actualites/bruit-datacenters-hyperscale-solutions-opposition']];
+// Actualités : [début, fin (ou null), étiquette, titre, texte, source, lien]
+const NEWS=[
+ ['2026-11-25','2026-12-02','Enquête publique','Avis d\'enquête publique à Nozay','La mairie annonce une enquête publique du mercredi 25 novembre au mercredi 2 décembre 2026 inclus. L\'objet précis figure dans l\'avis publié par la commune (pièce jointe intitulée « établissement servitudes parcelles ») : à consulter en mairie.','Commune de Nozay','https://nozay91.fr/fr/nw/2296972/3038687/avis-d-enquete-publique-18'],
+ ['2026-11-16','2026-12-18','Enquête publique','Data center de Ballainvilliers : la ligne 225 kV passerait par Nozay','Enquête publique sur le projet Goodman / Data Serres (72 MW IT), dont le raccordement souterrain traverserait Nozay. Observations possibles jusqu\'au 18 décembre 2026.','La Clé publique','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],
+ ['2026-05-29',null,'Décision','Le préfet autorise le campus PAR3','Arrêté d\'autorisation environnementale du 29 mai 2026, après l\'avis favorable du commissaire enquêteur.','Écho des villes','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],
+ ['2026-05-05',null,'Décision','Utilité publique de la double ligne 225 kV (RTE)','Déclaration d\'utilité publique du raccordement électrique du campus.','Recueil des actes administratifs 91-2026-118','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],
+ ['2026-02-15',null,'Avis','Conclusions favorables du commissaire enquêteur','Rapport et conclusions publiés sur le registre numérique de l\'enquête PAR3.','Registre numérique','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],
+ ['2025-12-08','2026-01-13','Enquête publique','Enquête publique unique sur PAR3','Dossier consultable en ligne et en mairie, permanences du commissaire enquêteur en mairie de Nozay (salle du conseil).','Préfecture de l\'Essonne','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3']];
+{const MO=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],now=new Date(),dt=s=>new Date(s+'T12:00:00'),fd=d=>d.getDate()+' '+MO[d.getMonth()]+' '+d.getFullYear();
+ $('news').innerHTML=NEWS.map(([s,e,tag,t,txt,src,url])=>{const d0=dt(s),d1=e?dt(e):null,live=d1&&now>=d0&&now<=new Date(d1.getTime()+864e5),soon=now<d0;
+  const st=live?'<span class="nx-st live">En cours</span>':soon?'<span class="nx-st soon">À venir</span>':'';
+  return '<article class="nx'+(live?' is-live':'')+'"><div class="nx-date"><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+' '+d0.getFullYear()+'</span></div><div class="nx-body"><div class="nx-meta"><span class="nx-tag">'+tag+'</span>'+st+'</div><h3>'+t+'</h3><p>'+(d1?'<strong>Du '+fd(d0)+' au '+fd(d1)+'.</strong> ':'')+txt+'</p><a class="nx-src" href="'+url+'" target="_blank" rel="noopener">Source : '+src+' ↗</a></div></article>'}).join('')}
 $('src').innerHTML=SR.map(s=>`<li><a href="${s[1]}">${s[0]}</a></li>`).join('');
 setPt('sud');
 }
