@@ -714,6 +714,66 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 .qc{font:700 11.5px/1 "Instrument Sans",sans-serif;font-style:normal;padding:6px 10px;border-radius:999px;white-space:nowrap}
 .qc.ok{background:#e3f6ee;color:#00613f}.qc.fw{background:#ffe6e5;color:#b00400}.qc.wt{background:#fff4c2;color:#6b5500}
 @media(max-width:640px){.qt>summary{flex-wrap:wrap}.qt .qt-n{display:flex;order:4;flex-basis:100%;justify-content:flex-start;margin:0 0 0 54px}}
+/* Bandeau du haut : lien unique vers les sources */
+.tb-src{display:inline-flex;align-items:center;gap:7px;color:#fff;text-decoration:none;font:600 12px/1 "Instrument Sans",sans-serif;padding:6px 4px;border-radius:4px}
+.tb-src svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:#f50500}
+.tb-src span{display:inline-block;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.tb-src:hover{text-decoration:underline;text-underline-offset:3px}.tb-src:hover span{transform:translateY(2px)}.tb-src:focus-visible{outline:2px solid #fff;outline-offset:2px}.tb-src:active{opacity:.7}
+/* Filtres de la carte : verre dépoli qui se fond dans la carte */
+.mgrp,.mbar{background:rgba(255,255,255,.42);-webkit-backdrop-filter:blur(10px) saturate(1.4);backdrop-filter:blur(10px) saturate(1.4);box-shadow:0 0 0 1px rgba(255,255,255,.45),0 6px 18px -8px rgba(0,0,0,.35)}
+.mfil .mseg,.mbar .mseg{background:rgba(0,0,0,.08)}
+.mlab{color:#111}
+.mfil .mseg button[aria-pressed=true],.mbar .mseg button[aria-pressed=true]{background:rgba(255,255,255,.95)}
+.fig.night .mgrp,.fig.night .mbar{background:rgba(14,18,30,.45);box-shadow:0 0 0 1px rgba(255,255,255,.14),0 6px 18px -8px rgba(0,0,0,.6)}
+.fig.night .mlab,.fig.night .mfil .mseg button,.fig.night .mbar button{color:#fff}
+.fig.night .mfil .mseg,.fig.night .mbar .mseg{background:rgba(255,255,255,.1)}
+.fig.night .mfil .mseg button[aria-pressed=true],.fig.night .mbar .mseg button[aria-pressed=true]{background:#fff;color:#000}
+/* Frise : indice visuel pendant la démo */
+.ctline.demo .ct-thumb{box-shadow:0 0 0 6px rgba(245,5,0,.18)}
+/* Vos questions : bouton discret */
+.q-intro{display:flex;flex-direction:column;align-items:flex-start;gap:12px;max-width:62ch}.q-intro p{margin:0;color:var(--mute)}
+.q-ask{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:var(--ink);font:600 14px/1 "Instrument Sans",sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1.5px var(--ink);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.q-ask svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.q-ask:hover{transform:translateY(-2px);background:var(--ink);color:var(--bg)}.q-ask:active{transform:scale(.96)}.q-ask:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+/* Questions publiées : cartes « conversation » */
+#qn em{font-style:normal;font-weight:600;opacity:.75}
+.qx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:16px;align-items:start}
+.qx{display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:18px;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04),0 14px 30px -20px rgba(0,0,0,.35);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.qx:hover{transform:translateY(-3px)}
+.qx-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--mute)}
+.qx-cat{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:var(--panel);color:var(--ink);font-weight:600}
+.qx-q{margin:0;font:700 17px/1.45 "Instrument Sans",sans-serif;letter-spacing:-.01em}
+.qx-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);font-size:12px;color:var(--mute)}
+.qx-steps li{position:relative;display:flex;flex-direction:column;gap:6px;padding-top:2px;line-height:1.3}
+.qx-steps li small{font-size:11px;opacity:.85}
+.qx-steps i{position:relative;z-index:1;width:12px;height:12px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px #cfcfcf}
+.qx-steps li::before{content:"";position:absolute;top:7px;left:12px;right:0;height:2px;background:#e3e3e3}
+.qx-steps li:last-child::before{display:none}
+.qx-steps li.done{color:var(--ink);font-weight:600}.qx-steps li.done i{background:#00a36e;box-shadow:none}
+.qx-steps li.done:has(+li.done)::before{background:#00a36e}
+.qx-steps li.cur i{box-shadow:0 0 0 4px rgba(0,163,110,.18)}
+.is-forwarded .qx-steps li.cur i,.is-published .qx-steps li.cur i{background:var(--acc);box-shadow:0 0 0 4px rgba(245,5,0,.16)}
+.qx-a{display:flex;gap:10px;align-items:flex-start}
+.qx-av{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:800 12px/1 "Archivo",sans-serif;font-stretch:112%;color:#fff;background:#000}
+.qx-av svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.qx-av.av-mai{background:#1d4ed8}.qx-av.av-obs{background:var(--acc)}
+.qx-bub{flex:1;min-width:0;padding:12px 14px;border-radius:4px 16px 16px 16px;background:#eefaf4}
+.qx-by{margin:0 0 4px;font-size:12px;color:#00613f}.qx-by b{font-weight:800}
+.qx-txt{margin:0;font-size:14.5px;line-height:1.6;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+.qx.open .qx-txt{display:block;-webkit-line-clamp:unset}
+.qx-foot{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px}.qx-foot:empty{display:none}
+.qx-more{border:0;background:none;padding:0;font:700 13px "Instrument Sans",sans-serif;color:#00613f;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.qx-more:hover{color:#000}.qx-more:active{opacity:.6}.qx-more:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.qx-src{font-size:13px;color:var(--mute)}a.qx-src{color:var(--ink);font-weight:600}a.qx-src:hover{color:var(--acc)}a.qx-src:focus-visible{outline:2px solid var(--acc);outline-offset:2px}a.qx-src:active{opacity:.6}
+.qx-wait{display:flex;align-items:center;gap:10px;margin:0;padding:10px 14px;border-radius:12px;background:var(--panel);font-size:13.5px;color:var(--mute)}
+.qx-pulse{flex:none;width:8px;height:8px;border-radius:50%;background:#ffc900;animation:qxp 1.8s ease-in-out infinite}
+.is-forwarded .qx-pulse{background:var(--acc)}
+@keyframes qxp{50%{transform:scale(1.6);opacity:.45}}
+.qx[hidden]{display:none!important}
+.qx-morewrap{display:flex;justify-content:center;margin-top:18px}.qx-morewrap:has([hidden]){display:none}
+.qx-all{min-height:44px;padding:0 22px;border:0;border-radius:999px;background:var(--bg);color:var(--ink);font:700 14px "Instrument Sans",sans-serif;cursor:pointer;box-shadow:0 0 0 1px var(--line),0 8px 20px -12px rgba(0,0,0,.4);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.qx-all:hover{transform:translateY(-2px)}.qx-all:active{transform:scale(.97)}.qx-all:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.qx-pulse{animation:none}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -721,9 +781,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <header>
 <div class="topbar"><div>
 <span class="tb-note"><b>Site citoyen indépendant</b> · non affilié à Data4 ni à la mairie de Nozay</span>
-<a class="tb-link" href="https://www.youtube.com/watch?v=IasSO4DZy6o" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="2"/><path d="M6.5 6v4l3.5-2z" fill="currentColor"/></svg>Vidéo Data4</a>
-<a class="tb-link" href="https://nozay91.fr/fr/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14h12M3 14V7l5-4 5 4v7M6.5 14v-4h3v4"/></svg>Mairie de Nozay</a>
-<a class="tb-link" href="#sources"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h6l3 3v9H4zM10 2v3h3M6.5 8.5h4M6.5 11h4"/></svg>Sources</a>
+<a class="tb-src" href="#sources"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h6l3 3v9H4zM10 2v3h3M6.5 8.5h4M6.5 11h4"/></svg>Toutes nos sources publiques<span aria-hidden="true">↓</span></a>
 </div></div>
 <nav class="mainnav" aria-label="Menu principal"><div>
 <a class="brand" href="#top" aria-label="Observatoire Nozay PAR3, haut de page"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" fill="#000"/><g fill="#f50500"><rect x="7" y="15" width="3.2" height="6"/><rect x="12.2" y="11" width="3.2" height="14"/><rect x="17.4" y="7" width="3.2" height="22"/></g><g fill="#ffc900"><rect x="22.6" y="12" width="3.2" height="12"/></g><g fill="#fff"><rect x="27.8" y="16" width="3.2" height="4"/></g></svg><span><b>NOZAY · PAR3</b><small>Observatoire citoyen</small></span></a>
@@ -738,7 +796,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <div class="hx-text"><div class="hx-in"><div class="eyebrow rv"><svg viewBox="0 0 46 30" aria-hidden="true"><g fill="#f50500"><rect x="0" y="11" width="5" height="8"/><rect x="8" y="5" width="5" height="20"/><rect x="16" y="0" width="5" height="30"/></g><rect x="24" y="7" width="5" height="16" fill="#ffc900"/><rect x="32" y="11" width="5" height="8" fill="#fff"/><rect x="40" y="13" width="5" height="4" fill="#5e5e5e"/></svg>Observatoire citoyen · Nozay 91620</div>
 <h1 class="rv">Campus de data centers PAR3 <span>à Nozay</span></h1>
 <p class="lede rv">Data4 présente son campus de l'ancien site Nokia comme <q>le plus grand campus de data centers dédié à l'IA en France</q>. Ce site indépendant rassemble les chiffres publics et vous laisse simuler ce que vous entendrez chez vous.</p>
-<div class="hbtns rv"><a class="btn-r" href="#bruit">Écouter chez moi<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+<div class="hbtns rv"><a class="btn-r" href="#bruit">Simuler le bruit chez moi<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
 <ul class="facts rv"><li>127,5 MW IT</li><li>3 data centers</li><li>2 Md€</li><li>2027 → 2030</li><small>Puissance informatique et calendrier : dossier d'autorisation. Investissement : annonce Data4 du 16 mai 2025.</small></ul></div></div>
 <div class="hx-media" id="hxm">
 <img class="hx-poster" src="https://i.ytimg.com/vi/IasSO4DZy6o/maxresdefault.jpg" alt="Image de la vidéo Data4 sur le campus PAR03" width="1280" height="720">
@@ -775,7 +833,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <div class="mgrp" role="group" aria-label="Moment"><span class="mlab">Moment</span><div class="mseg" id="mper"><button data-v="jour" aria-pressed="true"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></svg>Jour</button><button data-v="nuit" aria-pressed="false"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 10A6 6 0 0 1 6 2.5 6 6 0 1 0 13.5 10z"/></svg>Nuit</button></div></div>
 <div class="mgrp" role="group" aria-label="Scénario"><span class="mlab">Scénario</span><div class="mseg" id="mscn"><button data-v="normal" aria-pressed="true" title="Fonctionnement habituel du campus">Normal</button><button data-v="essai" aria-pressed="false" title="Essai des groupes électrogènes de secours"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2a3.5 3.5 0 0 0-3.3 4.6L2.5 11.3a1.4 1.4 0 0 0 2 2l4.7-4.7A3.5 3.5 0 0 0 14 5.5l-2 2-1.8-.3-.3-1.8 2-2A3.5 3.5 0 0 0 10.5 2z"/></svg>Essai<span class="lg"> groupes</span></button><button data-v="secours" aria-pressed="false" title="Coupure du réseau électrique : les groupes de secours tournent"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M9 1 3 9h4l-1 6 6-8H8z"/></svg>Panne<span class="lg"> réseau</span></button></div></div>
 <div class="mgrp" id="mEssai" style="display:none"><span class="mlab">Groupes testés</span><input type="range" id="mnGE" min="1" max="10" value="2" aria-label="Groupes testés simultanément"><output id="mnGEo">2</output></div>
-<div class="mgrp" role="group" aria-label="Quand ?"><span class="mlab">Quand ?</span><div class="mseg" id="yr"><button data-v="0" aria-pressed="true" title="2026 : chantier, aucun data center">2026</button><button data-v="1" aria-pressed="false" title="Fin 2027 : DC01 en service">2027</button><button data-v="2" aria-pressed="false" title="2029 : DC01 + DC02 (estimation)">2029</button><button data-v="3" aria-pressed="false" title="Fin 2030 : campus complet">2030</button></div></div>
+<div class="mgrp" role="group" aria-label="Évolution du chantier"><span class="mlab">Évolution chantier</span><div class="mseg" id="yr"><button data-v="0" aria-pressed="true" title="2026 : chantier, aucun data center">2026<span class="lg"> · Chantier</span></button><button data-v="1" aria-pressed="false" title="Fin 2027 : DC01 en service">2027<span class="lg"> · DC01 en service</span></button><button data-v="2" aria-pressed="false" title="2029 : DC01 + DC02 (estimation)">2029<span class="lg"> · + DC02</span></button><button data-v="3" aria-pressed="false" title="Fin 2030 : campus complet">2030<span class="lg"> · Campus complet</span></button></div></div>
 </div>
 <div class="mbar" role="toolbar" aria-label="Affichage de la carte">
 <div class="mseg" id="fond"><button data-v="photo" aria-pressed="true">Photo</button><button data-v="plan" aria-pressed="false">Plan</button></div>
@@ -861,7 +919,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 </div></section>
 
 <section class="band" id="questions"><div class="wrap">
-<div class="q-head"><h2>Vos questions</h2><p>Toutes les questions sont lues et transmises aux personnes concernées (Data4, mairie…). Si une question peut intéresser tout le monde, elle est publiée ici anonymement avec sa réponse, sauf si vous avez demandé une réponse personnelle.</p></div>
+<div class="q-head"><h2>Vos questions</h2><div class="q-intro"><p>Toutes les questions sont lues et transmises aux personnes concernées (Data4, mairie…). Si une question peut intéresser tout le monde, elle est publiée ici anonymement avec sa réponse, sauf si vous avez demandé une réponse personnelle.</p><button type="button" class="q-ask" data-ask><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>Poser une question</button></div></div>
 <div class="q-list-head"><h3 id="qlisth">Questions publiées <span id="qn"></span></h3><input type="search" class="q-search" id="qsearch" placeholder="Rechercher une question…" aria-label="Rechercher une question" hidden></div>
 <div class="rt-filters" id="qf" role="group" aria-label="Filtrer les questions"></div>
 <div class="q-acc" id="qlist"><p class="q-empty">Chargement des questions…</p></div>
@@ -1192,6 +1250,14 @@ let ctPlay=()=>{};
  ctPlay=()=>{if(raf)return stop();used();if(t>=.999)setT(0);line.classList.add('playing');btn.setAttribute('aria-pressed',true);lbl.textContent='Pause';$('play').setAttribute('aria-pressed',true);
   let last=performance.now();const step=now=>{setT(t+(now-last)/DUR);last=now;if(t>=1)return stop();raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)};
  btn.addEventListener('click',ctPlay);
+ // Démonstration automatique à la première arrivée : montre les phases, puis revient à aujourd'hui
+ const demo=()=>{if(line.classList.contains('used')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  line.classList.add('playing','demo');setT(0);let last=performance.now();
+  const end=()=>line.classList.remove('playing','demo');
+  const step=now=>{if(line.classList.contains('used'))return end();setT(t+(now-last)/7000);last=now;
+   if(t>=1){end();return setTimeout(()=>{if(!line.classList.contains('used'))setT(today)},1100)}requestAnimationFrame(step)};
+  requestAnimationFrame(step)};
+ if('IntersectionObserver' in window)new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();setTimeout(demo,600)}},{threshold:.55}).observe(line);
  const at=e=>{const r=rail.getBoundingClientRect();return(e.clientX-r.left)/r.width};
  rail.addEventListener('pointerdown',e=>{if(e.button>0)return;stop();used();body.classList.add('drag');rail.setPointerCapture(e.pointerId);setT(at(e));e.preventDefault()});
  rail.addEventListener('pointermove',e=>{if(body.classList.contains('drag'))setT(at(e))});
@@ -1228,7 +1294,7 @@ $('bt').innerHTML=B.map(b=>`<tr><td>${b.k}</td><td class="n">${f(b.m2)} m²</td>
 const PW=[['Puissance informatique (dossier)',127.5,''],['Alimentation électrique du campus',150,''],['Raccordement RTE / communiqué de presse',250,'a']];
 $('pw').innerHTML=PW.map(p=>`<div class="bar">${p[0]} · <strong>${f(p[1])} MW</strong><div><i class="${p[2]}" style="width:${p[1]/250*100}%"></i></div></div>`).join('');
 // ---------- Sources ----------
-const SR=[['Avis MRAe APJIF-2025-091 du 8 octobre 2025 (PAR3)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['Dossier d\'autorisation, pièce PJ-46 « Présentation du projet » (Bureau Veritas, juillet 2025)','https://www.villebon-sur-yvette.fr/app/uploads/2025/10/DEL_2025_10_089_PJ-Presentation-du-projet-DATA4-PAR3.pdf'],['Rapport et conclusions du commissaire enquêteur (registre numérique)','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Préfecture de l\'Essonne — page de l\'enquête publique PAR3','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'],['Recueil des actes administratifs 91-2026-118 (DUP RTE, 5 mai 2026)','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],['Avis MRAe APJIF-2025-083 — ZAC du Verger, Nozay','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/2025-09-16_avis_projet_zac_nozay_91_delibere.pdf'],['Communiqué Data4 du 16 mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Plan IGN — Géoplateforme (data.geopf.fr), licence ouverte Etalab 2.0','https://geoservices.ign.fr/services-geoplateforme-diffusion'],['Base Adresse Nationale (adresse.data.gouv.fr), licence ouverte Etalab 2.0','https://adresse.data.gouv.fr/donnees-nationales'],['Commune de Nozay — avis d\'enquête publique (nov. 2026)','https://nozay91.fr/fr/nw/2296972/3038687/avis-d-enquete-publique-18'],['Mairie Nozay 91 — annonce des réunions (Facebook, 20 nov. 2026)','https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'],['DCmag — annonce du campus (2023)','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/'],['Synthmedia — la chaleur promise aux territoires','https://synthmedia.fr/data-centers/data-centers-la-chaleur-promise-aux-territoires-reste-un-dechet/'],['Université Paris-Saclay — data center bio-circulaire (mai 2025)','https://www.universite-paris-saclay.fr/sites/default/files/2025-05/FR_2025-05-20_Data4%20et%20la%20Fondation%20de%20lUniversit%C3%A9%20Paris-Saclay%20d%C3%A9voilent%20un%20data%20center%20bio-circulaire.pdf'],['Écho des villes — autorisation du 29 mai 2026','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],['La Clé publique — enquête Ballainvilliers (octobre 2026)','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],['Seuils d\'émergence : arrêté du 23 janvier 1997 (ICPE)','https://guidedatacenter.fr/actualites/bruit-datacenters-hyperscale-solutions-opposition']];
+const SR=[['Vidéo Data4 — « PAR03, plus grand campus de data centers dédié à l\'IA en France » (YouTube, 30 mai 2025)','https://www.youtube.com/watch?v=IasSO4DZy6o'],['Commune de Nozay — site officiel','https://nozay91.fr/fr/'],['Avis MRAe APJIF-2025-091 du 8 octobre 2025 (PAR3)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['Dossier d\'autorisation, pièce PJ-46 « Présentation du projet » (Bureau Veritas, juillet 2025)','https://www.villebon-sur-yvette.fr/app/uploads/2025/10/DEL_2025_10_089_PJ-Presentation-du-projet-DATA4-PAR3.pdf'],['Rapport et conclusions du commissaire enquêteur (registre numérique)','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Préfecture de l\'Essonne — page de l\'enquête publique PAR3','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'],['Recueil des actes administratifs 91-2026-118 (DUP RTE, 5 mai 2026)','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],['Avis MRAe APJIF-2025-083 — ZAC du Verger, Nozay','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/2025-09-16_avis_projet_zac_nozay_91_delibere.pdf'],['Communiqué Data4 du 16 mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Plan IGN — Géoplateforme (data.geopf.fr), licence ouverte Etalab 2.0','https://geoservices.ign.fr/services-geoplateforme-diffusion'],['Base Adresse Nationale (adresse.data.gouv.fr), licence ouverte Etalab 2.0','https://adresse.data.gouv.fr/donnees-nationales'],['Commune de Nozay — avis d\'enquête publique (nov. 2026)','https://nozay91.fr/fr/nw/2296972/3038687/avis-d-enquete-publique-18'],['Mairie Nozay 91 — annonce des réunions (Facebook, 20 nov. 2026)','https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'],['DCmag — annonce du campus (2023)','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/'],['Synthmedia — la chaleur promise aux territoires','https://synthmedia.fr/data-centers/data-centers-la-chaleur-promise-aux-territoires-reste-un-dechet/'],['Université Paris-Saclay — data center bio-circulaire (mai 2025)','https://www.universite-paris-saclay.fr/sites/default/files/2025-05/FR_2025-05-20_Data4%20et%20la%20Fondation%20de%20lUniversit%C3%A9%20Paris-Saclay%20d%C3%A9voilent%20un%20data%20center%20bio-circulaire.pdf'],['Écho des villes — autorisation du 29 mai 2026','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],['La Clé publique — enquête Ballainvilliers (octobre 2026)','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],['Seuils d\'émergence : arrêté du 23 janvier 1997 (ICPE)','https://guidedatacenter.fr/actualites/bruit-datacenters-hyperscale-solutions-opposition']];
 // Actualités : {d:début, f:fin|null, h:heure "HH:MM-HH:MM"|"HH:MM", lieu, tag, t:titre, x:texte, src, url, rdv:réunion}
 const NEWS=[
  {d:'2026-12-01',h:'20:00',lieu:'Centre culturel Robert Hossein, Nozay',tag:'Réunion publique',rdv:1,t:'Réunion publique sur le projet de campus de data centers',x:'Organisée par la commune de Nozay pour permettre aux habitants de poser leurs questions et d\'échanger autour du projet.',src:'Mairie Nozay 91 (Facebook, 20 nov. 2026)',url:'https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'},
@@ -1364,29 +1430,37 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
    msg('',true);done(p,em)}
   catch(err){msg(err.message||'Envoi impossible pour le moment.')}finally{btn.disabled=false}});
  // affichage
- const ST={published:['En attente de réponse','soon'],forwarded:['Transmise','live'],answered:['Répondue','ok']};
- const body=q=>'<p class="qa-d">Posée le '+fd(q.created_at)+(q.forwarded_to?' · transmise à <b>'+esc(q.forwarded_to)+'</b>'+(q.forwarded_at?' le '+fd(q.forwarded_at):''):'')+'</p>'
-   +(q.answer?'<div class="qa-a"><span class="qa-by">'+(BY[q.answer_by]||BY.autre)+(q.answered_at?' · '+fd(q.answered_at):'')+'</span><p>'+esc(q.answer)+'</p>'+(q.answer_source?(/^https?:\/\//.test(q.answer_source)?'<a class="nr-src" href="'+esc(q.answer_source)+'" target="_blank" rel="noopener">Source ↗</a>':'<span class="qa-src">Source : '+esc(q.answer_source)+'</span>'):'')+'</div>':'<div class="qa-a qa-wait">Réponse attendue. Elle sera publiée ici dès réception.</div>');
- const item=q=>{const s=ST[q.status]||ST.published;return '<details class="qi is-'+q.status+'" data-st="'+q.status+'"><summary><span class="qi-q">'+esc(q.question)+'</span><span class="nx-st qa-st '+s[1]+'">'+s[0]+'</span></summary><div class="qi-b">'+body(q)+'</div></details>'};
- const CHEV='<span class="qt-chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 4.5l4 4 4-4"/></svg></span>';
+ const WHO={data4:['Data4','Réponse officielle','d4'],mairie:['Mairie de Nozay','Réponse de la commune','mai'],observatoire:['Observatoire citoyen','D\'après les documents publics','obs'],autre:['Réponse','','obs']};
+ const AV={d4:'D4',mai:'<svg viewBox="0 0 16 16"><path d="M2 14h12M3 14V7l5-4 5 4v7M6.5 14v-4h3v4"/></svg>',obs:'<svg viewBox="0 0 16 16"><path d="M3 10v-2M6 12V5M9 13V3M12 11V6"/></svg>'};
+ const steps=q=>{const fw=q.status!=='published'||!!q.forwarded_to,an=q.status==='answered';
+  return '<ol class="qx-steps" aria-label="Suivi de la question"><li class="done"><i></i>Posée</li><li class="'+(fw?'done':'')+(fw&&!an?' cur':'')+'"><i></i>Transmise'+(q.forwarded_to?'<small> à '+esc(q.forwarded_to)+'</small>':'')+'</li><li class="'+(an?'done cur':'')+'"><i></i>Répondue</li></ol>'};
+ const card=q=>{const w=WHO[q.answer_by]||WHO.autre,c=CL[q.category]||CL.autre;
+  return '<article class="qx is-'+q.status+'" data-cat="'+(CL[q.category]?q.category:'autre')+'"><div class="qx-top"><span class="qx-cat">'+c+'</span><span class="qx-date">'+fd(q.created_at)+'</span></div>'
+   +'<p class="qx-q">'+esc(q.question)+'</p>'+steps(q)
+   +(q.answer?'<div class="qx-a"><span class="qx-av av-'+w[2]+'" aria-hidden="true">'+AV[w[2]]+'</span><div class="qx-bub"><p class="qx-by"><b>'+w[0]+'</b>'+(w[1]?' · '+w[1]:'')+(q.answered_at?' · '+fd(q.answered_at):'')+'</p><p class="qx-txt">'+esc(q.answer)+'</p><div class="qx-foot"><button type="button" class="qx-more" hidden>Lire la suite</button>'+(q.answer_source?(/^https?:\/\//.test(q.answer_source)?'<a class="qx-src" href="'+esc(q.answer_source)+'" target="_blank" rel="noopener">Voir la source ↗</a>':'<span class="qx-src">Source : '+esc(q.answer_source)+'</span>'):'')+'</div></div></div>'
+    :'<p class="qx-wait"><span class="qx-pulse" aria-hidden="true"></span>'+(q.forwarded_to?'En attente de la réponse de '+esc(q.forwarded_to):'Réponse en préparation')+'</p>')+'</article>'};
+ const RANK={answered:0,forwarded:1,published:2},PAGE=6;
  api('questions_public?select=*&order=created_at.desc&limit=500').then(r=>r.ok?r.json():Promise.reject()).then(rows=>{
   $('qn').textContent=rows.length?rows.length:'';
   if(!rows.length){$('qlist').innerHTML='<p class="q-empty">Aucune question publiée pour l\'instant. <a href="#" data-ask>Soyez le premier à poser la vôtre</a></p>';$('qf').hidden=true;return}
-  const groups=CATS.map(([k,l])=>({k,l,rows:rows.filter(q=>(CL[q.category]?q.category:'autre')===k)})).filter(g=>g.rows.length);
-  $('qlist').innerHTML=groups.map((g,i)=>{const sp=g.l.indexOf(' ');return '<details class="qt" data-cat="'+g.k+'"'+(i===0||rows.length<=8?' open':'')+'><summary><span class="qt-ic" aria-hidden="true">'+g.l.slice(0,sp)+'</span><span class="qt-l">'+g.l.slice(sp+1)+'</span><span class="qt-n"></span>'+CHEV+'</summary><div class="qt-b">'+g.rows.map(item).join('')+'</div></details>'}).join('')+'<p class="q-none" id="qnone" hidden>Aucune question ne correspond.</p>';
-  const gEls=[...$('qlist').querySelectorAll('.qt')],data=groups.flatMap(g=>g.rows),items=[...$('qlist').querySelectorAll('.qi')];
-  const F=[['all','Tout'],['answered','✅ Répondues'],['forwarded','📨 Transmises'],['published','⏳ En attente']];
-  $('qf').innerHTML=F.map(([k,l],i)=>'<button type="button" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+l+' <span class="fc">'+(k==='all'?rows.length:rows.filter(q=>q.status===k).length)+'</span></button>').join('');
+  rows.sort((x,y)=>(RANK[x.status]??3)-(RANK[y.status]??3)||new Date(y.answered_at||y.created_at)-new Date(x.answered_at||x.created_at));
+  const ans=rows.filter(q=>q.status==='answered').length;
+  $('qn').innerHTML=rows.length+' <em>dont '+ans+' répondue'+(ans>1?'s':'')+'</em>';
+  $('qlist').innerHTML='<div class="qx-grid" id="qgrid">'+rows.map(card).join('')+'</div><p class="q-none" id="qnone" hidden>Aucune question ne correspond.</p><div class="qx-morewrap"><button type="button" class="qx-all" id="qall" hidden></button></div>';
+  const cards=[...$('qgrid').children];
+  const cats=CATS.filter(([k])=>rows.some(q=>(CL[q.category]?q.category:'autre')===k));
+  $('qf').innerHTML=[['all','Tous les thèmes']].concat(cats).map(([k,l],i)=>'<button type="button" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+l+' <span class="fc">'+(k==='all'?rows.length:cards.filter(c=>c.dataset.cat===k).length)+'</span></button>').join('');
   const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  let fst='all';const srch=$('qsearch');srch.hidden=rows.length<6;
-  const apply=()=>{const t=norm(srch.value.trim());let any=0;
-   items.forEach((el,i)=>{const q=data[i];el.hidden=!((fst==='all'||q.status===fst)&&(!t||norm(q.question+' '+(q.answer||'')).includes(t)))});
-   gEls.forEach(g=>{const vis=[...g.querySelectorAll('.qi')].filter(x=>!x.hidden),n=vis.length,ans=vis.filter(x=>x.dataset.st==='answered').length;g.hidden=!n;any+=n;
-    const c=k=>vis.filter(x=>x.dataset.st===k).length,fw=c('forwarded'),wt=c('published'),pl=(x,s)=>x+' '+s+(x>1?'s':'');
-    g.querySelector('.qt-n').innerHTML=(ans?'<i class="qc ok">✓ '+pl(ans,'répondue')+'</i>':'')+(fw?'<i class="qc fw">'+pl(fw,'transmise')+'</i>':'')+(wt?'<i class="qc wt">'+pl(wt,'en attente').replace('attentes','attente')+'</i>':'');if(t&&n)g.open=true});
-   $('qnone').hidden=!!any};
-  $('qf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;fst=b.dataset.v;for(const x of $('qf').children)x.setAttribute('aria-pressed',x===b);apply()});
-  srch.addEventListener('input',apply);apply()})
+  let fc='all',all=false;const srch=$('qsearch');srch.hidden=rows.length<6;
+  const clamp=()=>cards.forEach(c=>{const t=c.querySelector('.qx-txt'),m=c.querySelector('.qx-more');if(!t||c.hidden||c.classList.contains('open'))return;m.hidden=t.scrollHeight<=t.clientHeight+2});
+  const apply=()=>{const t=norm(srch.value.trim());let n=0;
+   cards.forEach((c,i)=>{const q=rows[i],ok=(fc==='all'||c.dataset.cat===fc)&&(!t||norm(q.question+' '+(q.answer||'')).includes(t));c.hidden=!ok||(!all&&!t&&n>=PAGE);if(ok)n++});
+   const hid=Math.max(0,n-PAGE);$('qall').hidden=all||!!t||!hid;$('qall').textContent='Voir les '+hid+' autre'+(hid>1?'s':'')+' question'+(hid>1?'s':'');
+   $('qnone').hidden=!!n;requestAnimationFrame(clamp)};
+  $('qf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;fc=b.dataset.v;for(const x of $('qf').children)x.setAttribute('aria-pressed',x===b);apply()});
+  $('qall').addEventListener('click',()=>{all=true;apply()});
+  $('qgrid').addEventListener('click',e=>{const m=e.target.closest('.qx-more');if(!m)return;const c=m.closest('.qx'),o=c.classList.toggle('open');m.textContent=o?'Réduire':'Lire la suite'});
+  srch.addEventListener('input',apply);addEventListener('resize',()=>requestAnimationFrame(clamp));apply()})
  .catch(()=>{$('qlist').innerHTML='<p class="q-empty">Les questions publiées ne peuvent pas être chargées pour le moment.</p>';$('qf').hidden=true})}
 {const fab=$('qfab'),dlg=$('qdlg');
  const open=()=>{if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');fab.classList.add('in-dlg');($('qform').hidden?$('qagain'):$('qtext')).focus()};
@@ -1396,7 +1470,7 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
  dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
  dlg.addEventListener('close',()=>{fab.classList.remove('in-dlg');fab.focus({preventScroll:true})})}
 // Sources : regroupées par type, une ligne par document
-{const G=[['Documents officiels',/mrae|registre-numerique|essonne\.gouv|pappers|nozay91|villebon/],['Data4, mairie & presse',/data4group|echo-des-villes|laclepublique|dcmag|facebook|synthmedia|universite-paris-saclay/],['Données & méthode',/./]];
+{const G=[['Documents officiels',/mrae|registre-numerique|essonne\.gouv|pappers|nozay91|villebon/],['Data4, mairie & presse',/youtube|data4group|echo-des-villes|laclepublique|dcmag|facebook|synthmedia|universite-paris-saclay/],['Données & méthode',/./]];
  const grp=G.map(g=>({g,items:[]}));for(const s of SR){grp[G.findIndex(g=>g[1].test(s[1]))].items.push(s)}
  const dom=u=>new URL(u).hostname.replace(/^www\.|^api-/,'');
  $('srcn').textContent=SR.length;
