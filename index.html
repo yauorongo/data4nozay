@@ -269,6 +269,24 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+.annonce{background:#ffc900;color:#000;padding:0 max(5vw,16px)}
+.annonce a{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;max-width:1240px;margin:0 auto;min-height:40px;padding:8px 0;color:inherit;text-decoration:none;font-size:14px;line-height:1.35}
+.annonce b{font:800 12px/1 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.04em;background:#000;color:#ffc900;padding:5px 7px}
+.annonce span{margin-left:auto;font-weight:700;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}.annonce a:hover span{transform:translateX(4px)}
+.annonce a:focus-visible{outline:3px solid #000;outline-offset:2px}.annonce a:active{opacity:.7}
+.nx-next{display:flex;gap:clamp(16px,3vw,32px);align-items:stretch;margin-bottom:24px;background:#000;color:#fff;padding:clamp(20px,3vw,32px);box-shadow:0 2px 4px rgba(0,0,0,.12),0 24px 48px -24px rgba(245,5,0,.45);position:relative;overflow:hidden}
+.nx-next::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(245,5,0,.35),transparent 70%);pointer-events:none}
+.nn-date{flex:none;width:104px;background:#f50500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;text-align:center}
+.nn-date b{font:800 52px/1 "Archivo",sans-serif;font-stretch:112%}.nn-date span{font:700 12px/1.3 "Archivo",sans-serif;text-transform:uppercase;letter-spacing:.05em}
+.nn-body{position:relative;z-index:1;min-width:0}.nn-k{display:inline-block;font:700 11px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.1em;text-transform:uppercase;color:#ffc900;margin-bottom:8px}
+.nn-body h3{color:#fff;font-size:clamp(20px,2.2vw,26px);line-height:1.15;text-transform:none;margin:0 0 8px}.nn-body p{margin:0 0 6px;color:#e3e3e3}.nn-body .nn-x{color:#aeaeae;font-size:14px}
+.nn-act{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:14px}
+.nn-ics{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:0;background:#ffc900;color:#000;font:700 13px/1 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.02em;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.nn-ics svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}.nn-ics:hover{transform:translateY(-2px)}.nn-ics:active{transform:scale(.96)}.nn-ics:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.nn-src{color:#fff;font-size:14px;font-weight:600;text-decoration:none;border-bottom:1.5px solid #f50500}.nn-src:hover{color:#ffc900}.nn-src:focus-visible{outline:3px solid #ffc900;outline-offset:2px}
+.nx-info{list-style:none;margin:0 0 8px;padding:0;font-size:14px;line-height:1.5}.nx-info li{display:flex;gap:6px}.nx-info b{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;font-weight:400}
+.nx-next[hidden],.annonce[hidden]{display:none}.nx-st.done{background:var(--line);color:var(--mute)}.nx.is-done{opacity:.8}
+@media(max-width:600px){.nx-next{flex-direction:column}.nn-date{flex-direction:row;width:auto;gap:10px;justify-content:flex-start;padding:10px 14px}.nn-date b{font-size:34px}.annonce span{margin-left:0}}
 /* Hero 50/50 (inspiré de data4group.com) */
 .d4hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:0;min-height:min(74vh,600px)}
 .d4hero::before{background:radial-gradient(ellipse 60% 70% at 0% 100%,rgba(245,5,0,.16),transparent 70%)}
@@ -386,6 +404,7 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <div class="menu"><a href="#bruit">Simulateur de bruit</a><a href="#actus">Actualités</a><a href="#avancement">Avancement</a><a href="#projet">Le projet en chiffres</a><a href="#ecarts">Points ouverts</a></div>
 <a class="cta-y" href="#bruit">Simuler le bruit</a>
 </div></nav>
+<div class="annonce" id="annonce" hidden></div>
 </header>
 
 <section class="d4hero" id="top">
@@ -496,8 +515,9 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 
 <section class="band" id="actus"><div class="wrap">
 <div class="nx-head"><h2>Actualités &amp; rendez-vous</h2><p>Enquêtes publiques, décisions et réunions d'information autour du campus. Seules les informations publiées par une source officielle sont listées.</p></div>
+<div class="nx-next" id="nxnext" hidden></div>
 <div class="nx-grid" id="news"></div>
-<div class="nx-note"><b>Réunion d'information citoyenne ?</b> À la date du 25 novembre 2026, aucune réunion publique de Data4 sur PAR3 n'est annoncée sur les sites de la mairie de Nozay, de la préfecture ni de Data4. Une réunion publique à laquelle Data4 a participé est mentionnée dans le rapport du commissaire enquêteur, sans date publiée. Vous avez une convocation ou un lien officiel ? Il sera ajouté ici.</div>
+<div class="nx-note"><b>Une réunion à signaler ?</b> Les rendez-vous ci-dessus proviennent d'annonces officielles (mairie de Nozay, préfecture, Data4). Si vous voyez passer une autre annonce, envoyez son lien : elle sera ajoutée ici avec sa source.</div>
 </div></section>
 
 <section class="band" id="avancement" style="background:var(--panel)"><div class="wrap cols">
@@ -837,18 +857,37 @@ const PW=[['Puissance informatique (dossier)',127.5,''],['Alimentation électriq
 $('pw').innerHTML=PW.map(p=>`<div class="bar">${p[0]} · <strong>${f(p[1])} MW</strong><div><i class="${p[2]}" style="width:${p[1]/250*100}%"></i></div></div>`).join('');
 // ---------- Sources ----------
 const SR=[['Avis MRAe APJIF-2025-091 du 8 octobre 2025 (PAR3)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['Dossier d\'autorisation, pièce PJ-46 « Présentation du projet » (Bureau Veritas, juillet 2025)','https://www.villebon-sur-yvette.fr/app/uploads/2025/10/DEL_2025_10_089_PJ-Presentation-du-projet-DATA4-PAR3.pdf'],['Rapport et conclusions du commissaire enquêteur (registre numérique)','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Préfecture de l\'Essonne — page de l\'enquête publique PAR3','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'],['Recueil des actes administratifs 91-2026-118 (DUP RTE, 5 mai 2026)','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],['Avis MRAe APJIF-2025-083 — ZAC du Verger, Nozay','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/2025-09-16_avis_projet_zac_nozay_91_delibere.pdf'],['Communiqué Data4 du 16 mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Plan IGN — Géoplateforme (data.geopf.fr), licence ouverte Etalab 2.0','https://geoservices.ign.fr/services-geoplateforme-diffusion'],['Base Adresse Nationale (adresse.data.gouv.fr), licence ouverte Etalab 2.0','https://adresse.data.gouv.fr/donnees-nationales'],['Commune de Nozay — annonce de l\'enquête publique','https://nozay91.fr/fr/nw/2296972/2683696/enquete-publique-du-projet-de-construction-dun-campus-de-data-center-par3'],['Écho des villes — autorisation du 29 mai 2026','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],['La Clé publique — enquête Ballainvilliers (octobre 2026)','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],['Seuils d\'émergence : arrêté du 23 janvier 1997 (ICPE)','https://guidedatacenter.fr/actualites/bruit-datacenters-hyperscale-solutions-opposition']];
-// Actualités : [début, fin (ou null), étiquette, titre, texte, source, lien]
+// Actualités : {d:début, f:fin|null, h:heure "HH:MM-HH:MM"|"HH:MM", lieu, tag, t:titre, x:texte, src, url, rdv:réunion}
 const NEWS=[
- ['2026-11-25','2026-12-02','Enquête publique','Avis d\'enquête publique à Nozay','La mairie annonce une enquête publique du mercredi 25 novembre au mercredi 2 décembre 2026 inclus. L\'objet précis figure dans l\'avis publié par la commune (pièce jointe intitulée « établissement servitudes parcelles ») : à consulter en mairie.','Commune de Nozay','https://nozay91.fr/fr/nw/2296972/3038687/avis-d-enquete-publique-18'],
- ['2026-11-16','2026-12-18','Enquête publique','Data center de Ballainvilliers : la ligne 225 kV passerait par Nozay','Enquête publique sur le projet Goodman / Data Serres (72 MW IT), dont le raccordement souterrain traverserait Nozay. Observations possibles jusqu\'au 18 décembre 2026.','La Clé publique','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],
- ['2026-05-29',null,'Décision','Le préfet autorise le campus PAR3','Arrêté d\'autorisation environnementale du 29 mai 2026, après l\'avis favorable du commissaire enquêteur.','Écho des villes','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],
- ['2026-05-05',null,'Décision','Utilité publique de la double ligne 225 kV (RTE)','Déclaration d\'utilité publique du raccordement électrique du campus.','Recueil des actes administratifs 91-2026-118','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],
- ['2026-02-15',null,'Avis','Conclusions favorables du commissaire enquêteur','Rapport et conclusions publiés sur le registre numérique de l\'enquête PAR3.','Registre numérique','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],
- ['2025-12-08','2026-01-13','Enquête publique','Enquête publique unique sur PAR3','Dossier consultable en ligne et en mairie, permanences du commissaire enquêteur en mairie de Nozay (salle du conseil).','Préfecture de l\'Essonne','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3']];
-{const MO=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],now=new Date(),dt=s=>new Date(s+'T12:00:00'),fd=d=>d.getDate()+' '+MO[d.getMonth()]+' '+d.getFullYear();
- $('news').innerHTML=NEWS.map(([s,e,tag,t,txt,src,url])=>{const d0=dt(s),d1=e?dt(e):null,live=d1&&now>=d0&&now<=new Date(d1.getTime()+864e5),soon=now<d0;
-  const st=live?'<span class="nx-st live">En cours</span>':soon?'<span class="nx-st soon">À venir</span>':'';
-  return '<article class="nx'+(live?' is-live':'')+'"><div class="nx-date"><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+' '+d0.getFullYear()+'</span></div><div class="nx-body"><div class="nx-meta"><span class="nx-tag">'+tag+'</span>'+st+'</div><h3>'+t+'</h3><p>'+(d1?'<strong>Du '+fd(d0)+' au '+fd(d1)+'.</strong> ':'')+txt+'</p><a class="nx-src" href="'+url+'" target="_blank" rel="noopener">Source : '+src+' ↗</a></div></article>'}).join('')}
+ {d:'2026-12-01',h:'20:00',lieu:'Centre culturel Robert Hossein, Nozay',tag:'Réunion publique',rdv:1,t:'Réunion publique sur le projet de campus de data centers',x:'Organisée par la commune de Nozay pour permettre aux habitants de poser leurs questions et d\'échanger autour du projet.',src:'Mairie Nozay 91 (Facebook, 20 nov. 2026)',url:'https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'},
+ {d:'2026-11-25',f:'2026-12-02',tag:'Enquête publique',t:'Avis d\'enquête publique à Nozay',x:'La mairie annonce une enquête publique du mercredi 25 novembre au mercredi 2 décembre 2026 inclus. L\'objet précis figure dans l\'avis publié par la commune (pièce jointe intitulée « établissement servitudes parcelles ») : à consulter en mairie.',src:'Commune de Nozay',url:'https://nozay91.fr/fr/nw/2296972/3038687/avis-d-enquete-publique-18'},
+ {d:'2026-11-23',h:'16:00-18:00',lieu:'Campus de Nozay, Centre de Villarceaux, route de Villejust',tag:'Réunion d\'information',rdv:1,t:'Porte ouverte Data4 sur le campus',x:'Data4 a proposé aux habitants de découvrir le projet et d\'échanger directement avec l\'équipe en charge, qui répondait à leurs questions.',src:'Mairie Nozay 91 (Facebook, 20 nov. 2026)',url:'https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'},
+ {d:'2026-11-16',f:'2026-12-18',tag:'Enquête publique',t:'Data center de Ballainvilliers : la ligne 225 kV passerait par Nozay',x:'Enquête publique sur le projet Goodman / Data Serres (72 MW IT), dont le raccordement souterrain traverserait Nozay. Observations possibles jusqu\'au 18 décembre 2026.',src:'La Clé publique',url:'https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'},
+ {d:'2026-05-29',tag:'Décision',t:'Le préfet autorise le campus PAR3',x:'Arrêté d\'autorisation environnementale du 29 mai 2026, après l\'avis favorable du commissaire enquêteur.',src:'Écho des villes',url:'https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'},
+ {d:'2026-05-05',tag:'Décision',t:'Utilité publique de la double ligne 225 kV (RTE)',x:'Déclaration d\'utilité publique du raccordement électrique du campus.',src:'Recueil des actes administratifs 91-2026-118',url:'https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'},
+ {d:'2026-02-15',tag:'Avis',t:'Conclusions favorables du commissaire enquêteur',x:'Rapport et conclusions publiés sur le registre numérique de l\'enquête PAR3.',src:'Registre numérique',url:'https://www.registre-numerique.fr/pref91-data4-par3-nozay'},
+ {d:'2025-12-08',f:'2026-01-13',tag:'Enquête publique',t:'Enquête publique unique sur PAR3',x:'Dossier consultable en ligne et en mairie, permanences du commissaire enquêteur en mairie de Nozay (salle du conseil).',src:'Préfecture de l\'Essonne',url:'https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'}];
+{const MO=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],JO=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],now=new Date();
+ const at=(d,t)=>new Date(d+'T'+(t||'12:00')+':00'),fd=d=>d.getDate()+(d.getDate()===1?'er':'')+' '+MO[d.getMonth()]+' '+d.getFullYear();
+ const hh=t=>t.replace(':00','h').replace(/:(\d\d)/,'h$1'),hr=n=>n.h?n.h.split('-').map(hh).join(' – '):'';
+ const span=n=>{const s=n.h?n.h.split('-'):[],b0=at(n.d,s[0]||'00:00'),b1=n.f?new Date(at(n.f,'23:59')):at(n.d,s[1]||(s[0]?String(+s[0].slice(0,2)+2).padStart(2,'0')+s[0].slice(2):'23:59'));return[b0,b1]};
+ const stat=n=>{const[b0,b1]=span(n);return now<b0?'soon':now<=b1?'live':'done'};
+ const card=n=>{const d0=at(n.d),st=stat(n),d1=n.f?at(n.f):null;
+  const badge=st==='live'?'<span class="nx-st live">En cours</span>':st==='soon'?'<span class="nx-st soon">À venir</span>':n.rdv?'<span class="nx-st done">Terminé</span>':'';
+  const when=d1?'<strong>Du '+fd(d0)+' au '+fd(d1)+'.</strong> ':'';
+  const info=n.rdv?'<ul class="nx-info"><li><b>📅</b>'+JO[d0.getDay()]+' '+fd(d0)+(n.h?', '+hr(n):'')+'</li><li><b>📍</b>'+n.lieu+'</li></ul>':'';
+  return '<article class="nx'+(st==='live'?' is-live':'')+(st==='done'&&n.rdv?' is-done':'')+'"><div class="nx-date"><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+' '+d0.getFullYear()+'</span></div><div class="nx-body"><div class="nx-meta"><span class="nx-tag">'+n.tag+'</span>'+badge+'</div><h3>'+n.t+'</h3>'+info+'<p>'+when+n.x+'</p><a class="nx-src" href="'+n.url+'" target="_blank" rel="noopener">Source : '+n.src+' ↗</a></div></article>'};
+ $('news').innerHTML=NEWS.map(card).join('');
+ // Prochain rendez-vous : carte mise en avant + bandeau sous le menu + fichier agenda (.ics)
+ const nx=NEWS.filter(n=>n.rdv&&stat(n)!=='done').sort((p,q)=>at(p.d)-at(q.d))[0];
+ if(nx){const d0=at(nx.d,(nx.h||'').split('-')[0]||'12:00'),days=Math.ceil((new Date(nx.d+'T00:00:00')-new Date(now.toDateString()))/864e5);
+  const quand=days<=0?'aujourd\'hui':days===1?'demain':'dans '+days+' jours';
+  $('nxnext').innerHTML='<div class="nn-date"><span>'+JO[d0.getDay()]+'</span><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+' '+d0.getFullYear()+'</span></div><div class="nn-body"><span class="nn-k">Prochain rendez-vous · '+quand+'</span><h3>'+nx.t+'</h3><p><b>'+hr(nx)+'</b> · '+nx.lieu+'</p><p class="nn-x">'+nx.x+'</p><div class="nn-act"><button type="button" class="nn-ics" id="nnics"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2"/><path d="M3 8.5h14M7 2.5v4M13 2.5v4M10 11v4M8 13h4"/></svg>Ajouter à mon agenda</button><a class="nn-src" href="'+nx.url+'" target="_blank" rel="noopener">Voir l\'annonce ↗</a></div></div>';
+  $('nxnext').hidden=false;
+  $('annonce').innerHTML='<a href="#actus"><b>'+nx.tag+'</b> · '+JO[d0.getDay()]+' '+fd(d0)+' à '+hr(nx)+' · '+nx.lieu.split(',')[0]+'<span>En savoir plus →</span></a>';$('annonce').hidden=false;
+  $('nnics').addEventListener('click',()=>{const[s,e]=span(nx),z=x=>x.getFullYear()+String(x.getMonth()+1).padStart(2,'0')+String(x.getDate()).padStart(2,'0')+'T'+String(x.getHours()).padStart(2,'0')+String(x.getMinutes()).padStart(2,'0')+'00';
+   const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Observatoire Nozay PAR3//FR','BEGIN:VEVENT','UID:'+nx.d+'-par3@observatoire-nozay','DTSTAMP:'+z(new Date()),'DTSTART;TZID=Europe/Paris:'+z(s),'DTEND;TZID=Europe/Paris:'+z(e),'SUMMARY:'+nx.t,'LOCATION:'+nx.lieu,'DESCRIPTION:'+nx.x+' Source : '+nx.url,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+   const u=URL.createObjectURL(new Blob([ics],{type:'text/calendar'})),l=document.createElement('a');l.href=u;l.download='reunion-data-center-nozay.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)})}}
 $('src').innerHTML=SR.map(s=>`<li><a href="${s[1]}">${s[0]}</a></li>`).join('');
 setPt('sud');
 }
