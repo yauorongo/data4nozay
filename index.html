@@ -222,7 +222,7 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .menu a:hover::after,.menu a:focus-visible::after{transform:scaleX(1)}.menu a:active{opacity:.6}
 .cta-y{flex:none;background:#ffc900;color:#000;font:700 12px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.03em;text-transform:uppercase;padding:15px 17px;text-decoration:none;box-shadow:0 2px 4px rgba(255,201,0,.25),0 10px 20px -10px rgba(204,150,0,.8);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
 .cta-y:hover{transform:translateY(-2px)}.cta-y:active{transform:scale(.97)}.cta-y:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
-@media(max-width:1080px){.mainnav>div{flex-wrap:wrap;padding:10px 0 0}.cta-y{margin-left:auto}.menu{order:3;width:100%;margin:0;padding-bottom:4px}}
+
 @media(max-width:600px){.tb-note{flex-basis:100%}.brand b{font-size:19px}.brand svg{width:30px;height:30px}.cta-y{padding:12px 12px;font-size:11px}}
 
 .d4hero{position:relative;overflow:hidden;background:#000;color:#fff;padding:0 max(5vw,16px);isolation:isolate}
@@ -269,6 +269,81 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+/* Menu */
+.menu a[aria-current]{color:var(--acc)}.menu a[aria-current]::after{transform:scaleX(1)}
+.menu-btn{display:none;align-items:center;gap:10px;height:44px;padding:0 14px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);font:700 13px/1 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;cursor:pointer;margin-left:auto;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.menu-btn:hover{transform:translateY(-1px)}.menu-btn:active{transform:scale(.96)}.menu-btn:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.mb-ic{display:grid;gap:4px;width:18px}.mb-ic i{display:block;height:2px;background:currentColor;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .2s}
+.menu-btn[aria-expanded=true] .mb-ic i:nth-child(1){transform:translateY(6px) rotate(45deg)}.menu-btn[aria-expanded=true] .mb-ic i:nth-child(2){opacity:0}.menu-btn[aria-expanded=true] .mb-ic i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:1320px){
+ .mainnav>div{position:relative;flex-wrap:nowrap;padding:0}.menu-btn{display:inline-flex}.cta-y{margin-left:0}
+ .menu{position:absolute;left:calc(-1 * max(5vw,16px));right:calc(-1 * max(5vw,16px));top:100%;margin:0;padding:8px max(5vw,16px) 16px;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 24px 40px -24px rgba(0,0,0,.45);flex-direction:column;gap:0;opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.22,1,.36,1)}
+ .menu.open{opacity:1;transform:none;pointer-events:auto}
+ .menu a{padding:15px 0;font-size:15px;border-bottom:1px solid var(--line)}.menu a::after{bottom:-1px}}
+@media(max-width:600px){.cta-y{display:none}.mainnav>div{min-height:64px}}
+/* Prochain rendez-vous : bandeau compact */
+.nx-next{align-items:center;padding:14px 18px;gap:16px;margin-bottom:16px}
+.nx-next::after{width:160px;height:160px;right:-40px;top:-40px}
+.nn-date{width:72px;padding:8px 4px}.nn-date b{font-size:32px}.nn-date span{font-size:10px}
+.nn-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 20px}
+.nn-k{grid-column:1;margin:0}.nn-body h3{grid-column:1;font-size:clamp(17px,1.6vw,20px);margin:0}.nn-body p{grid-column:1;margin:0;font-size:14px}.nn-body .nn-x{display:none}
+.nn-act{grid-column:2;grid-row:1/span 3;margin:0;flex-direction:column;align-items:flex-end;gap:8px}
+@media(max-width:760px){.nn-body{grid-template-columns:minmax(0,1fr)}.nn-act{grid-column:1;grid-row:auto;flex-direction:row;align-items:center;margin-top:8px}}
+/* Actualités : lignes */
+.nr-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;border-top:1px solid var(--line)}
+.nr{border-bottom:1px solid var(--line)}
+.nr summary{display:flex;align-items:center;gap:14px;padding:12px 6px;cursor:pointer;list-style:none;border-radius:2px}
+.nr summary::-webkit-details-marker{display:none}.nr summary:hover{background:var(--panel)}.nr summary:focus-visible{outline:3px solid var(--acc);outline-offset:-3px}
+.nr-date{flex:none;width:50px;text-align:center;line-height:1}.nr-date b{display:block;font:800 24px/1 "Archivo",sans-serif;font-stretch:112%;color:var(--acc)}
+.nr-date span{display:block;font:700 10px/1.2 "Archivo",sans-serif;text-transform:uppercase;margin-top:2px}.nr-date i{display:block;font:600 10px/1.2 "Instrument Sans",sans-serif;font-style:normal;color:var(--mute)}
+.nr.is-done .nr-date b{color:var(--mute)}
+.nr-main{flex:1;min-width:0;display:grid;gap:3px}.nr-tags{display:flex;flex-wrap:wrap;gap:4px}
+.nr-tags .nx-tag,.nr-tags .nx-st{font-size:9px;padding:4px 6px}
+.nr-t{font:700 15px/1.25 "Instrument Sans",sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nr-meta{font-size:13px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nr-more-ic{flex:none;width:28px;height:28px;border-radius:50%;background:var(--panel);position:relative;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.nr-more-ic::before,.nr-more-ic::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:2px;margin:-1px 0 0 -5px;background:var(--ink)}.nr-more-ic::after{transform:rotate(90deg)}
+.nr[open] .nr-more-ic{transform:rotate(45deg)}
+.nr-more{padding:0 6px 14px 70px;font-size:14px;line-height:1.6}.nr-more p{margin:0 0 6px;color:#333}
+.nr-src{font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--acc)}.nr-src:hover{color:var(--acc)}
+@media(max-width:900px){.nr-list{grid-template-columns:minmax(0,1fr)}.nr-more{padding-left:6px}}
+/* Engagements : lignes compactes */
+.rr-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rr{display:flex;gap:14px;background:var(--bg);padding:14px 16px;border-left:4px solid #aeaeae;box-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 24px -20px rgba(0,0,0,.35)}
+.rr[hidden]{display:none}.rr.is-ok{border-left-color:#00a36e}.rr.is-ann{border-left-color:#ffc900}
+.rr-side{flex:none;width:86px;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.rr-ic{font:24px/1 "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+.rr-big{font:800 22px/1.05 "Archivo",sans-serif;font-stretch:108%;color:var(--acc);word-break:break-word}.rr.is-q .rr-big{color:#aeaeae;font-size:28px}
+.rr-side small{font-size:11px;color:var(--mute);margin-top:-2px}
+.rr-main{flex:1;min-width:0}
+.rr-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;margin-bottom:4px}
+.rr-cat{font:700 10px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.rr .rt-badge{margin:0;font-size:10px;padding:4px 7px}
+.rr h3{font-size:16px;line-height:1.25;text-transform:none;margin:0 0 4px}
+.rr-x{font-size:13.5px;line-height:1.55;margin:0 0 6px;color:#333}.rr-who{color:var(--mute);font-style:italic}
+.rr-gap{margin:0 0 6px;font-size:13px}.rr-gap summary{cursor:pointer;display:inline-flex;align-items:center;min-height:28px;padding:0 8px;background:#fff4c7;color:#6b5200;font-weight:600;list-style:none}
+.rr-gap summary::-webkit-details-marker{display:none}.rr-gap summary:hover{background:#ffe999}.rr-gap summary:focus-visible{outline:2px solid #6b5200;outline-offset:2px}
+.rr-gap p{margin:6px 0 0;padding:8px 10px;background:#fff8e1;border-left:3px solid #ffc900;line-height:1.55}
+.rr-src{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.rr-src a{display:inline-flex;align-items:center;min-height:28px;padding:0 9px;background:var(--panel);border:1px solid var(--line);color:var(--ink);font-size:12px;font-weight:600;text-decoration:none;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.rr-src a:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-1px)}.rr-src a:active{transform:scale(.96)}.rr-src a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.rr-none{font-size:12px;color:var(--mute);font-style:italic}
+.rr .rt-copy{min-height:28px;font-size:12px;padding:0 10px}
+@media(max-width:900px){.rr-list{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){.rr{padding:12px 14px}}
+.rr-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rt-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin-bottom:16px}.rt-row .rt-filters{margin:0}.rt-row .rt-meter{flex:0 1 330px;padding:10px 14px}.rt-row .rt-meter>b{margin-bottom:8px;font-size:11px}
+.rt-head{margin-bottom:14px}
+.rr-src{gap:2px 4px;font-size:12.5px}.rr-src a{min-height:0;padding:3px 2px;background:none;border:0;border-bottom:1.5px solid var(--acc);font-size:12.5px}
+.rr-src a:hover{transform:none;color:var(--acc)}.rr-sl{font-weight:600;color:var(--mute);margin-right:2px}.rr-sep{color:#aeaeae;margin:0 2px}
+.rr-src .rr-gap{margin-right:8px}
+.rr{display:flex;flex-direction:column;gap:0;border-left:0;border-top:4px solid #aeaeae}.rr.is-ok{border-top-color:#00a36e}.rr.is-ann{border-top-color:#ffc900}
+.rr-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}.rr-top .rt-badge{margin-left:auto}
+.rr-top .rr-big{font-size:22px;line-height:1}.rr-top .rr-big small{font:600 12px/1 'Instrument Sans',sans-serif;color:var(--mute)}
+.rr h3 .rr-cat{font:inherit;color:var(--mute);letter-spacing:0;text-transform:none;font-weight:600}
+.rr-x{flex:1}
+.rr-gap[open]{flex-basis:100%;order:9}.rr-gap{margin:0}.rr-gap summary{min-height:28px;font-size:12px}
+@media(max-width:1100px){.rr-list{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.rr-list{grid-template-columns:minmax(0,1fr)}}
 #retombees{background:var(--panel);border-top:1px solid var(--line)}
 .rt-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px;margin-bottom:20px}.rt-head h2{margin:0 0 6px}.rt-head p{margin:0;color:var(--mute);max-width:60ch}.rt-head p b{color:var(--ink)}
 .rt-meter{flex:0 1 380px;background:var(--bg);padding:14px 16px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 10px 24px -16px rgba(0,0,0,.3)}
@@ -422,7 +497,7 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .vcap{color:#aeaeae}
 .d4hero::before{background:radial-gradient(ellipse 36% 60% at 74% 50%,rgba(255,255,255,.8),rgba(255,255,255,.28) 42%,transparent 70%),radial-gradient(ellipse 40% 60% at 0% 100%,rgba(245,5,0,.14),transparent 70%)}
 .facts{font-size:clamp(14px,1.25vw,17px)}
-@media(max-width:1320px){.mainnav>div{flex-wrap:wrap;padding:10px 0 0}.cta-y{margin-left:auto}.menu{order:3;width:100%;margin:0;padding-bottom:4px}}
+
 @media(max-width:900px){.d4hero::before{background:radial-gradient(ellipse 90% 34% at 50% 80%,rgba(255,255,255,.6),rgba(255,255,255,.15) 50%,transparent 75%)}}
 @media(max-width:600px){.mainnav>div{gap:8px 10px}.brand small{display:none}.cta-y{padding:11px 10px;font-size:10.5px}.facts li+li::before{margin:0 9px}}
 </style>
@@ -438,7 +513,8 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 </div></div>
 <nav class="mainnav" aria-label="Menu principal"><div>
 <a class="brand" href="#top" aria-label="Observatoire Nozay PAR3, haut de page"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" fill="#000"/><g fill="#f50500"><rect x="7" y="15" width="3.2" height="6"/><rect x="12.2" y="11" width="3.2" height="14"/><rect x="17.4" y="7" width="3.2" height="22"/></g><g fill="#ffc900"><rect x="22.6" y="12" width="3.2" height="12"/></g><g fill="#fff"><rect x="27.8" y="16" width="3.2" height="4"/></g></svg><span><b>NOZAY · PAR3</b><small>Observatoire citoyen</small></span></a>
-<div class="menu"><a href="#bruit">Simulateur de bruit</a><a href="#actus">Actualités</a><a href="#retombees">Retombées</a><a href="#avancement">Avancement</a><a href="#projet">Chiffres</a><a href="#ecarts">Points ouverts</a></div>
+<button type="button" class="menu-btn" id="menubtn" aria-expanded="false" aria-controls="menu"><span class="mb-ic" aria-hidden="true"><i></i><i></i><i></i></span>Menu</button>
+<div class="menu" id="menu"><a href="#bruit">Simulateur</a><a href="#actus">Actualités</a><a href="#retombees">Retombées</a><a href="#avancement">Avancement</a><a href="#projet">Chiffres</a><a href="#ecarts">Points ouverts</a></div>
 <a class="cta-y" href="#bruit">Simuler le bruit</a>
 </div></nav>
 <div class="annonce" id="annonce" hidden></div>
@@ -553,7 +629,7 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <section class="band" id="actus"><div class="wrap">
 <div class="nx-head"><h2>Actualités &amp; rendez-vous</h2><p>Enquêtes publiques, décisions et réunions d'information autour du campus. Seules les informations publiées par une source officielle sont listées.</p></div>
 <div class="nx-next" id="nxnext" hidden></div>
-<div class="nx-grid" id="news"></div>
+<div class="nr-list" id="news"></div>
 <div class="nx-note"><b>Une réunion à signaler ?</b> Les rendez-vous ci-dessus proviennent d'annonces officielles (mairie de Nozay, préfecture, Data4). Si vous voyez passer une autre annonce, envoyez son lien : elle sera ajoutée ici avec sa source.</div>
 </div></section>
 
@@ -565,7 +641,7 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <button data-v="ok" aria-pressed="false"><span class="rt-dot ok"></span>Prouvé par un document officiel</button>
 <button data-v="ann" aria-pressed="false"><span class="rt-dot ann"></span>Annoncé, non vérifié</button>
 <button data-v="q" aria-pressed="false"><span class="rt-dot q"></span>À demander</button></div>
-<div class="rt-grid" id="rtgrid"></div>
+<div class="rr-list" id="rtgrid"></div>
 <p class="rt-legal">Les annonces de Data4 et des élus sont reproduites telles quelles, avec leur source. « Prouvé » signifie que l'information figure dans un document officiel (dossier d'enquête, avis de l'Autorité environnementale, acte préfectoral) : elle reste un engagement à suivre dans le temps.</p>
 </div></section>
 
@@ -887,7 +963,8 @@ const YI=['2026 : chantier en cours, aucun data center en service','Fin 2027 : p
   const fr=document.createElement('iframe');fr.className='hx-video';fr.title='Vidéo Data4 : PAR03, plus grand campus de data centers dédié à l\'IA en France';fr.tabIndex=-1;
   fr.allow='autoplay; encrypted-media; picture-in-picture';fr.setAttribute('aria-hidden','true');
   fr.src='https://www.youtube-nocookie.com/embed/IasSO4DZy6o?autoplay=1&mute=1&loop=1&playlist=IasSO4DZy6o&controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&rel=0&playsinline=1&enablejsapi=1';
-  fr.addEventListener('load',()=>setTimeout(()=>{box.classList.add('playing');snd.hidden=false},1200));
+  let heard=false;fr.addEventListener('load',()=>{const ping=()=>fr.contentWindow&&fr.contentWindow.postMessage(JSON.stringify({event:'listening',id:'hx'}),'*');ping();setTimeout(ping,800);setTimeout(ping,2500);snd.hidden=false;setTimeout(()=>{if(!heard)box.classList.add('playing')},5000)});
+  addEventListener('message',e=>{if(e.source!==fr.contentWindow||typeof e.data!=='string')return;let d;try{d=JSON.parse(e.data)}catch(_){return}const s=d.info&&typeof d.info==='object'?d.info.playerState:d.event==='onStateChange'?d.info:undefined;if(typeof s==='number'){heard=true;box.classList.toggle('playing',s===1)}});
   box.insertBefore(fr,box.querySelector('.hx-tint'));
   const cmd=c=>fr.contentWindow&&fr.contentWindow.postMessage(JSON.stringify({event:'command',func:c,args:[]}),'*');
   snd.addEventListener('click',()=>{const on=snd.getAttribute('aria-pressed')!=='true';cmd(on?'unMute':'mute');if(on)cmd('playVideo');snd.setAttribute('aria-pressed',on);snd.querySelector('span').textContent=on?'Couper le son':'Activer le son'})}}
@@ -923,9 +1000,8 @@ const NEWS=[
  const stat=n=>{const[b0,b1]=span(n);return now<b0?'soon':now<=b1?'live':'done'};
  const card=n=>{const d0=at(n.d),st=stat(n),d1=n.f?at(n.f):null;
   const badge=st==='live'?'<span class="nx-st live">En cours</span>':st==='soon'?'<span class="nx-st soon">À venir</span>':n.rdv?'<span class="nx-st done">Terminé</span>':'';
-  const when=d1?'<strong>Du '+fd(d0)+' au '+fd(d1)+'.</strong> ':'';
-  const info=n.rdv?'<ul class="nx-info"><li><b>📅</b>'+JO[d0.getDay()]+' '+fd(d0)+(n.h?', '+hr(n):'')+'</li><li><b>📍</b>'+n.lieu+'</li></ul>':'';
-  return '<article class="nx'+(st==='live'?' is-live':'')+(st==='done'&&n.rdv?' is-done':'')+'"><div class="nx-date"><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+' '+d0.getFullYear()+'</span></div><div class="nx-body"><div class="nx-meta"><span class="nx-tag">'+n.tag+'</span>'+badge+'</div><h3>'+n.t+'</h3>'+info+'<p>'+when+n.x+'</p><a class="nx-src" href="'+n.url+'" target="_blank" rel="noopener">Source : '+n.src+' ↗</a></div></article>'};
+  const meta=n.rdv?'🕗 '+JO[d0.getDay()]+(n.h?', '+hr(n):'')+' · 📍 '+n.lieu:d1?'Du '+fd(d0)+' au '+fd(d1):fd(d0);
+  return '<details class="nr is-'+st+(n.rdv?' is-rdv':'')+'"><summary><span class="nr-date"><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+'</span><i>'+d0.getFullYear()+'</i></span><span class="nr-main"><span class="nr-tags"><span class="nx-tag">'+n.tag+'</span>'+badge+'</span><b class="nr-t">'+n.t+'</b><span class="nr-meta">'+meta+'</span></span><span class="nr-more-ic" aria-hidden="true"></span></summary><div class="nr-more"><p>'+n.x+'</p><a class="nr-src" href="'+n.url+'" target="_blank" rel="noopener">Source : '+n.src+' ↗</a></div></details>'};
  $('news').innerHTML=NEWS.map(card).join('');
  // Prochain rendez-vous : carte mise en avant + bandeau sous le menu + fichier agenda (.ics)
  const nx=NEWS.filter(n=>n.rdv&&stat(n)!=='done').sort((p,q)=>at(p.d)-at(q.d))[0];
@@ -953,16 +1029,26 @@ const RET=[
 {const LAB={ok:['✅','Prouvé par un document officiel'],ann:['📣','Annoncé, non vérifié'],q:['❓','Pas d\'information publique']};
  const cnt=k=>RET.filter(r=>r.st===k).length,n=RET.length;
  $('rtmeter').innerHTML='<b>Promesse-o-mètre</b><div class="rt-bar">'+['ok','ann','q'].map(k=>'<i class="'+k+'" style="flex:'+cnt(k)+'"></i>').join('')+'</div><div class="rt-leg">'+['ok','ann','q'].map(k=>'<span><span class="rt-dot '+k+'"></span>'+cnt(k)+' '+(k==='ok'?'prouvés':k==='ann'?'annoncés':'sans réponse')+'</span>').join('')+'</div>';
- $('rtgrid').innerHTML=RET.map((r,i)=>'<article class="rt is-'+r.st+'" data-st="'+r.st+'"><div class="rt-top"><span class="rt-ic" aria-hidden="true">'+r.ic+'</span><span class="rt-cat">'+r.cat+'</span><span class="rt-badge '+r.st+'" title="'+LAB[r.st][1]+'">'+LAB[r.st][0]+' '+LAB[r.st][1]+'</span></div>'
-  +'<div class="rt-big">'+r.big+(r.unit?'<small>'+r.unit+'</small>':'')+'</div><h3>'+r.t+'</h3><p class="rt-x"><b>En clair :</b> '+r.x+'</p>'
-  +(r.who?'<p class="rt-who">Qui le dit ? <b>'+r.who+'</b></p>':'')
-  +(r.gap?'<p class="rt-gap"><b>⚠ À savoir :</b> '+r.gap+'</p>':'')
-  +(r.q?'<div class="rt-q"><p>'+r.q+'</p><button type="button" class="rt-copy" data-i="'+i+'">📋 Copier la question pour le 1er décembre</button></div>':'')
-  +(r.src.length?'<details class="rt-src"><summary>Vérifier les sources ('+r.src.length+')</summary><ul>'+r.src.map(([l,u])=>'<li><a href="'+u+'" target="_blank" rel="noopener">'+l+' ↗</a></li>').join('')+'</ul></details>':'')+'</article>').join('');
+ const SRCN=u=>[['data4group','Data4'],['dcmag','DCmag'],['registre-numerique','Registre de l’enquête'],['mrae','Autorité environnementale'],['facebook','Mairie de Nozay'],['synthmedia','Synthmedia'],['pappers','Préfecture'],['universite-paris-saclay','Université Paris-Saclay']].find(([k])=>u.includes(k))?.[1]||new URL(u).hostname;
+ const SH={ok:'✅ Prouvé',ann:'📣 Annoncé',q:'❓ À demander'};
+ {const row=document.createElement('div');row.className='rt-row';$('rtf').before(row);row.append($('rtf'),$('rtmeter'))}
+ $('rtgrid').innerHTML=RET.map((r,i)=>'<article class="rr is-'+r.st+'" data-st="'+r.st+'"><div class="rr-top"><span class="rr-ic" aria-hidden="true">'+r.ic+'</span><b class="rr-big">'+r.big+(r.unit?' <small>'+r.unit+'</small>':'')+'</b><span class="rt-badge '+r.st+'" title="'+LAB[r.st][1]+'">'+SH[r.st]+'</span></div>'
+  +'<h3><span class="rr-cat">'+r.cat+' · </span>'+r.t+'</h3><p class="rr-x">'+r.x+(r.who?' <span class="rr-who">— '+r.who+'</span>':'')+'</p>'
+  +'<div class="rr-src">'+(r.gap?'<details class="rr-gap"><summary>⚠ Écart</summary><p>'+r.gap+'</p></details>':'')
+  +(r.src.length?'<span class="rr-sl">🔎 Sources :</span>'+r.src.map(([l,u])=>'<a href="'+u+'" target="_blank" rel="noopener" title="'+l.replace(/"/g,'&quot;')+'">'+SRCN(u)+' ↗</a>').join('<span class="rr-sep">·</span>'):'<span class="rr-none">Aucune source publique à ce jour</span>')
+  +(r.q?'<button type="button" class="rt-copy" data-i="'+i+'" title="'+r.q.replace(/"/g,'&quot;')+'">📋 Copier la question</button>':'')+'</div></article>').join('');
  $('rtf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;for(const x of $('rtf').children)x.setAttribute('aria-pressed',x===b);
   for(const c of $('rtgrid').children)c.hidden=b.dataset.v!=='all'&&c.dataset.st!==b.dataset.v});
- $('rtgrid').addEventListener('click',e=>{const b=e.target.closest('.rt-copy');if(!b)return;const t=RET[+b.dataset.i].q,done=()=>{b.textContent='✔ Question copiée';setTimeout(()=>b.textContent='📋 Copier la question pour le 1er décembre',2000)};
+ $('rtgrid').addEventListener('click',e=>{const b=e.target.closest('.rt-copy');if(!b)return;const t=RET[+b.dataset.i].q,done=()=>{b.textContent='✔ Question copiée';setTimeout(()=>b.textContent='📋 Copier la question',2000)};
   const fb=()=>{const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}ta.remove();if(ok)done();else prompt('Copiez la question :',t)};if(navigator.clipboard&&isSecureContext)navigator.clipboard.writeText(t).then(done,fb);else fb()})}
+// Menu : section en cours surlignée + menu déroulant sur petits écrans
+{const M=$('menu'),B=$('menubtn'),L=[...M.querySelectorAll('a')],S=L.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+ const close=()=>{M.classList.remove('open');B.setAttribute('aria-expanded','false')};
+ B.addEventListener('click',()=>{const o=!M.classList.contains('open');M.classList.toggle('open',o);B.setAttribute('aria-expanded',o)});
+ L.forEach(a=>a.addEventListener('click',close));document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+ document.addEventListener('click',e=>{if(!e.target.closest('.mainnav'))close()});
+ const spy=()=>{const y=innerHeight*.35;let cur=null;for(const s of S){if(s.getBoundingClientRect().top<=y)cur=s}L.forEach(a=>a.toggleAttribute('aria-current',!!cur&&a.getAttribute('href')==='#'+cur.id))};
+ addEventListener('scroll',()=>requestAnimationFrame(spy),{passive:true});spy()}
 $('src').innerHTML=SR.map(s=>`<li><a href="${s[1]}">${s[0]}</a></li>`).join('');
 setPt('sud');
 }
