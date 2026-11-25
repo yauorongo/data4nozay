@@ -1196,8 +1196,8 @@ function drawMap(){
 if(hasGL){
   paintNoise();
   map=new maplibregl.Map({container:'mapgl',center:[2.2375,48.6655],zoom:14.6,pitch:55,bearing:-20,minZoom:12,maxZoom:19,maxPitch:75,
-    maxBounds:[[2.1830,48.6270],[2.2970,48.7030]],attributionControl:false,cooperativeGestures:matchMedia('(pointer:coarse)').matches,
-    locale:{'NavigationControl.ZoomIn':'Zoomer','NavigationControl.ZoomOut':'Dézoomer','NavigationControl.ResetBearing':'Remettre au nord','CooperativeGesturesHandler.WindowsHelpText':'Ctrl + molette pour zoomer','CooperativeGesturesHandler.MacHelpText':'⌘ + molette pour zoomer','CooperativeGesturesHandler.MobileHelpText':'Utilisez deux doigts pour déplacer la carte'},
+    maxBounds:[[2.1830,48.6270],[2.2970,48.7030]],attributionControl:false,cooperativeGestures:true,
+    locale:{'NavigationControl.ZoomIn':'Zoomer','NavigationControl.ZoomOut':'Dézoomer','NavigationControl.ResetBearing':'Remettre au nord','CooperativeGesturesHandler.WindowsHelpText':'Ctrl + molette pour zoomer (ou cliquez d’abord sur la carte)','CooperativeGesturesHandler.MacHelpText':'⌘ + molette pour zoomer (ou cliquez d’abord sur la carte)','CooperativeGesturesHandler.MobileHelpText':'Utilisez deux doigts pour déplacer la carte'},
     style:{version:8,sources:{
       orthoW:{type:'image',url:'ortho_large.jpg',coordinates:CORNW},planW:{type:'image',url:'plan_large.jpg',coordinates:CORNW},ortho:{type:'image',url:'ortho.jpg',coordinates:CORN},plan:{type:'image',url:'plan_hd.jpg',coordinates:CORN},
       noise:{type:'canvas',canvas:NC,coordinates:CORN,animate:false},
@@ -1234,6 +1234,8 @@ if(hasGL){
      tip.classList.add('on');map.getCanvas().style.cursor='pointer'})});
    map.getCanvas().addEventListener('mouseleave',()=>tip.classList.remove('on'));map.on('movestart',()=>tip.classList.remove('on'))}
   {const v=document.querySelector('.nightveil'),cv=map.getCanvas();cv.parentNode.insertBefore(v,cv.nextSibling)}
+  // molette : la page défile ; Ctrl + molette zoome ; après un clic sur la carte, la molette zoome jusqu'à ce que la souris sorte
+  if(!matchMedia('(pointer:coarse)').matches&&map.cooperativeGestures){map.on('mousedown',()=>map.cooperativeGestures.disable());$('mapgl').addEventListener('mouseleave',()=>map.cooperativeGestures.enable())}
   map.on('load',()=>{ready=true;drawMap();const at=document.querySelector('.maplibregl-ctrl-attrib');if(at)at.classList.remove('maplibregl-compact-show')});
 }else{$('mapgl').innerHTML='<p style="padding:20px">La carte interactive n\'a pas pu se charger. Le simulateur reste utilisable avec la liste des points d\'écoute.</p>'}
 const setSeg=(id,v)=>{for(const x of $(id).children)x.setAttribute('aria-pressed',x.dataset.v===v)};
