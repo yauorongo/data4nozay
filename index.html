@@ -269,6 +269,16 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+#sources{padding-block:clamp(28px,3.5vw,48px);border-top:1px solid var(--line)}
+.src-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 24px;margin-bottom:16px}.src-head h2{font-size:clamp(18px,1.8vw,22px);margin:0}
+.src-head h2 span{display:inline-block;margin-left:6px;font-size:12px;vertical-align:3px;background:#000;color:#fff;padding:3px 7px}.src-head p{margin:0;font-size:13px;color:var(--mute)}
+.srcg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 32px}
+.sg h3{font:800 11px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0 0 4px;padding-bottom:8px;border-bottom:2px solid var(--ink)}.sg h3 span{color:var(--acc)}
+.sg ul{list-style:none;margin:0;padding:0}.sg li{border-bottom:1px solid var(--line);margin:0}
+.sg a{display:flex;align-items:baseline;gap:10px;padding:7px 2px;text-decoration:none;color:var(--ink);font-size:13px;line-height:1.35}
+.sg .st{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sg .sd{flex:none;font-size:11px;color:var(--mute)}
+.sg a:hover .st{color:var(--acc)}.sg a:hover .sd{color:var(--ink)}.sg a:focus-visible{outline:2px solid var(--acc);outline-offset:1px}.sg a:active{opacity:.6}
+@media(max-width:900px){.srcg{grid-template-columns:minmax(0,1fr)}.sg .sd{display:none}}
 /* Frise horizontale du projet */
 .av-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 40px;margin-bottom:22px}.av-head h2{margin:0}.av-head p{margin:0;max-width:58ch;color:var(--mute)}
 .av-scroll{overflow-x:auto;scrollbar-width:thin;padding:0 2px 6px;margin:0 -2px;scroll-snap-type:x proximity}
@@ -757,8 +767,8 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 </div></section>
 
 <section class="band" id="sources"><div class="wrap">
-<h2>Sources publiques utilisées</h2>
-<ul class="src" id="src"></ul>
+<div class="src-head"><h2>Sources <span id="srcn"></span></h2><p>Tous les chiffres du site viennent de documents publics, consultables par chacun. Une erreur ? Signalez-la avec le lien du document.</p></div>
+<div class="srcg" id="src"></div>
 </div></section>
 
 <footer class="band"><div class="wrap">
@@ -1053,7 +1063,7 @@ $('bt').innerHTML=B.map(b=>`<tr><td>${b.k}</td><td class="n">${f(b.m2)} m²</td>
 const PW=[['Puissance informatique (dossier)',127.5,''],['Alimentation électrique du campus',150,''],['Raccordement RTE / communiqué de presse',250,'a']];
 $('pw').innerHTML=PW.map(p=>`<div class="bar">${p[0]} · <strong>${f(p[1])} MW</strong><div><i class="${p[2]}" style="width:${p[1]/250*100}%"></i></div></div>`).join('');
 // ---------- Sources ----------
-const SR=[['Avis MRAe APJIF-2025-091 du 8 octobre 2025 (PAR3)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['Dossier d\'autorisation, pièce PJ-46 « Présentation du projet » (Bureau Veritas, juillet 2025)','https://www.villebon-sur-yvette.fr/app/uploads/2025/10/DEL_2025_10_089_PJ-Presentation-du-projet-DATA4-PAR3.pdf'],['Rapport et conclusions du commissaire enquêteur (registre numérique)','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Préfecture de l\'Essonne — page de l\'enquête publique PAR3','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'],['Recueil des actes administratifs 91-2026-118 (DUP RTE, 5 mai 2026)','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],['Avis MRAe APJIF-2025-083 — ZAC du Verger, Nozay','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/2025-09-16_avis_projet_zac_nozay_91_delibere.pdf'],['Communiqué Data4 du 16 mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Plan IGN — Géoplateforme (data.geopf.fr), licence ouverte Etalab 2.0','https://geoservices.ign.fr/services-geoplateforme-diffusion'],['Base Adresse Nationale (adresse.data.gouv.fr), licence ouverte Etalab 2.0','https://adresse.data.gouv.fr/donnees-nationales'],['Commune de Nozay — annonce de l\'enquête publique','https://nozay91.fr/fr/nw/2296972/2683696/enquete-publique-du-projet-de-construction-dun-campus-de-data-center-par3'],['Écho des villes — autorisation du 29 mai 2026','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],['La Clé publique — enquête Ballainvilliers (octobre 2026)','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],['Seuils d\'émergence : arrêté du 23 janvier 1997 (ICPE)','https://guidedatacenter.fr/actualites/bruit-datacenters-hyperscale-solutions-opposition']];
+const SR=[['Avis MRAe APJIF-2025-091 du 8 octobre 2025 (PAR3)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['Dossier d\'autorisation, pièce PJ-46 « Présentation du projet » (Bureau Veritas, juillet 2025)','https://www.villebon-sur-yvette.fr/app/uploads/2025/10/DEL_2025_10_089_PJ-Presentation-du-projet-DATA4-PAR3.pdf'],['Rapport et conclusions du commissaire enquêteur (registre numérique)','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Préfecture de l\'Essonne — page de l\'enquête publique PAR3','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'],['Recueil des actes administratifs 91-2026-118 (DUP RTE, 5 mai 2026)','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],['Avis MRAe APJIF-2025-083 — ZAC du Verger, Nozay','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/2025-09-16_avis_projet_zac_nozay_91_delibere.pdf'],['Communiqué Data4 du 16 mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Plan IGN — Géoplateforme (data.geopf.fr), licence ouverte Etalab 2.0','https://geoservices.ign.fr/services-geoplateforme-diffusion'],['Base Adresse Nationale (adresse.data.gouv.fr), licence ouverte Etalab 2.0','https://adresse.data.gouv.fr/donnees-nationales'],['Commune de Nozay — avis d\'enquête publique (nov. 2026)','https://nozay91.fr/fr/nw/2296972/3038687/avis-d-enquete-publique-18'],['Mairie Nozay 91 — annonce des réunions (Facebook, 20 nov. 2026)','https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'],['DCmag — annonce du campus (2023)','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/'],['Synthmedia — la chaleur promise aux territoires','https://synthmedia.fr/data-centers/data-centers-la-chaleur-promise-aux-territoires-reste-un-dechet/'],['Université Paris-Saclay — data center bio-circulaire (mai 2025)','https://www.universite-paris-saclay.fr/sites/default/files/2025-05/FR_2025-05-20_Data4%20et%20la%20Fondation%20de%20lUniversit%C3%A9%20Paris-Saclay%20d%C3%A9voilent%20un%20data%20center%20bio-circulaire.pdf'],['Écho des villes — autorisation du 29 mai 2026','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],['La Clé publique — enquête Ballainvilliers (octobre 2026)','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],['Seuils d\'émergence : arrêté du 23 janvier 1997 (ICPE)','https://guidedatacenter.fr/actualites/bruit-datacenters-hyperscale-solutions-opposition']];
 // Actualités : {d:début, f:fin|null, h:heure "HH:MM-HH:MM"|"HH:MM", lieu, tag, t:titre, x:texte, src, url, rdv:réunion}
 const NEWS=[
  {d:'2026-12-01',h:'20:00',lieu:'Centre culturel Robert Hossein, Nozay',tag:'Réunion publique',rdv:1,t:'Réunion publique sur le projet de campus de data centers',x:'Organisée par la commune de Nozay pour permettre aux habitants de poser leurs questions et d\'échanger autour du projet.',src:'Mairie Nozay 91 (Facebook, 20 nov. 2026)',url:'https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'},
@@ -1158,7 +1168,12 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
  $('avtrack').querySelector('.av-pjump').addEventListener('click',()=>{set(true);btn.scrollIntoView({block:'nearest',behavior:'smooth'})});
  // sur petit écran, centrer « Aujourd'hui »
  requestAnimationFrame(()=>{const s=document.querySelector('.av-scroll'),t=$('avtrack').querySelector('.is-today');if(s.scrollWidth>s.clientWidth)s.scrollLeft=t.offsetLeft-s.clientWidth/2+t.offsetWidth/2})}
-$('src').innerHTML=SR.map(s=>`<li><a href="${s[1]}">${s[0]}</a></li>`).join('');
+// Sources : regroupées par type, une ligne par document
+{const G=[['Documents officiels',/mrae|registre-numerique|essonne\.gouv|pappers|nozay91|villebon/],['Data4, mairie & presse',/data4group|echo-des-villes|laclepublique|dcmag|facebook|synthmedia|universite-paris-saclay/],['Données & méthode',/./]];
+ const grp=G.map(g=>({g,items:[]}));for(const s of SR){grp[G.findIndex(g=>g[1].test(s[1]))].items.push(s)}
+ const dom=u=>new URL(u).hostname.replace(/^www\.|^api-/,'');
+ $('srcn').textContent=SR.length;
+ $('src').innerHTML=grp.filter(x=>x.items.length).map(({g,items})=>'<div class="sg"><h3>'+g[0]+' <span>'+items.length+'</span></h3><ul>'+items.map(([t,u])=>'<li><a href="'+u+'" target="_blank" rel="noopener" title="'+t.replace(/"/g,'&quot;')+'"><span class="st">'+t+'</span><span class="sd">'+dom(u)+' ↗</span></a></li>').join('')+'</ul></div>').join('')}
 setPt('sud');
 }
 </script>
