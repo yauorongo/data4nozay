@@ -268,17 +268,18 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
-.hsearch{margin:0 0 22px;max-width:580px}
-.hsearch label{display:block;margin-bottom:10px;font:700 12px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.12em;text-transform:uppercase;color:#ffc900}
-.hs-row{position:relative;display:flex;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.3),0 18px 40px -18px rgba(245,5,0,.55)}
-.hs-row:focus-within{outline:3px solid #ffc900;outline-offset:3px}
+.hsearch{margin:0 0 0 auto;flex:1 1 380px;max-width:520px}
+.ct-head{align-items:flex-end}
+.hsearch label{display:block;margin-bottom:10px;font:700 12px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
+.hs-row{position:relative;display:flex;background:#fff;box-shadow:inset 0 0 0 1.5px #000,0 1px 2px rgba(0,0,0,.06),0 14px 30px -18px rgba(245,5,0,.45)}
+.hs-row:focus-within{outline:3px solid var(--acc);outline-offset:2px}
 .hs-row>svg{position:absolute;left:16px;top:50%;width:20px;height:20px;margin-top:-10px;fill:none;stroke:#5e5e5e;stroke-width:2.2;stroke-linecap:round;pointer-events:none}
-.hs-row input{flex:1;min-width:0;height:58px;border:0;padding:0 12px 0 46px;background:transparent;color:#000;font:16px "Instrument Sans",sans-serif;outline:none}
+.hs-row input{flex:1;min-width:0;height:52px;border:0;padding:0 12px 0 46px;background:transparent;color:#000;font:16px "Instrument Sans",sans-serif;outline:none}
 .hs-row input::placeholder{color:#5e5e5e}
 .hs-row button{flex:none;display:inline-flex;align-items:center;gap:8px;border:0;padding:0 22px;background:#f50500;color:#fff;font:700 14px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.02em;text-transform:uppercase;cursor:pointer}
 .hs-row button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .hs-row button:hover{background:#c70e00}.hs-row button:hover svg{transform:translateX(3px)}.hs-row button:active svg{transform:scale(.85)}
-.hs-row button:focus-visible{outline:3px solid #ffc900;outline-offset:-5px}
+.hs-row button:focus-visible{outline:3px solid #fff;outline-offset:-6px}
 .hs-note{margin:8px 0 0;font-size:12px;color:#aeaeae}
 #sug2{list-style:none;margin:0;padding:4px 0;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#fff;color:#111;box-shadow:0 2px 6px rgba(0,0,0,.2),0 24px 48px -16px rgba(0,0,0,.6);max-height:320px;overflow:auto}
 #sug2:empty{display:none}#sug2 li{padding:11px 16px 11px 44px;cursor:pointer;font-size:15px;position:relative}
@@ -317,8 +318,7 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <div class="eyebrow rv"><svg viewBox="0 0 46 30" aria-hidden="true"><g fill="#f50500"><rect x="0" y="11" width="5" height="8"/><rect x="8" y="5" width="5" height="20"/><rect x="16" y="0" width="5" height="30"/></g><rect x="24" y="7" width="5" height="16" fill="#ffc900"/><rect x="32" y="11" width="5" height="8" fill="#fff"/><rect x="40" y="13" width="5" height="4" fill="#5e5e5e"/></svg>Observatoire citoyen · Nozay 91620</div>
 <h1 class="rv">Campus de data centers PAR3 <span>à Nozay</span></h1>
 <p class="lede rv">Data4 présente son campus de l'ancien site Nokia comme <q>le plus grand campus de data centers dédié à l'IA en France</q>. Ce site indépendant rassemble les chiffres publics et vous laisse simuler ce que vous entendrez chez vous.</p>
-<form class="hsearch rv" id="hsearch" role="search" autocomplete="off"><label for="q2">Simulez le bruit chez vous</label><div class="hs-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input id="q2" type="search" placeholder="Votre adresse (ex. 12 rue de Villarceau)" role="combobox" aria-controls="sug2" aria-autocomplete="list" enterkeyhint="search"><button type="submit">Simuler<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><ul id="sug2" role="listbox"></ul></div><p class="hs-note">Toutes les adresses de France, même hors du plan.</p></form>
-<div class="hbtns rv"><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+<div class="hbtns rv"><a class="btn-r" href="#bruit">Écouter chez moi<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
 <ul class="facts rv"><li>127,5 MW IT</li><li>3 data centers</li><li>2 Md€</li><li>2027 → 2030</li><small>Puissance informatique et calendrier : dossier d'autorisation. Investissement : annonce Data4 du 16 mai 2025.</small></ul>
 </div>
 <div class="vwrap rv" id="vwrap">
@@ -331,10 +331,11 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 
 <section class="band" id="bruit" style="padding-top:clamp(18px,3vw,36px)"><div class="wrap">
 <h2>L'entendrez-vous chez vous ?</h2>
-<p class="intro">Tapez votre adresse dans la carte. Les couleurs montrent jusqu'où porte le bruit simulé du campus ; la fiche à côté traduit le résultat en sons du quotidien. Campus autorisé le 29 mai 2026, mises en service de fin 2027 à fin 2030.</p>
+<p class="intro">Tapez votre adresse ci-dessous ou dans la carte (toutes les adresses de France). Les couleurs montrent jusqu'où porte le bruit simulé du campus ; la fiche à côté traduit le résultat en sons du quotidien. Campus autorisé le 29 mai 2026, mises en service de fin 2027 à fin 2030.</p>
 <div class="ctline" id="ctline" role="group" aria-label="Calendrier du chantier : simulation dans le temps">
 <div class="ct-head"><button class="ct-play" id="ctplay" aria-pressed="false"><span class="pi"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.2l8.3 4.8-8.3 4.8z"/></svg><svg class="i-pause" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1.5h3v9H2zM7 1.5h3v9H7z"/></svg></span><span class="lbl">Simuler l'évolution</span></button>
-<span class="ct-hint"><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M6 3L2 7l4 4M16 3l4 4-4 4M2 7h18"/></svg>Glissez le curseur rouge pour voyager dans le temps : la carte suit.</span></div>
+<span class="ct-hint"><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M6 3L2 7l4 4M16 3l4 4-4 4M2 7h18"/></svg>Glissez le curseur rouge pour voyager dans le temps : la carte suit.</span>
+<form class="hsearch" id="hsearch" role="search" autocomplete="off"><label for="q2">Simulez le bruit chez vous</label><div class="hs-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input id="q2" type="search" placeholder="Votre adresse (ex. 12 rue de Villarceau)" role="combobox" aria-controls="sug2" aria-autocomplete="list" enterkeyhint="search"><button type="submit">Simuler<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><ul id="sug2" role="listbox"></ul></div></form></div>
 <div class="ct-body" id="ctbody">
 <div class="ct-rail" id="ctrail"><div class="ct-track" aria-hidden="true"><i class="ct-fill"></i><i class="ct-sim"></i><span class="ct-now"><em>Aujourd'hui</em></span></div>
 <div class="ct-thumb" id="ctthumb" role="slider" tabindex="0" aria-label="Date simulée du chantier" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="ct-bub" id="ctbub">Aujourd'hui</span><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M5 1.5L1.5 5 5 8.5M9 1.5L12.5 5 9 8.5"/></svg></div></div>
@@ -608,7 +609,7 @@ function showSug(id){cur=id;const raw=$(id).value.trim(),q=norm(raw);clearTimeou
       hits=hits.slice(0,8);delete L.dataset.wait;render()}).catch(()=>{if(n===banN){delete L.dataset.wait;render()}}),280)}
   render()}
 function pick(h){if(!h)return;const fromHero=cur==='q2';const q=P.find(o=>o.k==='perso');q.x=(h.lon-2.24)*73516;q.y=(h.lat-48.665)*111319.5;S.addr=h.s;$('q').value=$('q2').value=h.s;$('sug').innerHTML=$('sug2').innerHTML='';hits=[];$('hint').style.display='none';S.home=1;setPt('perso');
-  if(fromHero)$('bruit').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+  if(fromHero)$('fig').scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
   if(map){const bb=new maplibregl.LngLatBounds([h.lon,h.lat],[h.lon,h.lat]);ZONE.forEach(z=>bb.extend(toLL(z[0],z[1])));const W=$('fig').clientWidth;map.fitBounds(bb,{padding:{top:W<600?120:110,bottom:W<600?70:80,left:W<600?30:60,right:W<600?50:70},maxZoom:17,duration:1500,bearing:map.getBearing(),pitch:map.getPitch()})}}
 for(const id of ['q','q2']){
   $(id).addEventListener('input',()=>{sel=-1;showSug(id)});
