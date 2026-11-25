@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nozay PAR3 — Observatoire</title>
+<link rel="stylesheet" href="maplibre-gl.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@600;800&family=Instrument+Sans:wght@400;600&display=swap">
+<style>
+/* VOICE: civic, factual, calm — un observatoire citoyen, pas une plaquette.
+   IDEA: le dossier d'enquête publique rendu lisible : registre, plan, chronologie.
+   PICTURE: un plan schématique du site avec la carte de bruit simulée en direct.
+   COLOUR and TYPE: blanc, noir, vermillon #ff4a1c pour le bruit ; Sofia Sans Condensed + Instrument Sans.
+   LAYOUT: bandeau titre + chiffres, simulateur pleine largeur, chronologie, bâtiments, écarts, sources. */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#120d0b);--ink:light-dark(#111,#f3ece8);--mute:light-dark(#5b5552,#b3a8a2);--line:light-dark(#e4dfdc,#2e2522);--acc:light-dark(#ff4a1c,#ff6a40);--soft:light-dark(#fff1ec,#26130d);--panel:light-dark(#f7f5f4,#1b1411)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Sofia Sans Condensed",sans-serif;font-weight:800;line-height:1.05;text-wrap:balance;margin:0 0 .4em}
+h1{font-size:clamp(34px,5.2vw,52px)}h2{font-size:clamp(28px,3.6vw,40px)}h3{font-size:22px}
+p{max-width:68ch;margin:.4em 0 1em}a{color:inherit;text-decoration-color:var(--acc);text-underline-offset:3px}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}.wrap{max-width:1240px;margin:0 auto}
+.nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:18px;padding:10px max(5vw,16px);overflow-x:auto;white-space:nowrap;font-size:15px}
+.nav a,.nav b{flex:none}.nav b{font-family:"Sofia Sans Condensed";font-size:19px;margin-right:8px}.nav a{text-decoration:none;color:var(--mute)}.nav a:hover{color:var(--ink)}
+.hero{background:var(--ink);color:var(--bg)}.hero p{color:light-dark(#d9d2ce,#4a403c)}
+.hero .lead{font-size:18px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;margin-top:28px;background:var(--acc)}
+.kpi{background:var(--ink);padding:16px 18px}.kpi strong{display:block;font:800 clamp(30px,4vw,46px)/1 "Sofia Sans Condensed";color:var(--acc)}
+.kpi span{font-size:14px;color:light-dark(#d9d2ce,#4a403c)}
+.sim{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px;align-items:start}
+.fig{position:relative;aspect-ratio:1/1;background:var(--panel);border:1px solid var(--line)}
+.fig{overflow:hidden;touch-action:none}.stage{position:absolute;inset:0;transform-origin:0 0}
+.zoom{position:absolute;right:10px;top:10px;display:grid;gap:4px}.zoom button{width:44px;height:44px;font:600 22px/1 "Instrument Sans",sans-serif;background:#fff;color:#111;border:1px solid #111;cursor:pointer}
+.hint{max-width:calc(100% - 80px)}
+#mapgl{position:absolute;inset:0}.maplibregl-canvas{outline:none}
+.mopt{position:absolute;left:10px;top:62px;z-index:4;color:#111;font-size:13px;max-width:calc(100% - 64px)}
+.mopt summary{list-style:none;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;background:rgba(255,255,255,.94);border-radius:17px;box-shadow:0 1px 6px rgba(0,0,0,.22);cursor:pointer;font-weight:600;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.mopt summary::-webkit-details-marker{display:none}.mopt summary span{overflow:hidden;text-overflow:ellipsis}.mopt[open] .chev{transform:rotate(180deg)}
+.mopt[open]>div{background:rgba(255,255,255,.97)}.mopt .mrow{background:rgba(255,255,255,.97);margin:0;padding:6px 12px}
+.mopt .mrow:nth-of-type(1){margin-top:6px;border-radius:12px 12px 0 0;padding-top:10px}.mopt .mrow:last-of-type{border-radius:0 0 12px 12px;padding-bottom:10px;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.mrow b{display:block;font-size:11px;font-weight:600;color:#666;margin-bottom:3px}
+.mopt .seg{gap:0;background:#eee;border-radius:8px;padding:2px;display:inline-flex;flex-wrap:wrap}.mopt .seg button{min-height:30px;padding:3px 10px;font-size:13px;border:0;background:transparent;color:#111;border-radius:6px}
+.mopt .seg button[aria-pressed=true]{background:#fff;color:#111;box-shadow:0 1px 3px rgba(0,0,0,.25);font-weight:600}.mopt input[type=range]{height:22px}
+.mbar{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;z-index:3;display:flex;align-items:center;gap:4px;padding:4px;background:rgba(255,255,255,.94);border-radius:20px;box-shadow:0 1px 6px rgba(0,0,0,.25);white-space:nowrap}
+.mseg{display:flex;background:#eee;border-radius:16px;padding:2px}
+.mbar button{font:600 13px/1 "Instrument Sans",sans-serif;color:#111;border:0;background:transparent;height:30px;padding:0 11px;border-radius:15px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.mseg button[aria-pressed=true]{background:#fff;color:#111;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.mico .dot{width:9px;height:9px;border-radius:50%;background:#bbb}.mico#nz[aria-pressed=true] .dot{background:#ff4a1c;box-shadow:0 0 0 3px rgba(255,74,28,.25)}
+.mico:hover,.mseg button:hover{background:rgba(0,0,0,.06)}
+.maplibregl-ctrl-bottom-left{bottom:52px}.maplibregl-ctrl-bottom-right{bottom:0}
+@media(max-width:600px){.fig{aspect-ratio:3/4}.mbar{bottom:8px;gap:2px}.mbar button{padding:0 8px}.maplibregl-ctrl-scale{display:none}}
+.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-4px;flex:none}
+.ic.big{width:40px;height:40px;stroke-width:1.5}
+.legend .lt{width:100%;color:var(--ink);font-weight:600}.legend span{display:inline-flex;align-items:center;gap:5px}.legend small{color:var(--mute)}
+.rcv span .ic{width:15px;height:15px;vertical-align:-3px}.rcv.on span{line-height:1.35;text-align:left}
+.refs .ic{display:block;margin:0 auto 4px;width:24px;height:24px;color:var(--ink)}
+.faces{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:14px}
+.face{text-align:center;font-size:12px;color:var(--mute);opacity:.35;padding:6px 2px;border-radius:8px}.face .ic{display:block;margin:0 auto 4px;width:34px;height:34px}
+.face.on{opacity:1;color:var(--ink);font-weight:600;background:var(--bg)}.face.f0.on .ic{color:#2e9e5b}.face.f1.on .ic{color:#d99a00}.face.f2.on .ic{color:#d8341b}
+.edu{grid-column:1/-1;margin-top:28px;padding-top:18px;border-top:2px solid var(--ink)}
+.educ{background:var(--panel);padding:16px;border-radius:10px}.educ p{margin:8px 0 0;font-size:15px}
+.pics{display:flex;align-items:center;gap:8px;min-height:44px}.pics b{font-size:22px}.num{font:800 20px "Sofia Sans Condensed",sans-serif;color:var(--acc)}
+.emo{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;font-size:20px;line-height:1;display:inline-block;vertical-align:-3px}
+.emo.big{font-size:36px}.legend .emo{font-size:20px}.rcv span .emo{font-size:18px;vertical-align:-3px}
+.refs .emo{display:block;font-size:30px;margin:0 auto 4px}
+.impact{margin-top:16px;padding:14px;background:var(--bg);border-radius:10px}.impact h4{margin:0 0 6px;font:600 15px "Instrument Sans",sans-serif}
+.ba{margin:0 0 10px;font-size:15px}.ba .delta{color:var(--acc);font-weight:600}
+.face{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:13px;opacity:.4;filter:grayscale(1)}.face span small{display:block;font-weight:400;color:var(--mute);font-size:12px}
+.face.on{opacity:1;filter:none;background:var(--soft);font-weight:600;color:var(--ink)}.face.f2.on{background:#fde2d8}
+.why{font-size:13px;color:var(--mute);margin:10px 0 0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fig .search{position:absolute;left:50%;transform:translateX(-50%);top:10px;z-index:6;width:min(420px,calc(100% - 120px))}
+@media(max-width:600px){.fig .search{left:10px;transform:none;width:calc(100% - 64px)}}
+
+.search .loupe{position:absolute;z-index:2;left:14px;top:12px;width:20px;height:20px;fill:none;stroke:#555;stroke-width:2.2;stroke-linecap:round;pointer-events:none}
+.search input{width:100%;height:44px;border:0;border-radius:22px;padding:0 16px 0 44px;font:16px "Instrument Sans",sans-serif;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#111;box-shadow:0 2px 8px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.7);transition:background .2s}
+.search input::placeholder{color:#222}.search input:focus{background:rgba(255,255,255,.92)}
+.search input:focus{outline:3px solid var(--acc);outline-offset:1px}
+#sug{list-style:none;margin:6px 0 0;padding:4px 0;position:absolute;left:0;right:0;top:100%;background:#fff;color:#111;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.25);max-height:300px;overflow:auto}
+#sug:empty{display:none}#sug li{padding:10px 16px 10px 44px;cursor:pointer;font-size:15px;position:relative}
+#sug li::before{content:"📍";position:absolute;left:16px;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+#sug li:hover,#sug li[aria-selected=true]{background:#fff1ec}#sug li.none{color:#666;cursor:default}#sug li.none::before{content:""}
+@media(min-width:901px){.sim{grid-template-columns:minmax(0,1.75fr) minmax(300px,1fr)!important;gap:24px!important}}
+#bruit .fig{aspect-ratio:auto;height:min(78vh,760px);border-radius:12px;overflow:hidden}
+.intro{font-size:17px;margin-bottom:16px}
+.card{position:sticky;top:64px;background:var(--soft);border-radius:12px;padding:18px;display:grid;gap:4px}
+.where{margin:0;font-size:14px;color:var(--mute)}
+.card .plain{font:600 21px/1.3 "Instrument Sans",sans-serif;margin:4px 0 0}
+.rueq{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:4px 0 10px;font-size:14px}
+.rueq .seg{gap:0;background:var(--line);border-radius:8px;padding:2px}.rueq .seg button{min-height:34px;border:0;background:transparent;font-size:14px;padding:4px 10px;border-radius:6px;color:var(--ink)}
+.rueq .seg button[aria-pressed=true]{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.2);font-weight:600}
+.pro{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}.pro summary{cursor:pointer;font-weight:600;font-size:15px;min-height:40px;display:flex;align-items:center}
+.prob{padding-top:6px}.prob .big{font-size:40px}
+@media(max-width:900px){#bruit .fig{height:72vh}.card{position:static}}
+.ychip{position:absolute;left:10px;top:106px;z-index:5;color:#111;font-size:13px}
+.ychip summary{list-style:none;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;background:rgba(255,255,255,.94);border-radius:17px;box-shadow:0 1px 6px rgba(0,0,0,.22);cursor:pointer;font-weight:600;white-space:nowrap}
+.ychip summary::-webkit-details-marker{display:none}.ychip[open] .chev{transform:rotate(180deg)}
+.ypop{position:absolute;left:0;top:40px;width:230px;background:rgba(255,255,255,.97);border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.2);padding:6px}
+.ylist{display:grid;gap:2px}.ylist button{display:flex;align-items:baseline;gap:8px;text-align:left;border:0;background:transparent;border-radius:8px;padding:7px 9px;cursor:pointer;font:13px "Instrument Sans",sans-serif;color:#111;min-height:36px}
+.ylist button b{min-width:58px}.ylist button span{color:#555;font-size:12px}.ylist button:hover{background:#f3f0ee}
+.ylist button[aria-pressed=true]{background:#fff1ec}.ylist button[aria-pressed=true] b{color:#ff4a1c}
+.yplay{margin-top:4px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-top:1px solid #eee;background:transparent;padding:9px;font:600 13px "Instrument Sans",sans-serif;color:#111;cursor:pointer;border-radius:0 0 8px 8px}
+.yplay[aria-pressed=true]{color:#ff4a1c}
+.yq{color:#ff4a1c;font-weight:700}
+@media(max-width:600px){.ychip{left:10px}}
+.fig.full{height:auto;border-radius:0}#bruit .fig:fullscreen{height:100%;border-radius:0}
+.fig.full{position:fixed;inset:0;z-index:100;aspect-ratio:auto;border:0}
+.fig:fullscreen{aspect-ratio:auto;width:100%;height:100%}
+.hint{z-index:3}
+.rcv{display:flex;align-items:center;gap:6px;cursor:pointer}.rcv i{width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #111;flex:none}
+.rcv span{font:600 12px/1.2 "Instrument Sans",sans-serif;color:#111;background:rgba(255,255,255,.9);padding:2px 6px;white-space:nowrap}
+.rcv.on i{width:18px;height:18px;background:#ff4a1c}.rcv.on span{font-size:13px;background:#111;color:#fff}
+.rcv.home{flex-direction:column-reverse;gap:2px}.rcv.home i{width:20px;height:20px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#fff}.rcv.home.on i{background:#ff4a1c}
+.dclab{font:800 13px "Sofia Sans Condensed",sans-serif;color:#fff;background:#111;padding:1px 6px;pointer-events:none}
+@media(max-width:600px){.rcv:not(.on) span{display:none}}
+.fig>canvas,.fig>img{position:absolute;inset:0;width:100%;height:100%}
+:root[data-theme=dark] .fig img{filter:brightness(.8)}
+.hint{position:absolute;left:10px;top:10px;background:var(--ink);color:var(--bg);font-size:14px;padding:6px 10px;pointer-events:none;max-width:70%}
+.attrd{margin-top:6px;font-size:13px;color:var(--mute)}.attrd summary{cursor:pointer;min-height:32px;display:flex;align-items:center}.attr{font-size:12px;color:var(--mute);margin-top:4px}
+.ladder{margin-top:14px}.lad{position:relative;height:46px;background:linear-gradient(90deg,#e8f3e6,#fde2d8 45%,#f7845f 70%,#b3260a);margin-top:6px}
+.lad span{position:absolute;bottom:-20px;font-size:12px;color:var(--mute);transform:translateX(-50%);white-space:nowrap}
+.lad i{position:absolute;top:0;bottom:0;width:1px;background:rgba(0,0,0,.25)}
+.lad b{position:absolute;top:-6px;bottom:-6px;width:4px;background:var(--ink);transform:translateX(-50%)}
+.lad em{position:absolute;top:4px;font-style:normal;font-size:12px;font-weight:600;color:#111;transform:translateX(-50%);white-space:nowrap;background:#fff;padding:0 4px}
+.refs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-top:26px;font-size:12px;color:var(--mute);text-align:center}
+.refs strong{display:block;color:var(--ink);font-size:14px}
+.plain{font-size:18px;font-weight:600;margin:8px 0 0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--mute);margin-top:8px}.legend i{display:inline-block;width:14px;height:10px;margin-right:5px;vertical-align:middle}
+.ctl{display:grid;gap:14px}.ctl label{font-weight:600;font-size:15px;display:block;margin-bottom:4px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}.seg button{min-height:44px;padding:8px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:15px;cursor:pointer;border-radius:4px}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+input[type=range]{width:100%;accent-color:var(--acc);height:28px}select{font:inherit;font-size:16px;min-height:44px;width:100%;padding:6px 8px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:4px}
+.row{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--mute)}.row output{color:var(--ink);font-weight:600;white-space:nowrap}
+.result{background:var(--soft);border-left:4px solid var(--acc);padding:16px 18px}
+.big{font:800 clamp(40px,6vw,64px)/1 "Sofia Sans Condensed"}.verdict{font-weight:600;margin-top:6px}
+.meter{height:12px;background:var(--line);margin:10px 0 4px;position:relative}.meter b{position:absolute;inset:0 auto 0 0;background:var(--acc)}.meter s{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.calc{font-size:14px;color:var(--mute)}.calc td{padding:2px 8px 2px 0}.calc td:last-child{text-align:right;color:var(--ink);white-space:nowrap}
+.warn{font-size:14px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
+.tl{list-style:none;padding:0;margin:0;border-left:2px solid var(--line)}
+.tl li{display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:16px;padding:10px 0 10px 18px;position:relative}
+.tl li::before{content:"";position:absolute;left:-7px;top:17px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink)}
+.tl li.done::before{background:var(--ink)}.tl li.now::before{background:var(--acc);border-color:var(--acc)}
+.tl time{font-weight:600;white-space:nowrap}.tl small{display:block;color:var(--mute)}
+.tl li.today{padding-block:4px}.tl li.today::before{display:none}.tl li.today span{color:var(--acc);font-weight:600;border-top:2px dashed var(--acc);display:block;padding-top:4px}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;color:var(--mute);font-weight:600}td.n,th.n{text-align:right;white-space:nowrap}
+.bars{display:grid;gap:10px;margin-top:10px}.bar{font-size:14px}.bar div{height:22px;background:var(--line);margin-top:3px}.bar div i{display:block;height:100%;background:var(--ink)}.bar div i.a{background:var(--acc)}
+.gap{border-top:2px solid var(--ink);padding-top:12px}.gap h3{font-size:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.src li{margin-bottom:6px}footer{background:var(--ink);color:var(--bg);font-size:14px}footer p{color:light-dark(#d9d2ce,#4a403c)}
+pre,.scroll{overflow-x:auto}html{scroll-padding-top:60px}
+@media(max-width:900px){.sim,.cols{grid-template-columns:minmax(0,1fr)}.grid3{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.tl li{grid-template-columns:minmax(0,1fr);gap:2px}table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:no-preference){.meter b{transition:width .3s}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<nav class="nav"><b>Nozay · PAR3</b><a href="#bruit">Simulateur de bruit</a><a href="#projet-bref">En bref</a><a href="#avancement">Avancement</a><a href="#projet">Le projet en chiffres</a><a href="#ecarts">Ce que les données ne disent pas</a><a href="#sources">Sources</a></nav>
+
+
+
+<section class="band" id="bruit" style="padding-top:clamp(18px,3vw,36px)"><div class="wrap">
+<h1>Data center de Nozay : l'entendrez-vous chez vous ?</h1>
+<p class="intro">Tapez votre adresse dans la carte. Les couleurs montrent jusqu'où porte le bruit simulé du campus ; la fiche à côté traduit le résultat en sons du quotidien. Campus autorisé le 29 mai 2026, mises en service de fin 2027 à fin 2030.</p>
+<div class="sim">
+<div>
+<div class="fig" id="fig"><div id="mapgl"></div><div class="search" role="search"><label for="q" class="sr">Votre adresse</label><svg class="loupe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input id="q" type="search" placeholder="Tapez votre adresse…" autocomplete="off" role="combobox" aria-controls="sug" enterkeyhint="search"><ul id="sug" role="listbox"></ul></div><details class="mopt" id="mopt"><summary><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><path d="M3 5h9M15 5h2M3 10h3M9 10h8M3 15h7M13 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="13.5" cy="5" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="7.5" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="11.5" cy="15" r="2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="mstat">Options</span><svg class="chev" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></summary>
+<div class="mrow"><b>Période</b><div class="seg" id="mper"><button data-v="jour" aria-pressed="true">Jour</button><button data-v="nuit" aria-pressed="false">Nuit</button></div></div>
+<div class="mrow"><b>Scénario</b><div class="seg" id="mscn"><button data-v="normal" aria-pressed="true">Normal</button><button data-v="essai" aria-pressed="false">Essai groupes</button><button data-v="secours" aria-pressed="false">Panne réseau</button></div></div>
+<div class="mrow" id="mEssai" style="display:none"><b>Groupes testés : <output id="mnGEo">2</output></b><input type="range" id="mnGE" min="1" max="10" value="2" aria-label="Groupes testés simultanément"></div>
+</details><span hidden id="yinfo"></span><details class="ychip" id="ychip"><summary><svg class="cal" viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 8.5h14M7 2.5v4M13 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="yq">Quand ?</span><span id="ystat">2026 · chantier</span><svg class="chev" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></summary>
+<div class="ypop"><div class="ylist" id="yr"><button data-v="0" aria-pressed="true"><b>2026</b><span>Chantier, aucun data center</span></button><button data-v="1" aria-pressed="false"><b>fin 2027</b><span>DC01 en service</span></button><button data-v="2" aria-pressed="false"><b>2029</b><span>DC01 + DC02 (estimation)</span></button><button data-v="3" aria-pressed="false"><b>fin 2030</b><span>Campus complet</span></button></div><button class="yplay" id="play" aria-pressed="false"><svg viewBox="0 0 20 20" width="12" height="12" aria-hidden="true"><path d="M5 3l12 7-12 7z" fill="currentColor"/></svg> Voir l'évolution</button></div></details>
+<div class="mbar" role="toolbar" aria-label="Affichage de la carte">
+<div class="mseg" id="fond"><button data-v="photo" aria-pressed="true">Photo</button><button data-v="plan" aria-pressed="false">Plan</button></div>
+<div class="mseg" id="vue"><button data-v="2d" aria-pressed="true">2D</button><button data-v="3d" aria-pressed="false">3D</button></div>
+<button class="mico" id="nz" aria-pressed="true" title="Afficher ou masquer la couche de bruit"><i class="dot"></i>Bruit</button>
+<button class="mico" id="fs" aria-pressed="false" title="Plein écran" aria-label="Plein écran"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+</div>
+<div class="hint" id="hint" hidden></div></div>
+<div class="legend" id="leg"></div>
+<div class="row" style="margin-top:8px"><span>Intensité du calque de bruit</span><output id="opO"></output></div><input type="range" id="op" min="0" max="90" value="55" aria-label="Intensité du calque de bruit">
+<details class="attrd"><summary>Sources et précision de la carte</summary><p class="attr">Photo aérienne BD ORTHO, Plan IGN et bâtiments BD TOPO © IGN ; adresses : Base Adresse Nationale ; licence ouverte Etalab 2.0. Emprises des bâtiments du campus relevées sur le plan masse du dossier (avis MRAe, illustration 2), calage à ±20 m environ ; hauteurs estimées (data centers 18 m, administratif R+2), le dossier ne donnant que les niveaux. Gris foncé : data centers ; gris moyen : groupes électrogènes en conteneurs ; beige : administratif, poste électrique, récupération de chaleur. Bâtiments Nokia démolis non représentés en 3D. En 3D : clic droit + glisser (ou deux doigts) pour pivoter et incliner.</p></details>
+</div>
+<div class="card" aria-live="polite">
+<p class="where" id="where"></p>
+<p class="plain" id="plain"></p>
+<div class="ladder"><div class="lad" id="lad"></div><div class="refs" id="refs"></div></div>
+<div class="impact"><h4>Est-ce gênant chez vous ?</h4>
+<div class="rueq"><span>D'habitude, votre rue est…</span><div class="seg" id="rue"><button data-v="tcalme" aria-pressed="false">Très calme</button><button data-v="calme" aria-pressed="true">Calme</button><button data-v="animee" aria-pressed="false">Animée</button></div></div>
+<p class="ba" id="ba"></p>
+<div class="faces"><div class="face f0"><span class="emo big">😌</span><span>Aucun impact<small>couvert par le bruit habituel</small></span></div><div class="face f1"><span class="emo big">😐</span><span>Audible<small>dans les limites légales</small></span></div><div class="face f2"><span class="emo big">😟</span><span>Dépasse la limite légale<small>mesures correctives exigées</small></span></div></div>
+<p class="why">Un même bruit gêne plus dans une rue calme : un ronronnement de 35 dB se remarque la nuit dans un quartier silencieux, mais disparaît dans une rue à 60 dB. C'est pourquoi la loi mesure ce que le site <em>ajoute</em> au bruit habituel.</p></div>
+</div>
+<details class="pro" id="pro"><summary>Pour les professionnels : détails du calcul</summary>
+<div class="prob">
+<div class="row"><span>Bruit ambiant simulé (L<sub>Aeq</sub>)</span><span id="ambLbl"></span></div>
+<div class="big" id="amb">–</div>
+<div class="meter"><b id="mb"></b><s id="ms"></s></div>
+<div class="row"><span>Émergence <output id="em"></output></span><span>Seuil réglementaire <output id="th"></output></span></div>
+<div class="verdict" id="vd"></div>
+<div class="ctl" style="margin-top:14px">
+<div><div class="row"><span>Bruit résiduel (réglage fin)</span><output id="resO"></output></div><input type="range" id="res" min="25" max="65" value="45" aria-label="Bruit résiduel"><small class="calc" id="resSrc"></small></div>
+<div><div class="row"><span>Puissance d'un groupe électrogène capoté, Lw</span><output id="lwGo"></output></div><input type="range" id="lwG" min="90" max="120" value="105"></div>
+<div><div class="row"><span>Puissance d'un aéroréfrigérant, Lw</span><output id="lwCo"></output></div><input type="range" id="lwC" min="75" max="95" value="85"></div>
+<div><div class="row"><span>Atténuation des écrans / silencieux</span><output id="scrO"></output></div><input type="range" id="scr" min="0" max="15" value="5"></div>
+<table class="calc" id="calc"></table>
+</div>
+<p class="warn">Calendrier : mise en service progressive des data centers entre fin 2027 et fin 2030 (avis MRAe, d'après le dossier) ; consommation d'environ 400 GWh/an dès 2027 et 1 378 GWh/an à pleine charge en 2030. L'ordre DC01 → DC02 → DC03 et l'année intermédiaire 2029 sont des estimations.</p>
+<p class="warn">Périodes réglementaires : jour 7 h – 22 h, nuit 22 h – 7 h. Émergences admissibles (arrêté du 23 janvier 1997, ICPE) : 6 dB le jour et 4 dB la nuit si le bruit ambiant est compris entre 35 et 45 dB(A) ; 5 dB et 3 dB au-delà de 45 dB(A) ; non applicable sous 35 dB(A). Mesures publiées : 44 dB(A) de jour rue du Ruisseau Blanc (avis MRAe ZAC du Verger) ; bruit résiduel sur site jusqu'à 67,5 dB(A) le jour et 50 à 58,5 dB(A) la nuit (avis MRAe PAR3).</p>
+<p class="warn">Modèle pédagogique : divergence géométrique en champ hémisphérique (−20·log r − 8) et absorption de l'air ≈ 5 dB/km. Les puissances acoustiques réelles des équipements figurent dans l'étude DELHOM Acoustique du dossier d'autorisation ; les valeurs ci-dessus sont des ordres de grandeur, pas les résultats officiels. Positions sur le plan approximatives.</p>
+</div></details>
+<input type="hidden" id="nGE" value="2"><span hidden id="nGEo"></span>
+</div>
+</div>
+</div>
+<div class="edu">
+<h3>Comprendre les décibels en 3 images</h3>
+<div class="grid3">
+<div class="educ"><div class="pics"><span class="emo big">📚</span><b>→</b><span class="emo big">🍽️</span></div><p><strong>+10 dB = deux fois plus fort</strong> pour l'oreille. Passer de 40 à 50 dB, c'est passer d'une bibliothèque à un lave-vaisselle.</p></div>
+<div class="educ"><div class="pics"><span class="emo big">🍽️</span><b>+</b><span class="emo big">🍽️</span><b>=</b><span class="num">+3 dB</span></div><p><strong>Deux sources identiques ne font pas le double :</strong> deux lave-vaisselle à 50 dB font 53 dB, pas 100.</p></div>
+<div class="educ"><div class="pics"><span class="emo big">☀️</span><span class="num">+5 dB</span><span class="emo big">🌙</span><span class="num">+3 dB</span></div><p><strong>La nuit, la règle est plus stricte.</strong> Le site ne doit ajouter que 3 dB au bruit habituel, contre 5 dB le jour (quand le quartier dépasse 45 dB).</p></div>
+</div></div>
+</div></section>
+
+<section class="band hero" id="projet-bref"><div class="wrap">
+<h2>Le campus de data centers PAR3 est autorisé. Voici ce que disent les dossiers publics.</h2>
+<p class="lead">Sur l'ancien site Nokia, route de Villejust, Data4 construit trois data centers. L'autorisation préfectorale date du 29 mai 2026 ; les mises en service s'étalent de fin 2027 à fin 2030. Cet observatoire rassemble les chiffres publiés et permet à chaque Nozéen de simuler le bruit chez lui.</p>
+<div class="kpis">
+<div class="kpi"><strong>127,5 MW</strong><span>de puissance informatique (3 data centers)</span></div>
+<div class="kpi"><strong>87</strong><span>groupes électrogènes de secours</span></div>
+<div class="kpi"><strong>170 m</strong><span>entre la limite sud et les premières habitations</span></div>
+<div class="kpi"><strong>2027→2030</strong><span>mises en service progressives</span></div>
+</div>
+</div></section>
+
+<section class="band" id="avancement" style="background:var(--panel)"><div class="wrap cols">
+<div>
+<h2>Où en est le projet ?</h2>
+<p>Toutes les étapes administratives sont franchies. La prochaine étape visible pour les habitants : le raccordement électrique RTE (2027–2028), puis l'allumage du premier data center.</p>
+<p>Un dossier voisin est ouvert en ce moment : l'enquête publique du data center de Ballainvilliers (Goodman / Data Serres, 72 MW IT), dont la ligne 225 kV souterraine traverserait Nozay. Elle se tient jusqu'au 18 décembre 2026.</p>
+<p class="calc">Les avancées physiques du chantier depuis l'autorisation ne sont pas publiées en données ouvertes. Un suivi mensuel fourni par l'exploitant compléterait cette page.</p>
+</div>
+<ol class="tl" id="tl"></ol>
+</div></section>
+
+<section class="band" id="projet"><div class="wrap">
+<h2>Trois bâtiments informatiques, sept bâtiments au total</h2>
+<div class="cols">
+<div>
+<table class="stack"><thead><tr><th>Bâtiment</th><th class="n">Surface</th><th class="n">Puissance IT</th><th class="n">Groupes</th></tr></thead><tbody id="bt"></tbody></table>
+<p class="calc">S'y ajoutent : bâtiment administratif (1 372 m², 2 groupes de 438 kW), poste électrique 225 kV (1 709 m², 4 transformateurs de 85 MVA), bâtiment de récupération de chaleur (590 m²), accueil, déchets. Emprise bâtie : 48 282 m² sur 125 199 m² occupés.</p>
+</div>
+<div>
+<h3>Puissances : de quoi parle-t-on ?</h3>
+<div class="bars" id="pw"></div>
+<p class="calc">Groupes électrogènes : 85 × 8 071 kW au fioul renouvelable HVO, 48 h d'autonomie, environ 2 620 t de carburant stockées. Ils ne tournent qu'en essai ou en cas de coupure du réseau.</p>
+</div>
+</div>
+<div class="grid3" style="margin-top:28px">
+<div class="gap"><h3>Chaleur fatale</h3><p>Le bâtiment de récupération est dimensionné pour 10 MW de chaleur ; la demande anticipée est de 4,25 MW, pour l'écoquartier, les bureaux et le préchauffage des groupes.</p></div>
+<div class="gap"><h3>ZAC du Verger</h3><p>600 logements au nord du site (Villarceau, Lunézy), phase 1 de mi-2026 à début 2028. La MRAe demande d'étudier le bruit cumulé avec les data centers et les nuits d'été fenêtres ouvertes.</p></div>
+<div class="gap"><h3>Sur le site</h3><p>Jusqu'à 494 personnes à terme (200 salariés Data4), 329 places de stationnement, sécurité 24 h/24. Démolition de 14 bâtiments Nokia achevée en mai 2025.</p></div>
+</div>
+</div></section>
+
+<section class="band" id="ecarts" style="background:var(--soft)"><div class="wrap">
+<h2>Ce que les données ne disent pas encore</h2>
+<p>Croiser les sources fait apparaître des écarts qu'un habitant ne peut pas trancher seul. Les signaler, c'est le travail d'un data manager.</p>
+<div class="grid3">
+<div class="gap"><h3>250 MW ou 127,5 MW ?</h3><p>Le communiqué de mai 2025 annonce 250 MW. Le dossier d'autorisation décrit 127,5 MW IT et 150 MW d'alimentation ; le raccordement RTE est dimensionné à 250 MW, les 100 MW restants « ne font pas partie de ce projet ».</p></div>
+<div class="gap"><h3>Les valeurs de bruit</h3><p>Le commissaire enquêteur relève des émergences en zones nord et sud-ouest. Ni les niveaux prévisionnels par point, ni les seuils de l'arrêté ne sont publiés dans un format exploitable.</p></div>
+<div class="gap"><h3>Le cumul Marcoussis–Nozay</h3><p>Data4 s'est engagé à ne pas tester les groupes de PAR3 en même temps que ceux de PAR1 et PAR2. Le calendrier des essais n'est pas public ; des mesures de contrôle après mise en service sont prévues.</p></div>
+</div>
+</div></section>
+
+<section class="band" id="sources"><div class="wrap">
+<h2>Sources publiques utilisées</h2>
+<ul class="src" id="src"></ul>
+</div></section>
+
+<footer class="band"><div class="wrap">
+<p><strong>Prototype indépendant d'information citoyenne</strong>, réalisé par Abdalla Gulam, habitant de Nozay et Data Manager, à partir de documents publics. Non affilié à Data4, à la mairie de Nozay ni à la préfecture. Simulations indicatives, sans valeur réglementaire. Données consultées en novembre 2026.</p>
+</div></footer>
+
+<script src="maplibre-gl.js"></script>
+<script>
+{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// ---------- Données du dossier ----------
+// Repère local en mètres : origine au centre du plan IGN (48,6650 N ; 2,2400 E), x vers l'est, y vers le nord.
+// Implantation des bâtiments indicative, à l'intérieur de l'ancien site Nokia.
+const FP={"DC01":[-233,81,-71,207,18,"dc"],"DC01-GE":[-230,213,-78,233,4,"ge"],"DC02":[-227,330,-75,406,18,"dc"],"DC02-GE":[-202,408,-94,426,4,"ge"],"DC03":[-236,464,-164,572,18,"dc"],"ADM":[-204,260,-183,307,12,"aux"],"SST":[-230,11,-183,60,8,"aux"],"HRB":[-164,0,-141,28,6,"aux"]}; // emprises relevées sur le plan masse (avis MRAe, illustration 2) : [x0,y0,x1,y1,hauteur estimée,type]
+const B=[{k:'DC01',m2:25174,mw:75,ge:50,x:-152,y:144,gx:-154,gy:223},{k:'DC02',m2:12573,mw:37.5,ge:25,x:-151,y:368,gx:-148,gy:417},{k:'DC03',m2:6271,mw:15,ge:10,x:-200,y:518,gx:-200,gy:518}];
+const ZONE=[[-292,606],[-108,606],[-108,436],[-36,436],[-36,-8],[-292,-8]]; // emprise du projet (zone démolie, avis MRAe)
+const P=[
+{k:'sud',n:'Habitations au sud du site (stade, rue Debussy)',x:-190,y:-250,jour:50,nuit:42,s:'hypothèse (proximité route de Villejust)'},
+{k:'lunezy',n:'Lunézy — future ZAC du Verger (est)',x:255,y:280,jour:44,nuit:38,s:'jour : mesure 44 dB rue du Ruisseau Blanc (MRAe) ; nuit : hypothèse'},
+{k:'villarceau',n:'Hameaux de Villarceau',x:260,y:-260,jour:45,nuit:38,s:'hypothèse'},
+{k:'nord',n:'Villarceau (nord du site)',x:-300,y:800,jour:47,nuit:40,s:'hypothèse (proximité route)'},
+{k:'bourg',n:'Mairie, centre-bourg',x:150,y:-545,jour:48,nuit:40,s:'hypothèse'},
+{k:'perso',n:'Ma maison (cliquez sur le plan)',x:-420,y:-150,jour:45,nuit:38,s:'hypothèse : ajustez au calme de votre rue'}];
+const S={pt:'sud',per:'jour',scn:'normal',ph:0,res:{}};
+const HALF=1500; // demi-largeur du plan IGN en mètres (3 km × 3 km)
+// ---------- Modèle acoustique ----------
+const db=v=>10*Math.log10(v),pw=l=>10**(l/10);
+function sources(){
+  const lwG=+$('lwG').value,lwC=+$('lwC').value,scr=+$('scr').value,out=[];
+  B.slice(0,S.ph).forEach((b,i)=>{
+    out.push({b:b.k,t:'Aéroréfrigérants',x:b.x,y:b.y,lw:lwC+db(b.ge)-scr});
+    let n=0;
+    if(S.scn==='secours')n=b.ge;
+    if(S.scn==='essai'&&i===0)n=+$('nGE').value;
+    if(n)out.push({b:b.k,t:n+' groupe'+(n>1?'s':''),x:b.gx,y:b.gy,lw:lwG+db(n)-scr});
+  });
+  return out;
+}
+function lp(src,x,y){let e=0;for(const s of src){const r=Math.max(15,Math.hypot(x-s.x,y-s.y));e+=pw(s.lw-20*Math.log10(r)-8-0.005*r)}return e?db(e):-99}
+function thr(amb){const j=S.per==='jour';if(amb<=35)return null;return amb<=45?(j?6:4):(j?5:3)}
+// ---------- Rendu carte ----------
+// ---------- Carte MapLibre (photo aérienne IGN + bâtiments 3D BD TOPO) ----------
+
+const SV=d=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+const IC={moon:SV('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'),leaf:SV('<path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l8-8"/>'),
+book:SV('<path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h13M8 7h7"/>'),fridge:SV('<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M6 10h12M9 5v2M9 13v3"/>'),
+rain:SV('<path d="M7 15a4 4 0 0 1 .5-8 5 5 0 0 1 9.5 1.5A3.5 3.5 0 0 1 17 15z"/><path d="M8 18l-1 3M12 18l-1 3M16 18l-1 3"/>'),dish:SV('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 8h16M7 5.5h1"/><circle cx="12" cy="14" r="3.5"/>'),
+talk:SV('<path d="M3 4h12v9H8l-5 4z"/><path d="M15 8h6v9l-3-2h-6v-2"/>'),car:SV('<path d="M3 13l2.5-6h13L21 13v5H3z"/><circle cx="7.5" cy="18" r="2"/><circle cx="16.5" cy="18" r="2"/><path d="M3 13h18"/>'),
+ear:SV('<path d="M7 9a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 .5"/><path d="M10 9a2 2 0 0 1 4 0"/>'),plus:SV('<path d="M12 5v14M5 12h14"/>'),
+face0:SV('<circle cx="12" cy="12" r="9"/><path d="M8.5 14a4.5 4.5 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01" stroke-width="2.6"/>'),
+face1:SV('<circle cx="12" cy="12" r="9"/><path d="M8.5 15h7"/><path d="M9 9.5h.01M15 9.5h.01" stroke-width="2.6"/>'),
+face2:SV('<circle cx="12" cy="12" r="9"/><path d="M8.5 16a4.5 4.5 0 0 1 7 0M7.5 8l3 1.5M16.5 8l-3 1.5"/><path d="M9.5 11h.01M14.5 11h.01" stroke-width="2.6"/>')};
+const DESC=[[65,'🚗','une rue animée'],[55,'🗣️','une conversation'],[50,'🍽️','un lave-vaisselle'],[45,'💻','un bureau calme'],[40,'🌧️','une pluie fine'],[35,'📚','une bibliothèque'],[28,'🍃','des feuilles dans le vent'],[-99,'🌙','une chambre silencieuse la nuit']];
+const EM=e=>`<span class="emo" aria-hidden="true">${e}</span>`;
+const desc=v=>DESC.find(d=>v>=d[0]);
+const LV=[[35,'#fde2d8'],[40,'#fbb39b'],[45,'#f7845f'],[50,'#ff4a1c'],[55,'#b3260a']];
+$('leg').innerHTML='<span class="lt">Bruit venant du campus, comparé à :</span>'+LV.map(([l,c])=>{const d=desc(l+2);return`<span><i style="background:${c}"></i>${EM(d[1])} ${d[2].replace(/^une? |^des /,'')} <small>${l} dB</small></span>`}).join('');
+const toLL=(x,y)=>[2.24+x/73516,48.665+y/111319.5],fromLL=(lon,lat)=>[(lon-2.24)*73516,(lat-48.665)*111319.5];
+const CORN=[[2.219598,48.678473],[2.260402,48.678473],[2.260402,48.651523],[2.219598,48.651523]];
+const CORNW=[[2.178791,48.70541],[2.301209,48.70541],[2.301209,48.624557],[2.178791,48.624557]];
+const MX=[247084.5,6215937.7,251626.8,6220480.0],RE=6378137;
+const sq=(x,y,s)=>[[toLL(x-s,y-s),toLL(x+s,y-s),toLL(x+s,y+s),toLL(x-s,y+s),toLL(x-s,y-s)]];
+const inZone=(x,y)=>{let c=false;for(let i=0,j=ZONE.length-1;i<ZONE.length;j=i++){const[a,b]=ZONE[i],[d,e]=ZONE[j];if((b>y)!==(e>y)&&x<(d-a)*(y-b)/(e-b)+a)c=!c}return c};
+const hasGL=typeof maplibregl!=='undefined',DCM=[];let map=null,ready=false;const MK={};
+const NC=document.createElement('canvas');NC.width=256;NC.height=256;
+function paintNoise(){const N=256,c=NC,ctx=c.getContext('2d'),img=ctx.createImageData(N,N),src=sources();
+  const rgb=LV.map(([t,cc])=>[t,parseInt(cc.slice(1,3),16),parseInt(cc.slice(3,5),16),parseInt(cc.slice(5,7),16)]);
+  for(let j=0;j<N;j++){const my=MX[3]-(j+.5)/N*(MX[3]-MX[1]),lat=(2*Math.atan(Math.exp(my/RE))-Math.PI/2)*180/Math.PI;
+    for(let i=0;i<N;i++){const lon=(MX[0]+(i+.5)/N*(MX[2]-MX[0]))/RE*180/Math.PI,[x,y]=fromLL(lon,lat),l=lp(src,x,y);let col=null;for(const r of rgb)if(l>=r[0])col=r;
+      if(col){const k=(j*N+i)*4;img.data[k]=col[1];img.data[k+1]=col[2];img.data[k+2]=col[3];img.data[k+3]=230}}}
+  ctx.putImageData(img,0,0)}
+const rect=(x0,y0,x1,y1)=>[[toLL(x0,y0),toLL(x1,y0),toLL(x1,y1),toLL(x0,y1),toLL(x0,y0)]];
+function dcGeo(){return{type:'FeatureCollection',features:Object.entries(FP).filter(([k])=>!k.startsWith('DC')||+k[3]<=S.ph).map(([k,f])=>({type:'Feature',properties:{k,h:f[4],t:f[5]},geometry:{type:'Polygon',coordinates:rect(f[0],f[1],f[2],f[3])}}))}}
+function mkEl(cls,html){const d=document.createElement('div');d.className=cls;d.innerHTML=html;return d}
+function drawMap(){
+  if(!ready)return;
+  paintNoise();map.triggerRepaint();
+  map.setPaintProperty('noise','raster-opacity',$('op').value/100);
+  map.getSource('dc').setData(dcGeo());DCM.forEach((el,i)=>el.style.display=i<S.ph?'':'none');
+  P.forEach(p=>{const a=p.k===S.pt,home=p.k==='perso',el=MK[p.k].getElement();
+    el.classList.toggle('on',a);el.style.display=home&&!a&&!S.home?'none':'';
+    MK[p.k].setLngLat(toLL(p.x,p.y));
+    const val=Math.round(db(pw(+$('res').value)+pw(lp(sources(),p.x,p.y))));
+    const cc=Math.round(lp(sources(),p.x,p.y)),dd=desc(cc);const dm=Math.min(...B.map(b=>Math.hypot(p.x-b.x,p.y-b.y))),dist=dm<1000?Math.round(dm/10)*10+' m':(dm/1000).toFixed(1).replace('.',',')+' km';el.querySelector('span').innerHTML=a?(home&&S.addr?esc(S.addr)+' · à '+dist+' du data center<br>':'')+(S.ph===0?EM('🏗️')+' 2026 : chantier, pas encore de data center en service':cc<20?EM('👂')+' Data center : inaudible ici':EM(dd[1])+' Data center : <b>'+cc+' dB</b> · comme '+dd[2]):esc(home?'Ma maison':p.n.split(' (')[0].split(' —')[0])});
+}
+if(hasGL){
+  paintNoise();
+  map=new maplibregl.Map({container:'mapgl',center:[2.2375,48.6655],zoom:14.4,minZoom:12,maxZoom:19,maxPitch:75,
+    maxBounds:[[2.1830,48.6270],[2.2970,48.7030]],attributionControl:false,cooperativeGestures:matchMedia('(pointer:coarse)').matches,
+    locale:{'NavigationControl.ZoomIn':'Zoomer','NavigationControl.ZoomOut':'Dézoomer','NavigationControl.ResetBearing':'Remettre au nord','CooperativeGesturesHandler.WindowsHelpText':'Ctrl + molette pour zoomer','CooperativeGesturesHandler.MacHelpText':'⌘ + molette pour zoomer','CooperativeGesturesHandler.MobileHelpText':'Utilisez deux doigts pour déplacer la carte'},
+    style:{version:8,sources:{
+      orthoW:{type:'image',url:'ortho_large.jpg',coordinates:CORNW},planW:{type:'image',url:'plan_large.jpg',coordinates:CORNW},ortho:{type:'image',url:'ortho.jpg',coordinates:CORN},plan:{type:'image',url:'plan_hd.jpg',coordinates:CORN},
+      noise:{type:'canvas',canvas:NC,coordinates:CORN,animate:true},
+      bat:{type:'geojson',data:{type:'FeatureCollection',features:[]}},dc:{type:'geojson',data:dcGeo()},
+      zone:{type:'geojson',data:{type:'Feature',geometry:{type:'Polygon',coordinates:[ZONE.concat([ZONE[0]]).map(p=>toLL(p[0],p[1]))]}}}},
+     layers:[{id:'bg',type:'background',paint:{'background-color':'#dfe3d6'}},
+      {id:'orthoW',type:'raster',source:'orthoW',paint:{'raster-fade-duration':0}},{id:'planW',type:'raster',source:'planW',layout:{visibility:'none'},paint:{'raster-fade-duration':0}},{id:'ortho',type:'raster',source:'ortho',paint:{'raster-fade-duration':0}},
+      {id:'plan',type:'raster',source:'plan',layout:{visibility:'none'},paint:{'raster-fade-duration':0}},
+      {id:'noise',type:'raster',source:'noise',paint:{'raster-opacity':.55,'raster-fade-duration':0}},
+      {id:'zone',type:'line',source:'zone',paint:{'line-color':'#fff','line-width':2.5,'line-dasharray':[2,1.5]}},
+      {id:'bat',type:'fill-extrusion',source:'bat',filter:['!=',['get','z'],1],paint:{'fill-extrusion-color':['match',['get','u'],'Industriel','#c9c3bb','Commercial et services','#d8cfc4','#efe9e1'],'fill-extrusion-height':['coalesce',['get','h'],6],'fill-extrusion-opacity':.92}},
+      {id:'dc',type:'fill-extrusion',source:'dc',paint:{'fill-extrusion-color':['match',['get','t'],'dc','#26282b','ge','#7a7f86','#b9b2a8'],'fill-extrusion-height':['get','h'],'fill-extrusion-opacity':.9}}]}});
+  map.addControl(new maplibregl.NavigationControl({visualizePitch:true}),'top-right');
+  map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-left');
+  map.addControl(new maplibregl.AttributionControl({compact:true,customAttribution:'© IGN — BD ORTHO, Plan IGN, BD TOPO · BAN · licence ouverte Etalab 2.0'}));
+  // bâtiments BD TOPO situés dans l'emprise du projet : masqués (anciens bâtiments Nokia, démolis 2024-2025)
+  fetch('batiments.json').then(r=>r.json()).then(g=>{g.features.forEach(f=>{let c=f.geometry.coordinates;while(Array.isArray(c[0][0]))c=c[0];const[x,y]=fromLL(c[0][0],c[0][1]);if(inZone(x,y))f.properties.z=1});const s=map.getSource('bat');if(s)s.setData(g)}).catch(()=>{});
+  B.forEach(b=>{const el=mkEl('dclab',b.k);DCM.push(el);new maplibregl.Marker({element:el}).setLngLat(toLL(b.x,b.y)).addTo(map)});
+  P.forEach(p=>{const home=p.k==='perso',el=mkEl('rcv'+(home?' home':''),'<i></i><span></span>');
+    el.addEventListener('click',e=>{e.stopPropagation();$('hint').style.display='none';setPt(p.k)});
+    MK[p.k]=new maplibregl.Marker({element:el,anchor:home?'bottom':'center'}).setLngLat(toLL(p.x,p.y)).addTo(map)});
+  map.on('click',e=>{if($('mopt').open||$('ychip').open){$('mopt').open=false;$('ychip').open=false;return}$('hint').style.display='none';const[x,y]=fromLL(e.lngLat.lng,e.lngLat.lat),q=P.find(o=>o.k==='perso');q.x=x;q.y=y;S.addr='';S.home=1;setPt('perso')});
+  map.on('load',()=>{ready=true;drawMap();const at=document.querySelector('.maplibregl-ctrl-attrib');if(at)at.classList.remove('maplibregl-compact-show')});
+}else{$('mapgl').innerHTML='<p style="padding:20px">La carte interactive n\'a pas pu se charger. Le simulateur reste utilisable avec la liste des points d\'écoute.</p>'}
+const setSeg=(id,v)=>{for(const x of $(id).children)x.setAttribute('aria-pressed',x.dataset.v===v)};
+$('fond').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!ready)return;setSeg('fond',b.dataset.v);const ph=b.dataset.v==='photo';['ortho','orthoW'].forEach(l=>map.setLayoutProperty(l,'visibility',ph?'visible':'none'));['plan','planW'].forEach(l=>map.setLayoutProperty(l,'visibility',ph?'none':'visible'))});
+$('vue').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!map)return;setSeg('vue',b.dataset.v);b.dataset.v==='3d'?map.easeTo({pitch:62,bearing:-25,zoom:Math.max(map.getZoom(),15.3),duration:1200}):map.easeTo({pitch:0,bearing:0,duration:900})});
+$('nz').addEventListener('click',()=>{const on=$('nz').getAttribute('aria-pressed')!=='true';$('nz').setAttribute('aria-pressed',on);if(ready)map.setLayoutProperty('noise','visibility',on?'visible':'none');$('leg').style.opacity=on?1:.4});
+// ---------- Plein écran (API du navigateur, sinon toute la fenêtre) ----------
+const fig=$('fig');let pseudo=false;
+const setFs=on=>{$('fs').setAttribute('aria-pressed',on);$('fs').title=on?'Quitter le plein écran':'Plein écran';setTimeout(()=>map&&map.resize(),60)};
+$('fs').addEventListener('click',async()=>{
+  if(document.fullscreenElement){document.exitFullscreen();return}
+  if(pseudo){pseudo=false;fig.classList.remove('full');document.body.style.overflow='';setFs(false);return}
+  try{await fig.requestFullscreen();setFs(true)}catch(e){pseudo=true;fig.classList.add('full');document.body.style.overflow='hidden';setFs(true)}});
+document.addEventListener('fullscreenchange',()=>setFs(!!document.fullscreenElement));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pseudo){pseudo=false;fig.classList.remove('full');document.body.style.overflow='';setFs(false)}});
+const REF=[[30,'Chambre la nuit','🌙'],[40,'Bibliothèque, pluie fine','📚'],[50,'Lave-vaisselle','🍽️'],[60,'Conversation','🗣️'],[70,'Rue animée','🚗']];
+$('refs').innerHTML=REF.map(r=>`<div>${EM(r[2])}<strong>${r[0]} dB</strong>${r[1]}</div>`).join('');
+const lx=v=>Math.max(0,Math.min(100,(v-25)/50*100));
+function plain(c){if(S.ph===0)return'En 2026, le campus est en chantier : aucun data center ne fonctionne encore. (Le bruit du chantier lui-même n\'est pas simulé.)';if(c<20)return'Chez vous, le data center serait inaudible : son bruit se perd dans celui du quartier.';const d=desc(c);return'Chez vous, le data center s\'entendrait comme '+d[2]+' (environ '+Math.round(c)+' dB).'}
+// ---------- Recherche d'adresse (Base Adresse Nationale) ----------
+let AD=[];const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+fetch('adresses.csv').then(r=>r.ok?r.text():Promise.reject()).then(t=>{AD=t.trim().split('\n').slice(1).map(l=>{const c=l.split(';');const s=c[0]+' '+c[1]+', '+c[2];return{s,n:norm(s),lat:+c[3],lon:+c[4]}});$('q').placeholder='Tapez votre adresse (ex. 12 rue de Villarceau)'}).catch(()=>{$('q').placeholder='Recherche indisponible ici : cliquez sur le plan'});
+let sel=-1,hits=[];
+function showSug(){const q=norm($('q').value);if(q.length<3){$('sug').innerHTML='';hits=[];return}const tk=q.split(' ');
+  hits=AD.filter(a=>tk.every(t=>a.n.includes(t))).sort((a,b)=>{const va=a.s.replace(/^\S+ /,''),vb=b.s.replace(/^\S+ /,'');return va.localeCompare(vb,'fr')||parseInt(a.s)-parseInt(b.s)||a.s.length-b.s.length}).slice(0,8);
+  $('sug').innerHTML=hits.length?hits.map((h,i)=>`<li role="option" data-i="${i}" aria-selected="${i===sel}">${esc(h.s)}</li>`).join(''):'<li class="none">Aucune adresse trouvée dans le périmètre du plan</li>'}
+function pick(h){const q=P.find(o=>o.k==='perso');q.x=(h.lon-2.24)*73516;q.y=(h.lat-48.665)*111319.5;S.addr=h.s;$('q').value=h.s;$('sug').innerHTML='';hits=[];$('hint').style.display='none';S.home=1;setPt('perso');if(map){const bb=new maplibregl.LngLatBounds([h.lon,h.lat],[h.lon,h.lat]);ZONE.forEach(z=>bb.extend(toLL(z[0],z[1])));const W=$('fig').clientWidth;map.fitBounds(bb,{padding:{top:W<600?120:110,bottom:W<600?70:80,left:W<600?30:60,right:W<600?50:70},maxZoom:17,duration:1500,bearing:map.getBearing(),pitch:map.getPitch()})}}
+$('q').addEventListener('input',()=>{sel=-1;showSug()});
+$('q').addEventListener('keydown',e=>{if(!hits.length)return;if(e.key==='ArrowDown'){sel=Math.min(hits.length-1,sel+1);showSug();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);showSug();e.preventDefault()}else if(e.key==='Enter'){pick(hits[Math.max(0,sel)]);e.preventDefault()}else if(e.key==='Escape'){$('sug').innerHTML='';hits=[]}});
+$('sug').addEventListener('click',e=>{const li=e.target.closest('li[data-i]');if(li)pick(hits[+li.dataset.i])});
+// ---------- Calcul et affichage ----------
+function update(){
+  const p=P.find(q=>q.k===S.pt),src=sources(),c=lp(src,p.x,p.y),res=+$('res').value;
+  const amb=db(pw(res)+pw(c)),em=amb-res,t=thr(amb);
+  $('amb').textContent=amb.toFixed(1)+' dB(A)';$('ambLbl').textContent='contribution site : '+(c<0?'–':c.toFixed(1)+' dB(A)');
+  $('em').textContent='+'+em.toFixed(1)+' dB';$('th').textContent=t===null?'non applicable':t+' dB';
+  $('mb').style.width=Math.min(100,em/8*100)+'%';$('ms').style.left=t===null?'100%':(t/8*100)+'%';$('ms').style.display=t===null?'none':'';
+  $('vd').textContent=S.scn==='secours'?'Situation exceptionnelle (coupure du réseau électrique) : les arrêtés traitent généralement ces urgences à part. Ordre de grandeur uniquement, à vérifier dans l\'arrêté du 29 mai 2026.':t===null?'Ambiance très calme (≤ 35 dB(A)) : la règle d\'émergence ne s\'applique pas.':em<=t?'Sous le seuil d\'émergence réglementaire dans ce scénario.':'Au-dessus du seuil d\'émergence : ce scénario exigerait des mesures correctives.';
+  $('resO').textContent=res+' dB(A)';$('resSrc').textContent=S.resMan?'Valeur saisie manuellement':'Valeur type pour une rue « '+RUEL[S.rue]+' » ('+(S.per==='jour'?'jour':'nuit')+'), hypothèse';
+  {const dm=Math.min(...B.map(b=>Math.hypot(p.x-b.x,p.y-b.y))),dist=dm<1000?Math.round(dm/10)*10+' m':(dm/1000).toFixed(1).replace('.',',')+' km';$('where').innerHTML=EM('📍')+' '+esc(S.pt==='perso'?(S.addr||'Point choisi sur la carte'):P.find(q=>q.k===S.pt).n.split(' (')[0]+' (exemple)')+' · à '+dist+' du data center le plus proche'}
+  $('yinfo').textContent=YI[S.ph];$('ystat').textContent=['2026 (aujourd\'hui) · chantier','fin 2027 · DC01','2029 · + DC02','fin 2030 · complet'][S.ph];$('nGEo').textContent=$('nGE').value;$('mstat').textContent=(S.per==='jour'?'Jour':'Nuit')+' · '+(S.scn==='normal'?'Normal':S.scn==='essai'?'Essai de '+$('nGE').value+' groupe'+($('nGE').value>1?'s':''):'Panne réseau');$('mnGEo').textContent=$('nGE').value;$('lwGo').textContent=$('lwG').value+' dB(A)';$('lwCo').textContent=$('lwC').value+' dB(A)';$('scrO').textContent='−'+$('scr').value+' dB';
+  $('plain').textContent=plain(c)+(c>=20&&em<1?' Mais les bruits habituels de votre rue le couvriraient.':'');{const g=em<1?0:(t===null||em<=t)?1:2;$('ba').innerHTML=`${EM('🏠')} Votre rue : <b>${res} dB</b> habituels → avec le data center : <b>${amb.toFixed(1)} dB</b> <span class="delta">(+${em.toFixed(1)} dB)</span>`;['Inaudible','Perceptible, dans les règles','Gênant, au-dessus des règles'];document.querySelectorAll('.face').forEach((f,i)=>f.classList.toggle('on',i===g))}$('opO').textContent=$('op').value+' %';
+  $('lad').innerHTML=REF.map(r=>`<i style="left:${lx(r[0])}%"></i>`).join('')+`<b style="left:${lx(c)}%"></b><em style="left:${Math.min(85,Math.max(12,lx(c)))}%">data center : ${S.ph===0?'—':Math.round(c)+' dB'}</em>`;
+  $('calc').innerHTML='<tr><td>Source</td><td>Lw total</td></tr>'+src.map(s=>`<tr><td>${s.b} · ${s.t}</td><td>${s.lw.toFixed(1)} dB(A)</td></tr>`).join('');
+  drawMap();
+}
+const RUE={tcalme:{jour:38,nuit:30},calme:{jour:45,nuit:38},animee:{jour:55,nuit:47}},RUEL={tcalme:'très calme',calme:'calme',animee:'animée'};S.rue='calme';
+function setRes(){if(!S.resMan)$('res').value=RUE[S.rue][S.per]}
+function setPt(k){S.pt=k;setRes();update()}
+$('rue').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.rue=b.dataset.v;S.resMan=false;for(const x of $('rue').children)x.setAttribute('aria-pressed',x===b);setRes();update()});
+const TW={per:['mper'],scn:['mscn'],ph:['yr']};
+const seg=(id,key,num)=>$(id).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S[key]=num?+b.dataset.v:b.dataset.v;
+  for(const g of TW[key])for(const x of $(g).children)x.setAttribute('aria-pressed',x.dataset.v===String(S[key]));
+  $('mEssai').style.display=S.scn==='essai'?'':'none';if(key==='per')setPt(S.pt);else update()});
+seg('mper','per');seg('mscn','scn');seg('yr','ph',true);
+const YI=['2026 : chantier en cours, aucun data center en service','Fin 2027 : premier data center (DC01) · ~400 GWh/an','2029 (estimation) : DC01 + DC02 en service','Fin 2030 : campus complet · ~1 378 GWh/an à pleine charge'];
+$('mopt').addEventListener('toggle',()=>{if($('mopt').open)$('ychip').open=false});$('ychip').addEventListener('toggle',()=>{if($('ychip').open)$('mopt').open=false});
+let playT=null;$('play').addEventListener('click',()=>{if(playT){clearInterval(playT);playT=null;$('play').setAttribute('aria-pressed',false);return}let i=0;const step=()=>{$('yr').children[i].click();if(++i>3){clearInterval(playT);playT=null;$('play').setAttribute('aria-pressed',false)}};$('play').setAttribute('aria-pressed',true);step();playT=setInterval(step,1800)});
+$('mnGE').addEventListener('input',()=>{$('nGE').value=$('mnGE').value;update()});
+
+$('res').addEventListener('input',()=>{S.resMan=true;for(const x of $('rue').children)x.setAttribute('aria-pressed',false);update()});
+['lwG','lwC','scr','op'].forEach(i=>$(i).addEventListener('input',update));
+// ---------- Chronologie ----------
+const T=[['Avril 2023','Data4 annonce le rachat du site Nokia de Nozay','d'],['Août 2024 – mai 2025','Démolition de 14 bâtiments Nokia','d'],['16 mai 2025','Lancement annoncé, investissement porté à 2 Md€','d'],['Juillet 2025','Étude d\'impact et dépôt de la demande RTE (28 juillet)','d'],['7 octobre 2025','Avis favorable du conseil municipal de Nozay','d'],['8 octobre 2025','Avis de l\'Autorité environnementale (MRAe)','d'],['8 déc. 2025 – 13 janv. 2026','Enquête publique unique en mairie','d'],['15 février 2026','Conclusions favorables du commissaire enquêteur','d'],['5 mai 2026','Utilité publique de la double ligne 225 kV (RTE)','d'],['29 mai 2026','Autorisation environnementale préfectorale','d'],['Mi-2026','Début prévu de la phase 1 de la ZAC du Verger','d'],['16 nov. – 18 déc. 2026','Enquête publique Ballainvilliers (ligne via Nozay)','n'],['today'],['2027 – 2028','Mise en service du raccordement RTE','f'],['Fin 2027 – fin 2030','Mises en service progressives de DC01, DC02, DC03','f']];
+$('tl').innerHTML=T.map(t=>t[0]==='today'?'<li class="today"><span>Aujourd\'hui · 24 novembre 2026</span></li>':`<li class="${t[2]==='d'?'done':t[2]==='n'?'now':''}"><time>${t[0]}</time><span>${t[1]}${t[2]==='n'?'<small>En cours</small>':t[2]==='f'?'<small>Prévision du dossier</small>':''}</span></li>`).join('');
+// ---------- Bâtiments et puissances ----------
+const f=n=>n.toLocaleString('fr-FR');
+$('bt').innerHTML=B.map(b=>`<tr><td>${b.k}</td><td class="n">${f(b.m2)} m²</td><td class="n">${f(b.mw)} MW</td><td class="n">${b.ge}</td></tr>`).join('')+`<tr><td><strong>Total</strong></td><td class="n"><strong>${f(44018)} m²</strong></td><td class="n"><strong>127,5 MW</strong></td><td class="n"><strong>85</strong></td></tr>`;
+const PW=[['Puissance informatique (dossier)',127.5,''],['Alimentation électrique du campus',150,''],['Raccordement RTE / communiqué de presse',250,'a']];
+$('pw').innerHTML=PW.map(p=>`<div class="bar">${p[0]} · <strong>${f(p[1])} MW</strong><div><i class="${p[2]}" style="width:${p[1]/250*100}%"></i></div></div>`).join('');
+// ---------- Sources ----------
+const SR=[['Avis MRAe APJIF-2025-091 du 8 octobre 2025 (PAR3)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['Dossier d\'autorisation, pièce PJ-46 « Présentation du projet » (Bureau Veritas, juillet 2025)','https://www.villebon-sur-yvette.fr/app/uploads/2025/10/DEL_2025_10_089_PJ-Presentation-du-projet-DATA4-PAR3.pdf'],['Rapport et conclusions du commissaire enquêteur (registre numérique)','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Préfecture de l\'Essonne — page de l\'enquête publique PAR3','https://www.essonne.gouv.fr/Publications/Enquetes-publiques/Installations-classees-pour-la-protection-de-l-environnement/NOZAY-Ste-DATA4-site-PAR3'],['Recueil des actes administratifs 91-2026-118 (DUP RTE, 5 mai 2026)','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf'],['Avis MRAe APJIF-2025-083 — ZAC du Verger, Nozay','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/2025-09-16_avis_projet_zac_nozay_91_delibere.pdf'],['Communiqué Data4 du 16 mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Plan IGN — Géoplateforme (data.geopf.fr), licence ouverte Etalab 2.0','https://geoservices.ign.fr/services-geoplateforme-diffusion'],['Base Adresse Nationale (adresse.data.gouv.fr), licence ouverte Etalab 2.0','https://adresse.data.gouv.fr/donnees-nationales'],['Commune de Nozay — annonce de l\'enquête publique','https://nozay91.fr/fr/nw/2296972/2683696/enquete-publique-du-projet-de-construction-dun-campus-de-data-center-par3'],['Écho des villes — autorisation du 29 mai 2026','https://www.echo-des-villes.fr/article/saulx-les-chartreux-data-center-data4-nozay-autorisation-environnementale'],['La Clé publique — enquête Ballainvilliers (octobre 2026)','https://laclepublique.fr/essonne/articles/2026/2026-10-30-datacenter-ballainvilliers/'],['Seuils d\'émergence : arrêté du 23 janvier 1997 (ICPE)','https://guidedatacenter.fr/actualites/bruit-datacenters-hyperscale-solutions-opposition']];
+$('src').innerHTML=SR.map(s=>`<li><a href="${s[1]}">${s[0]}</a></li>`).join('');
+setPt('sud');
+}
+</script>
+</body>
+</html>
