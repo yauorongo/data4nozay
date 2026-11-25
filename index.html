@@ -269,6 +269,52 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+/* Frise horizontale du projet */
+.av-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 40px;margin-bottom:22px}.av-head h2{margin:0}.av-head p{margin:0;max-width:58ch;color:var(--mute)}
+.av-scroll{overflow-x:auto;scrollbar-width:thin;padding:0 2px 6px;margin:0 -2px;scroll-snap-type:x proximity}
+.av-track{list-style:none;margin:0;padding:34px 0 4px;display:flex;min-width:max-content;position:relative}
+.av-n{position:relative;flex:0 0 172px;padding:26px 14px 0 0;display:flex;flex-direction:column;gap:3px;scroll-snap-align:center}
+.av-n::before{content:"";position:absolute;left:0;right:0;top:9px;height:3px;background:repeating-linear-gradient(90deg,#aeaeae 0 7px,transparent 7px 12px)}
+.av-n.is-pastlink::before,.av-n.is-now::before{background:#000}
+.av-n.is-today::before{background:linear-gradient(90deg,#000 0 12px,transparent 12px),repeating-linear-gradient(90deg,#aeaeae 0 7px,transparent 7px 12px)}
+.av-n:last-child::before{right:auto;width:22px}
+.av-dot{position:absolute;left:0;top:0;width:21px;height:21px;border-radius:50%;background:var(--bg);border:3px solid #aeaeae;display:grid;place-items:center;font-size:10px;line-height:1;z-index:1}
+.is-fut .av-dot,.is-rdv .av-dot{font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif;font-size:11px;border-color:#aeaeae}
+.is-pastlink .av-dot{background:#000;border-color:#000;color:#fff;font-weight:800}
+.is-now .av-dot{border-color:var(--acc);background:var(--acc)}
+.is-rdv .av-dot{border-color:#ffc900;background:#fff7d1}
+.av-when{font:800 13px/1.2 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.02em}
+.is-fut .av-when{color:var(--mute)}
+.av-t{font:700 15px/1.25 "Instrument Sans",sans-serif}.av-x{font-size:13px;line-height:1.45;color:var(--mute)}
+.av-badge{align-self:flex-start;margin-top:4px;font:700 10px/1 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.06em;background:var(--acc);color:#fff;padding:4px 6px}
+.av-link{align-self:flex-start;margin-top:4px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1.5px solid #ffc900}.av-link:hover{color:var(--acc)}.av-link:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+/* Aujourd'hui : mis en avant */
+.av-n.is-today{flex-basis:200px}
+.is-today .av-dot{width:27px;height:27px;top:-3px;left:-3px;border:4px solid var(--bg);background:var(--acc);box-shadow:0 0 0 3px var(--acc)}
+.is-today .av-dot::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid var(--acc);opacity:0}
+@media(prefers-reduced-motion:no-preference){.is-today .av-dot::after,.is-now .av-dot::after{animation:avpulse 2.2s ease-out infinite}}
+.is-now .av-dot::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--acc);opacity:0}
+@keyframes avpulse{0%{opacity:.8;transform:scale(.6)}100%{opacity:0;transform:scale(1.5)}}
+.av-pill{position:absolute;top:-34px;left:-6px;font:800 11px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.06em;text-transform:uppercase;background:var(--acc);color:#fff;padding:6px 9px;white-space:nowrap}
+.av-pill::after{content:"";position:absolute;left:12px;top:100%;border:5px solid transparent;border-top-color:var(--acc)}
+.is-today .av-when{color:var(--acc)}.is-today .av-t{font-size:16px}
+/* Lien vers le passé */
+.av-pjump{all:unset;display:flex;flex-direction:column;gap:3px;cursor:pointer;padding:26px 14px 0 0;margin:-26px -14px 0 0;position:relative}
+.av-pjump .av-dot{top:0}.av-pjump .av-x{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:3px}
+.av-pjump:hover .av-t{color:var(--acc)}.av-pjump:focus-visible{outline:3px solid var(--acc);outline-offset:4px}.av-pjump:active{opacity:.7}
+.av-n.is-pastlink .av-when,.av-n.is-pastlink .av-t{color:var(--mute)}
+/* Détail du passé */
+.av-past{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.av-pbtn{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 14px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);font:600 14px/1 "Instrument Sans",sans-serif;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.av-pbtn span{font:800 18px/1 "Archivo",sans-serif;width:14px;text-align:center}.av-pbtn small{color:var(--mute);font-size:12px}
+.av-pbtn:hover{transform:translateY(-1px)}.av-pbtn:active{transform:scale(.97)}.av-pbtn:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.av-list{margin-top:14px;columns:2 320px;column-gap:40px;border-left:0}.av-list li{break-inside:avoid;padding:6px 0 6px 18px;border-left:2px solid var(--line)}
+.av-list li::before{left:-7px;top:13px}
+.av-note{margin-top:14px}
+.av-track{min-width:0;width:100%}.av-n{flex:1 1 0;min-width:138px}.av-n.is-today{flex-grow:1.25;min-width:170px}
+.av-list{columns:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}.av-list li{grid-template-columns:12.5em minmax(0,1fr);gap:12px}
+@media(max-width:1100px){.av-track{min-width:max-content;width:auto}.av-n{flex:0 0 160px}.av-n.is-today{flex:0 0 185px}.av-list{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.av-pbtn{width:100%;justify-content:flex-start;padding:10px 14px;line-height:1.3;text-align:left}.av-pbtn small{display:none}.av-list li{grid-template-columns:minmax(0,1fr);gap:2px}}
 /* Carrousels */
 .car-wrap{position:relative}
 .car{display:flex!important;gap:14px!important;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-left:2px;padding:6px 2px 10px;margin:0;border:0!important;background:none!important;scrollbar-width:none;overscroll-behavior-x:contain;align-items:stretch}
@@ -672,14 +718,12 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <p class="rt-legal">Les annonces de Data4 et des élus sont reproduites telles quelles, avec leur source. « Prouvé » signifie que l'information figure dans un document officiel (dossier d'enquête, avis de l'Autorité environnementale, acte préfectoral) : elle reste un engagement à suivre dans le temps.</p>
 </div></section>
 
-<section class="band" id="avancement" style="background:var(--panel)"><div class="wrap cols">
-<div>
-<h2>Où en est le projet ?</h2>
-<p>Toutes les étapes administratives sont franchies. La prochaine étape visible pour les habitants : le raccordement électrique RTE (2027–2028), puis l'allumage du premier data center.</p>
-<p>Un dossier voisin est ouvert en ce moment : l'enquête publique du data center de Ballainvilliers (Goodman / Data Serres, 72 MW IT), dont la ligne 225 kV souterraine traverserait Nozay. Elle se tient jusqu'au 18 décembre 2026.</p>
-<p class="calc">Les avancées physiques du chantier depuis l'autorisation ne sont pas publiées en données ouvertes. Un suivi mensuel fourni par l'exploitant compléterait cette page.</p>
-</div>
-<ol class="tl" id="tl"></ol>
+<section class="band" id="avancement" style="background:var(--panel)"><div class="wrap">
+<div class="av-head"><h2>Où en est le projet ?</h2><p>Toutes les autorisations sont obtenues. Prochaines étapes visibles : le raccordement électrique RTE, puis l'allumage du premier data center fin 2027.</p></div>
+<div class="av-scroll"><ol class="av-track" id="avtrack" aria-label="Frise : en cours et à venir"></ol></div>
+<div class="av-past"><button type="button" class="av-pbtn" id="avpbtn" aria-expanded="false" aria-controls="tl"></button>
+<ol class="tl av-list" id="tl" hidden></ol></div>
+<p class="calc av-note">Les avancées physiques du chantier depuis l'autorisation ne sont pas publiées en données ouvertes. Un suivi mensuel fourni par l'exploitant compléterait cette page.</p>
 </div></section>
 
 <section class="band" id="projet"><div class="wrap">
@@ -1002,7 +1046,7 @@ $('res').addEventListener('input',()=>{S.resMan=true;for(const x of $('rue').chi
 ['lwG','lwC','scr','op'].forEach(i=>$(i).addEventListener('input',update));
 // ---------- Chronologie ----------
 const T=[['Avril 2023','Data4 annonce le rachat du site Nokia de Nozay','d'],['Août 2024 – mai 2025','Démolition de 14 bâtiments Nokia','d'],['16 mai 2025','Lancement annoncé, investissement porté à 2 Md€','d'],['Juillet 2025','Étude d\'impact et dépôt de la demande RTE (28 juillet)','d'],['7 octobre 2025','Avis favorable du conseil municipal de Nozay','d'],['8 octobre 2025','Avis de l\'Autorité environnementale (MRAe)','d'],['8 déc. 2025 – 13 janv. 2026','Enquête publique unique en mairie','d'],['15 février 2026','Conclusions favorables du commissaire enquêteur','d'],['5 mai 2026','Utilité publique de la double ligne 225 kV (RTE)','d'],['29 mai 2026','Autorisation environnementale préfectorale','d'],['Mi-2026','Début prévu de la phase 1 de la ZAC du Verger','d'],['16 nov. – 18 déc. 2026','Enquête publique Ballainvilliers (ligne via Nozay)','n'],['today'],['2027 – 2028','Mise en service du raccordement RTE','f'],['Fin 2027 – fin 2030','Mises en service progressives de DC01, DC02, DC03','f']];
-$('tl').innerHTML=T.map(t=>t[0]==='today'?'<li class="today"><span>Aujourd\'hui · 24 novembre 2026</span></li>':`<li class="${t[2]==='d'?'done':t[2]==='n'?'now':''}"><time>${t[0]}</time><span>${t[1]}${t[2]==='n'?'<small>En cours</small>':t[2]==='f'?'<small>Prévision du dossier</small>':''}</span></li>`).join('');
+
 // ---------- Bâtiments et puissances ----------
 const f=n=>n.toLocaleString('fr-FR');
 $('bt').innerHTML=B.map(b=>`<tr><td>${b.k}</td><td class="n">${f(b.m2)} m²</td><td class="n">${f(b.mw)} MW</td><td class="n">${b.ge}</td></tr>`).join('')+`<tr><td><strong>Total</strong></td><td class="n"><strong>${f(44018)} m²</strong></td><td class="n"><strong>127,5 MW</strong></td><td class="n"><strong>85</strong></td></tr>`;
@@ -1096,6 +1140,24 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
   el.addEventListener('toggle',()=>requestAnimationFrame(upd),true);upd();return{upd,reset:()=>{el.scrollTo({left:0});requestAnimationFrame(upd)}}}
 {const cn=makeCar($('news'),'Actualités et rendez-vous'),cr=makeCar($('rtgrid'),'Engagements et retombées');
  $('rtf').addEventListener('click',()=>requestAnimationFrame(cr.reset))}
+// Frise horizontale « Où en est le projet ? » : en cours + aujourd'hui + à venir ; le passé se déplie au clic
+{const MOI=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],now=new Date(),today=now.getDate()+(now.getDate()===1?'er':'')+' '+MOI[now.getMonth()]+' '+now.getFullYear();
+ const past=T.filter(t=>t[2]==='d'),cur=T.filter(t=>t[2]==='n');
+ const next=(typeof NEWS!=='undefined'?NEWS:[]).filter(n=>n.rdv&&new Date(n.d+'T23:59:00')>=now).sort((p,q)=>p.d<q.d?-1:1)[0];
+ const FUT=[['2027 – 2028','Raccordement électrique RTE','Mise en service de la double ligne 225 kV.','🔌'],['Fin 2027','DC01 en service','Premier data center allumé : les premiers bruits d\'exploitation.','🏢'],['2029','DC02 en service','Deuxième bâtiment (date estimée).','🏢'],['Fin 2030','Campus complet','DC01 + DC02 + DC03 à pleine puissance.','🏁']];
+ const node=(cls,when,title,txt,ic,extra)=>'<li class="av-n '+cls+'"><span class="av-dot" aria-hidden="true">'+(ic||'')+'</span><span class="av-when">'+when+'</span><b class="av-t">'+title+'</b>'+(txt?'<span class="av-x">'+txt+'</span>':'')+(extra||'')+'</li>';
+ $('avtrack').innerHTML=
+  '<li class="av-n is-pastlink"><button type="button" class="av-pjump" aria-controls="tl"><span class="av-dot" aria-hidden="true">✓</span><span class="av-when">2023 → 2026</span><b class="av-t">'+past.length+' étapes franchies</b><span class="av-x">Voir le détail ↓</span></button></li>'
+  +cur.map(t=>node('is-now',t[0],'Enquête Ballainvilliers','La ligne 225 kV passerait par Nozay.','','<span class="av-badge">En cours</span>')).join('')
+  +'<li class="av-n is-today"><span class="av-dot" aria-hidden="true"></span><span class="av-pill">Aujourd\'hui</span><span class="av-when">'+today+'</span><b class="av-t">Chantier en cours</b><span class="av-x">Autorisé le 29 mai 2026, aucun data center en service.</span></li>'
+  +(next?node('is-rdv',next.d.split('-').reverse().slice(0,2).map((v,i)=>i?MOI[+v-1]:+v).join(' ')+' '+next.d.slice(0,4)+(next.h?' · '+next.h.replace(':00','h'):''),next.tag,next.lieu,'📣','<a class="av-link" href="#actus">Voir le rendez-vous →</a>'):'')
+  +FUT.map(t=>node('is-fut',t[0],t[1],t[2],t[3])).join('');
+ $('tl').innerHTML=past.map(t=>'<li class="done"><time>'+t[0]+'</time><span>'+t[1]+'</span></li>').join('');
+ const btn=$('avpbtn'),set=o=>{$('tl').hidden=!o;btn.setAttribute('aria-expanded',o);btn.innerHTML='<span aria-hidden="true">'+(o?'−':'+')+'</span>'+(o?'Masquer':'Voir')+' les '+past.length+' étapes passées <small>(avril 2023 → mai 2026)</small>'};set(false);
+ btn.addEventListener('click',()=>set($('tl').hidden));
+ $('avtrack').querySelector('.av-pjump').addEventListener('click',()=>{set(true);btn.scrollIntoView({block:'nearest',behavior:'smooth'})});
+ // sur petit écran, centrer « Aujourd'hui »
+ requestAnimationFrame(()=>{const s=document.querySelector('.av-scroll'),t=$('avtrack').querySelector('.is-today');if(s.scrollWidth>s.clientWidth)s.scrollLeft=t.offsetLeft-s.clientWidth/2+t.offsetWidth/2})}
 $('src').innerHTML=SR.map(s=>`<li><a href="${s[1]}">${s[0]}</a></li>`).join('');
 setPt('sud');
 }
