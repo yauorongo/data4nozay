@@ -268,6 +268,26 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+.impact{margin-top:10px}.impact+.plain{margin-top:20px}
+.rcv.home{position:relative;gap:6px;outline:none}
+.rcv.home i,.rcv.home.on i{width:44px;height:44px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#f50500;border:3px solid #fff;display:grid;place-items:center;box-shadow:0 0 0 1px rgba(0,0,0,.25),0 8px 18px -4px rgba(0,0,0,.55);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.rcv.home i svg{width:22px;height:22px;fill:#fff;transform:rotate(45deg)}
+.rcv.home:not(.on) i{background:#000}
+.rcv.home::after{content:"";position:absolute;left:50%;bottom:-6px;width:34px;height:12px;margin-left:-17px;border-radius:50%;background:rgba(245,5,0,.55);opacity:0;pointer-events:none}
+.rcv.home .qi{position:absolute;bottom:34px;left:50%;margin-left:12px;width:18px;height:18px;border-radius:50%;background:#ffc900;color:#000;font:800 12px/18px "Archivo",sans-serif;font-style:normal;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.4);z-index:2}
+.rcv.home:hover i,.rcv.home:focus-visible i,.rcv.home.tipon i{transform:rotate(-45deg) scale(1.12)}
+.rcv.home:focus-visible i{box-shadow:0 0 0 3px #ffc900,0 8px 18px -4px rgba(0,0,0,.55)}
+.rcv.home .tip{position:absolute;left:50%;bottom:calc(100% + 10px);width:290px;margin-left:-145px;padding:14px 16px;background:#fff;color:#111;text-align:left;font:13px/1.5 "Instrument Sans",sans-serif;white-space:normal;cursor:default;border-top:4px solid #f50500;box-shadow:0 2px 6px rgba(0,0,0,.18),0 24px 48px -16px rgba(0,0,0,.55);opacity:0;transform:translateY(6px) scale(.97);transform-origin:50% 100%;pointer-events:none;transition:opacity .2s,transform .35s cubic-bezier(.34,1.56,.64,1);z-index:5}
+.rcv.home.below .tip{bottom:auto;top:calc(100% + 10px);transform-origin:50% 0;transform:translateY(-6px) scale(.97)}
+.rcv.home.left .tip{margin-left:-260px}.rcv.home.left.right .tip{margin-left:-145px}.rcv.home.right .tip{margin-left:-30px}
+.rcv.home:hover .tip,.rcv.home:focus-visible .tip,.rcv.home.tipon .tip{opacity:1;transform:none;pointer-events:auto}
+.rcv.home:hover span,.rcv.home:focus-visible span,.rcv.home.tipon span{opacity:0}
+.tip .tt{display:block;margin-bottom:6px;font:800 15px/1.25 "Archivo",sans-serif;font-stretch:112%}
+.tip p{margin:0 0 7px;max-width:none}.tip p:last-child{margin:0}
+.tip .tg{padding:8px 10px;background:#f7f7f7;font-size:12px;color:#333}
+@media(prefers-reduced-motion:no-preference){.rcv.home.on::after{animation:homepulse 2.2s ease-out infinite}}
+@keyframes homepulse{0%{opacity:.8;transform:scale(.4)}100%{opacity:0;transform:scale(2.2)}}
+@media(max-width:600px){.rcv.home .tip{width:250px;margin-left:-125px}.rcv.home.left .tip{margin-left:-225px}.rcv.home.right .tip{margin-left:-25px}}
 .hsearch{margin:0 0 0 auto;flex:1 1 380px;max-width:520px}
 .ct-head{align-items:flex-end}
 .hsearch label{display:block;margin-bottom:10px;font:700 12px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
@@ -367,13 +387,13 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 </div>
 <div class="card" aria-live="polite">
 <p class="where" id="where"></p>
-<p class="plain" id="plain"></p>
-<div class="ladder"><div class="lad" id="lad"></div><div class="refs" id="refs"></div></div>
 <div class="impact"><h4>Est-ce gênant chez vous ?</h4>
 <div class="rueq"><span>D'habitude, votre rue est…</span><div class="seg" id="rue"><button data-v="tcalme" aria-pressed="false">Très calme</button><button data-v="calme" aria-pressed="true">Calme</button><button data-v="animee" aria-pressed="false">Animée</button></div></div>
 <p class="ba" id="ba"></p>
 <div class="faces"><div class="face f0"><span class="emo big">😌</span><span>Aucun impact<small>couvert par le bruit habituel</small></span></div><div class="face f1"><span class="emo big">😐</span><span>Audible<small>dans les limites légales</small></span></div><div class="face f2"><span class="emo big">😟</span><span>Dépasse la limite légale<small>mesures correctives exigées</small></span></div></div>
 <p class="why">Un même bruit gêne plus dans une rue calme : un ronronnement de 35 dB se remarque la nuit dans un quartier silencieux, mais disparaît dans une rue à 60 dB. C'est pourquoi la loi mesure ce que le site <em>ajoute</em> au bruit habituel.</p></div>
+<p class="plain" id="plain"></p>
+<div class="ladder"><div class="lad" id="lad"></div><div class="refs" id="refs"></div></div>
 </div>
 <details class="pro" id="pro"><summary>Pour les professionnels : détails du calcul</summary>
 <div class="prob">
@@ -534,6 +554,15 @@ function paintNoise(){const N=256,c=NC,ctx=c.getContext('2d'),img=ctx.createImag
   ctx.putImageData(img,0,0)}
 const rect=(x0,y0,x1,y1)=>[[toLL(x0,y0),toLL(x1,y0),toLL(x1,y1),toLL(x0,y1),toLL(x0,y0)]];
 function dcGeo(){return{type:'FeatureCollection',features:Object.entries(FP).filter(([k])=>!k.startsWith('DC')||+k[3]<=S.ph).map(([k,f])=>({type:'Feature',properties:{k,h:f[4],t:f[5]},geometry:{type:'Polygon',coordinates:rect(f[0],f[1],f[2],f[3])}}))}}
+let TIP=null;
+// Bulle ludique sur la maison : explique le résultat avec des images du quotidien
+function tipHTML(){const T=TIP;if(!T)return'';
+  if(S.ph===0)return'<b class="tt">🏗️ 2026 : rien à entendre… pour l\'instant</b><p>Aucun data center ne tourne encore : seul le chantier fait du bruit, et il n\'est pas simulé ici.</p><p class="tg">👉 Faites glisser la frise vers 2029 ou 2030 pour écouter l\'avenir.</p>';
+  const F=[['😌','Aucun impact chez vous'],['😐','Audible, mais dans les règles'],['😟','Au-dessus de la limite légale']][T.g],c=Math.round(T.c),d=desc(c),diff=Math.round(T.res-T.c);
+  const story=c<20?'Le data center arrive chez vous à <b>'+Math.max(0,c)+' dB</b> : moins que le souffle d\'une respiration. 🍃':'Le data center arrive chez vous à <b>'+c+' dB</b>, à peu près '+d[2]+' '+d[1]+'.';
+  const mask=diff>=10?'Votre rue fait déjà <b>'+T.res+' dB</b>, soit '+diff+' dB de plus : c\'est comme chuchoter pendant une conversation, son bruit est masqué. 🤫':diff>0?'Votre rue (<b>'+T.res+' dB</b>) le dépasse de peu : la nuit, quand tout se calme, une oreille attentive pourra le repérer. 👂':'Il est plus fort que le bruit habituel de votre rue (<b>'+T.res+' dB</b>) : on l\'entendra nettement. 🔊';
+  const rule='La loi compte ce que le site <em>ajoute</em> au bruit habituel : ici <b>+'+T.em.toFixed(1).replace('.',',')+' dB</b>'+(T.t===null?' (rue très calme : la règle d\'émergence ne s\'applique pas).':', pour un maximum autorisé de +'+T.t+' dB.');
+  return'<b class="tt">'+F[0]+' '+F[1]+'</b><p>'+story+'</p><p>'+mask+'</p><p>'+rule+'</p><p class="tg">💡 Le saviez-vous ? +3 dB, c\'est deux fois plus d\'énergie sonore, mais il faut +10 dB pour que l\'oreille entende « deux fois plus fort ».</p>'}
 function mkEl(cls,html){const d=document.createElement('div');d.className=cls;d.innerHTML=html;return d}
 function drawMap(){
   if(!ready)return;
@@ -541,7 +570,7 @@ function drawMap(){
   map.setPaintProperty('noise','raster-opacity',$('op').value/100);
   map.getSource('dc').setData(dcGeo());DCM.forEach((el,i)=>el.style.display=i<S.ph?'':'none');
   P.forEach(p=>{const a=p.k===S.pt,home=p.k==='perso',el=MK[p.k].getElement();
-    el.classList.toggle('on',a);el.style.display=home&&!a&&!S.home?'none':'';
+    el.classList.toggle('on',a);el.style.display=home&&!a&&!S.home?'none':'';if(home)el.querySelector('.tip').innerHTML=a?tipHTML():'<b class="tt">🏠 Votre adresse</b><p>Cliquez sur la maison pour voir le résultat ici.</p>';
     MK[p.k].setLngLat(toLL(p.x,p.y));
     const val=Math.round(db(pw(+$('res').value)+pw(lp(sources(),p.x,p.y))));
     const cc=Math.round(lp(sources(),p.x,p.y)),dd=desc(cc);const dm=Math.min(...B.map(b=>Math.hypot(p.x-b.x,p.y-b.y))),dist=dm<1000?Math.round(dm/10)*10+' m':(dm/1000).toFixed(1).replace('.',',')+' km';el.querySelector('span').innerHTML=a?(home&&S.addr?esc(S.addr)+' · à '+dist+' du data center<br>':'')+(S.ph===0?EM('🏗️')+' 2026 : chantier, pas encore de data center en service':cc<20?EM('👂')+' Data center : inaudible ici':EM(dd[1])+' Data center : <b>'+cc+' dB</b> · comme '+dd[2]):esc(home?'Ma maison':p.n.split(' (')[0].split(' —')[0])});
@@ -569,7 +598,12 @@ if(hasGL){
   // bâtiments BD TOPO situés dans l'emprise du projet : masqués (anciens bâtiments Nokia, démolis 2024-2025)
   fetch('batiments.json').then(r=>r.json()).then(g=>{g.features.forEach(f=>{let c=f.geometry.coordinates;while(Array.isArray(c[0][0]))c=c[0];const[x,y]=fromLL(c[0][0],c[0][1]);if(inZone(x,y))f.properties.z=1});const s=map.getSource('bat');if(s)s.setData(g)}).catch(()=>{});
   B.forEach(b=>{const el=mkEl('dclab',b.k);DCM.push(el);new maplibregl.Marker({element:el}).setLngLat(toLL(b.x,b.y)).addTo(map)});
-  P.forEach(p=>{const home=p.k==='perso',el=mkEl('rcv'+(home?' home':''),'<i></i><span></span>');
+  P.forEach(p=>{const home=p.k==='perso',el=mkEl('rcv'+(home?' home':''),home?'<i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 2.8 11h2.7v9.3h5.2v-5.6h2.6v5.6h5.2V11h2.7z"/></svg></i><em class="qi" aria-hidden="true">?</em><span></span><div class="tip" role="tooltip"></div>':'<i></i><span></span>');
+    if(home){el.tabIndex=0;el.setAttribute('aria-label','Votre adresse : survolez ou touchez pour comprendre le résultat');el.style.zIndex=10;
+      const place=()=>{const f=$('fig').getBoundingClientRect(),r=el.querySelector('i').getBoundingClientRect();el.classList.toggle('below',r.top-f.top<300);el.classList.toggle('left',f.right-r.right<170);el.classList.toggle('right',r.left-f.left<170)};
+      el.addEventListener('mouseenter',place);el.addEventListener('focus',place);
+      el.addEventListener('click',()=>{place();el.classList.toggle('tipon')});
+      el.addEventListener('keydown',ev=>{if(ev.key==='Escape')el.classList.remove('tipon')})}
     el.addEventListener('click',e=>{e.stopPropagation();$('hint').style.display='none';setPt(p.k)});
     MK[p.k]=new maplibregl.Marker({element:el,anchor:home?'bottom':'center'}).setLngLat(toLL(p.x,p.y)).addTo(map)});
   map.on('click',e=>{if($('mopt').open||$('ychip').open){$('mopt').open=false;$('ychip').open=false;return}$('hint').style.display='none';const[x,y]=fromLL(e.lngLat.lng,e.lngLat.lat),q=P.find(o=>o.k==='perso');q.x=x;q.y=y;S.addr='';S.home=1;setPt('perso')});
@@ -631,6 +665,7 @@ function update(){
   $('plain').textContent=plain(c)+(c>=20&&em<1?' Mais les bruits habituels de votre rue le couvriraient.':'');{const g=em<1?0:(t===null||em<=t)?1:2;$('ba').innerHTML=`${EM('🏠')} Votre rue : <b>${res} dB</b> habituels → avec le data center : <b>${amb.toFixed(1)} dB</b> <span class="delta">(+${em.toFixed(1)} dB)</span>`;['Inaudible','Perceptible, dans les règles','Gênant, au-dessus des règles'];document.querySelectorAll('.face').forEach((f,i)=>f.classList.toggle('on',i===g))}$('opO').textContent=$('op').value+' %';
   $('lad').innerHTML=REF.map(r=>`<i style="left:${lx(r[0])}%"></i>`).join('')+`<b style="left:${lx(c)}%"></b><em style="left:${Math.min(85,Math.max(12,lx(c)))}%">data center : ${S.ph===0?'—':Math.round(c)+' dB'}</em>`;
   $('calc').innerHTML='<tr><td>Source</td><td>Lw total</td></tr>'+src.map(s=>`<tr><td>${s.b} · ${s.t}</td><td>${s.lw.toFixed(1)} dB(A)</td></tr>`).join('');
+  TIP={c,res,amb,em,t,g:em<1?0:(t===null||em<=t)?1:2};
   drawMap();
 }
 const RUE={tcalme:{jour:38,nuit:30},calme:{jour:45,nuit:38},animee:{jour:55,nuit:47}},RUEL={tcalme:'très calme',calme:'calme',animee:'animée'};S.rue='calme';
