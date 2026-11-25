@@ -269,6 +269,43 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+#retombees{background:var(--panel);border-top:1px solid var(--line)}
+.rt-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px;margin-bottom:20px}.rt-head h2{margin:0 0 6px}.rt-head p{margin:0;color:var(--mute);max-width:60ch}.rt-head p b{color:var(--ink)}
+.rt-meter{flex:0 1 380px;background:var(--bg);padding:14px 16px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 10px 24px -16px rgba(0,0,0,.3)}
+.rt-meter>b{display:block;font:800 13px/1 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.rt-bar{display:flex;height:12px;gap:3px}.rt-bar i{display:block;transform-origin:left;animation:rtgrow 1s cubic-bezier(.22,1,.36,1) both}
+.rt-bar .ok,.rt-dot.ok{background:#00a36e}.rt-bar .ann,.rt-dot.ann{background:#ffc900}.rt-bar .q,.rt-dot.q{background:#aeaeae}
+@keyframes rtgrow{from{transform:scaleX(0)}to{transform:none}}
+.rt-leg{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:13px}.rt-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.rt-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.rt-filters button{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);font:600 14px/1 "Instrument Sans",sans-serif;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.rt-filters button:hover{transform:translateY(-1px)}.rt-filters button:active{transform:scale(.96)}.rt-filters button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.rt-filters button[aria-pressed=true]{background:#000;color:#fff}
+.rt-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.rt{position:relative;display:flex;flex-direction:column;background:var(--bg);padding:20px;border-top:4px solid #aeaeae;box-shadow:0 1px 2px rgba(0,0,0,.05),0 12px 28px -20px rgba(0,0,0,.35);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.rt:hover{transform:translateY(-3px)}.rt[hidden]{display:none}
+.rt.is-ok{border-top-color:#00a36e}.rt.is-ann{border-top-color:#ffc900}
+.rt-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-bottom:10px}
+.rt-ic{font:28px/1 "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+.rt-cat{font:700 11px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.rt-badge{margin-left:auto;font:700 11px/1 "Instrument Sans",sans-serif;padding:5px 8px;border-radius:12px;white-space:nowrap}
+.rt-badge.ok{background:#e3f6ee;color:#00613f}.rt-badge.ann{background:#fff4c7;color:#6b5200}.rt-badge.q{background:#ececec;color:#444}
+.rt-big{font:800 clamp(34px,3.4vw,44px)/1 "Archivo",sans-serif;font-stretch:112%;color:var(--acc);margin-bottom:6px}.rt.is-q .rt-big{color:#aeaeae}
+.rt-big small{font:700 14px/1 "Instrument Sans",sans-serif;color:var(--mute);margin-left:6px}
+.rt h3{font-size:18px;line-height:1.2;text-transform:none;margin:0 0 8px}
+.rt-x{font-size:14px;line-height:1.6;margin:0 0 8px}.rt-who{font-size:13px;color:var(--mute);margin:0 0 8px}.rt-who b{color:var(--ink)}
+.rt-gap{font-size:13px;line-height:1.55;background:#fff8e1;border-left:3px solid #ffc900;padding:8px 10px;margin:0 0 10px}
+.rt-q{margin:4px 0 10px;padding:10px 12px;background:#f2f2f2}.rt-q p{margin:0 0 8px;font-size:13px;font-style:italic;line-height:1.5}
+.rt-copy{min-height:36px;padding:0 12px;border:0;background:#000;color:#fff;font:600 13px/1 "Instrument Sans",sans-serif;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.rt-copy:hover{transform:translateY(-1px)}.rt-copy:active{transform:scale(.96)}.rt-copy:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.rt-src{margin-top:auto;border-top:1px solid var(--line);padding-top:8px}
+.rt-src summary{cursor:pointer;min-height:36px;display:flex;align-items:center;font-size:14px;font-weight:600;color:var(--ink);list-style:none}
+.rt-src summary::before{content:"🔎";margin-right:8px;font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif}.rt-src summary::-webkit-details-marker{display:none}
+.rt-src summary:hover{color:var(--acc)}.rt-src summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.rt-src ul{margin:4px 0 0;padding-left:18px;font-size:13px;line-height:1.7}.rt-src a{color:var(--ink);text-decoration-color:var(--acc)}.rt-src a:hover{color:var(--acc)}
+.rt-legal{margin-top:18px;font-size:13px;color:var(--mute);max-width:90ch}
+@media(prefers-reduced-motion:reduce){.rt-bar i{animation:none}}
+@media(max-width:1000px){.rt-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){.rt-grid{grid-template-columns:minmax(0,1fr)}.rt-meter{flex-basis:100%}}
 .annonce{background:#ffc900;color:#000;padding:0 max(5vw,16px)}
 .annonce a{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;max-width:1240px;margin:0 auto;min-height:40px;padding:8px 0;color:inherit;text-decoration:none;font-size:14px;line-height:1.35}
 .annonce b{font:800 12px/1 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.04em;background:#000;color:#ffc900;padding:5px 7px}
@@ -401,7 +438,7 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 </div></div>
 <nav class="mainnav" aria-label="Menu principal"><div>
 <a class="brand" href="#top" aria-label="Observatoire Nozay PAR3, haut de page"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" fill="#000"/><g fill="#f50500"><rect x="7" y="15" width="3.2" height="6"/><rect x="12.2" y="11" width="3.2" height="14"/><rect x="17.4" y="7" width="3.2" height="22"/></g><g fill="#ffc900"><rect x="22.6" y="12" width="3.2" height="12"/></g><g fill="#fff"><rect x="27.8" y="16" width="3.2" height="4"/></g></svg><span><b>NOZAY · PAR3</b><small>Observatoire citoyen</small></span></a>
-<div class="menu"><a href="#bruit">Simulateur de bruit</a><a href="#actus">Actualités</a><a href="#avancement">Avancement</a><a href="#projet">Le projet en chiffres</a><a href="#ecarts">Points ouverts</a></div>
+<div class="menu"><a href="#bruit">Simulateur de bruit</a><a href="#actus">Actualités</a><a href="#retombees">Retombées</a><a href="#avancement">Avancement</a><a href="#projet">Chiffres</a><a href="#ecarts">Points ouverts</a></div>
 <a class="cta-y" href="#bruit">Simuler le bruit</a>
 </div></nav>
 <div class="annonce" id="annonce" hidden></div>
@@ -518,6 +555,18 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <div class="nx-next" id="nxnext" hidden></div>
 <div class="nx-grid" id="news"></div>
 <div class="nx-note"><b>Une réunion à signaler ?</b> Les rendez-vous ci-dessus proviennent d'annonces officielles (mairie de Nozay, préfecture, Data4). Si vous voyez passer une autre annonce, envoyez son lien : elle sera ajoutée ici avec sa source.</div>
+</div></section>
+
+<section class="band" id="retombees"><div class="wrap">
+<div class="rt-head"><div><h2>Engagements &amp; retombées pour Nozay</h2><p>Investissement, emplois, chaleur, partenariats : ce que le projet promet à la ville, <b>qui l'affirme</b> et <b>où le vérifier</b>.</p></div>
+<div class="rt-meter" id="rtmeter" aria-label="Promesse-o-mètre"></div></div>
+<div class="rt-filters" role="group" aria-label="Filtrer les engagements" id="rtf">
+<button data-v="all" aria-pressed="true">Tout</button>
+<button data-v="ok" aria-pressed="false"><span class="rt-dot ok"></span>Prouvé par un document officiel</button>
+<button data-v="ann" aria-pressed="false"><span class="rt-dot ann"></span>Annoncé, non vérifié</button>
+<button data-v="q" aria-pressed="false"><span class="rt-dot q"></span>À demander</button></div>
+<div class="rt-grid" id="rtgrid"></div>
+<p class="rt-legal">Les annonces de Data4 et des élus sont reproduites telles quelles, avec leur source. « Prouvé » signifie que l'information figure dans un document officiel (dossier d'enquête, avis de l'Autorité environnementale, acte préfectoral) : elle reste un engagement à suivre dans le temps.</p>
 </div></section>
 
 <section class="band" id="avancement" style="background:var(--panel)"><div class="wrap cols">
@@ -888,6 +937,32 @@ const NEWS=[
   $('nnics').addEventListener('click',()=>{const[s,e]=span(nx),z=x=>x.getFullYear()+String(x.getMonth()+1).padStart(2,'0')+String(x.getDate()).padStart(2,'0')+'T'+String(x.getHours()).padStart(2,'0')+String(x.getMinutes()).padStart(2,'0')+'00';
    const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Observatoire Nozay PAR3//FR','BEGIN:VEVENT','UID:'+nx.d+'-par3@observatoire-nozay','DTSTAMP:'+z(new Date()),'DTSTART;TZID=Europe/Paris:'+z(s),'DTEND;TZID=Europe/Paris:'+z(e),'SUMMARY:'+nx.t,'LOCATION:'+nx.lieu,'DESCRIPTION:'+nx.x+' Source : '+nx.url,'END:VEVENT','END:VCALENDAR'].join('\r\n');
    const u=URL.createObjectURL(new Blob([ics],{type:'text/calendar'})),l=document.createElement('a');l.href=u;l.download='reunion-data-center-nozay.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)})}}
+// Engagements & retombées : st = ok (document officiel) | ann (annonce non vérifiée) | q (pas d'information publique)
+const RET=[
+ {ic:'💶',cat:'Investissement',big:'2 Md€',t:'Un investissement 100 % privé',x:'Data4 et son partenaire financier Brookfield financent le campus. Aucun argent public n\'est annoncé pour les bâtiments.',st:'ann',who:'Data4 (communiqué du 16 mai 2025)',gap:'Annoncé à « près d\'un milliard » en 2023, puis relevé à 2 milliards « du fait de la croissance de l\'IA ».',src:[['Communiqué Data4, mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['DCmag, annonce de 2023','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/']]},
+ {ic:'👷',cat:'Emplois',big:'494',unit:'personnes',t:'Des emplois sur le site, à terme',x:'Le dossier officiel prévoit jusqu\'à 494 personnes sur le campus, dont 200 salariés Data4. Data4 annonce de son côté « plus de 1 000 talents ».',st:'ok',who:'Dossier d\'enquête publique',gap:'Trois chiffres circulent : ~500 (Data4, 2023), 494 (dossier officiel), plus de 1 000 (Data4, 2025 et affiche de novembre 2026). Le périmètre (direct, indirect, sous-traitants) n\'est pas précisé.',src:[['Registre de l\'enquête publique','https://www.registre-numerique.fr/pref91-data4-par3-nozay'],['Communiqué Data4, mai 2025','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf'],['Affiche Data4 relayée par la mairie','https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956']]},
+ {ic:'🔥',cat:'Chaleur pour la ville',big:'2,4 MW',t:'La chaleur des serveurs offerte à la commune',x:'Un réseau de chaleur doit chauffer l\'écoquartier du Verger (600 logements), des bâtiments communaux, les installations sportives de Villarceau et des groupes scolaires. ENGIE Solutions s\'est déclaré intéressé pour l\'exploiter.',st:'ok',who:'Dossier d\'enquête + Data4 + maire',gap:'Le campus pourrait fournir jusqu\'à 10 MW de chaleur, mais les besoins identifiés sont bien plus faibles : l\'essentiel de la chaleur restera rejeté dans l\'air.',src:[['Rapport du commissaire enquêteur','https://www.registre-numerique.fr/pref91-data4-par3-nozay/telechargement?rapport=2345'],['Avis de l\'Autorité environnementale (MRAe)','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['DCmag : équipements bénéficiaires cités','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/'],['Synthmedia : la chaleur promise reste souvent perdue','https://synthmedia.fr/data-centers/data-centers-la-chaleur-promise-aux-territoires-reste-un-dechet/']]},
+ {ic:'🏭',cat:'Friche réhabilitée',big:'22 ha',t:'L\'ancien site Nokia reconverti',x:'Le campus s\'installe sur une friche industrielle déjà bâtie : 14 anciens bâtiments démolis, pas de champ ni de forêt consommés.',st:'ok',who:'Avis de l\'Autorité environnementale',src:[['Avis MRAe APJIF-2025-091','https://www.mrae.developpement-durable.gouv.fr/IMG/pdf/apjif-2025-091_nozay_91___campus_de_datacenters__delibere.pdf'],['DCmag','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/']]},
+ {ic:'🔌',cat:'Infrastructure',big:'225 kV',t:'Une nouvelle ligne électrique souterraine',x:'RTE construit une double ligne pour alimenter le campus. C\'est une infrastructure pour le data center, pas un gain direct pour l\'électricité des foyers.',st:'ok',who:'Préfecture (utilité publique, 5 mai 2026)',src:[['Recueil des actes administratifs 91-2026-118','https://api-politique.pappers.fr/territoire/document/494c1b73fcfc009c85317eb6cc8a2b99/pdf']]},
+ {ic:'🌱',cat:'Environnement',big:'BREEAM',t:'Bâtiments certifiés et énergie bas carbone',x:'Data4 annonce une certification environnementale BREEAM, une électricité 100 % bas carbone (accord avec EDF) et la préservation des arbres remarquables.',st:'ann',who:'Data4',src:[['DCmag (BREEAM, biodiversité)','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/'],['Affiche Data4 relayée par la mairie','https://www.facebook.com/story.php?story_fbid=1167201292500664&id=100076324116956'],['Actualités Data4 (accord EDF)','https://www.data4group.com/actualites-data4/']]},
+ {ic:'🛍️',cat:'Économie locale',big:'+',t:'Attractivité et commerces',x:'Le maire y voit « un futur bassin d\'emploi favorable pour la ville » et « une attractivité forte pour les commerces de notre village ».',st:'ann',who:'Maire de Nozay (2023)',src:[['DCmag (citations du maire)','https://dcmag.fr/data4-annonce-la-creation-dun-nouveau-campus-de-datacenters-sur-le-site-de-nokia-a-nozay-91/']]},
+ {ic:'🎓',cat:'Recherche & formation',big:'🔬',t:'Un partenariat avec l\'Université Paris-Saclay',x:'Data4 teste avec l\'Université Paris-Saclay et le Département la culture de micro-algues chauffées par les serveurs. Attention : ce pilote est à Marcoussis, pas à Nozay. Aucun programme de formation pour les habitants n\'est publié.',st:'ann',who:'Université Paris-Saclay + Data4',src:[['Communiqué Université Paris-Saclay (mai 2025)','https://www.universite-paris-saclay.fr/sites/default/files/2025-05/FR_2025-05-20_Data4%20et%20la%20Fondation%20de%20lUniversit%C3%A9%20Paris-Saclay%20d%C3%A9voilent%20un%20data%20center%20bio-circulaire.pdf'],['Communiqué Data4 (« montées en compétences »)','https://www.data4group.com/wp-content/uploads/2025/06/CP-Data4-PAR03.pdf']]},
+ {ic:'🏛️',cat:'Recettes pour la commune',big:'?',t:'Combien d\'impôts locaux pour Nozay ?',x:'Taxe foncière, cotisation foncière des entreprises… C\'est souvent le principal gain pour une commune, mais aucun montant n\'est publié.',st:'q',q:'Quel montant annuel de taxe foncière et de CFE le campus PAR3 rapportera-t-il à Nozay et à l\'agglomération Paris-Saclay, et à partir de quand ?',src:[]},
+ {ic:'🏊',cat:'Équipement',big:'?',t:'Une piscine financée par Data4 ?',x:'Évoquée oralement lors de la porte ouverte du 23 novembre 2026, selon des participants. Aucune trace écrite publique à ce jour. Nozay n\'a pas de piscine aujourd\'hui.',st:'q',q:'Data4 s\'engage-t-il par écrit à financer une piscine à Nozay : construction ou seulement chauffage, montant, calendrier, convention avec la commune ?',src:[]},
+ {ic:'🦺',cat:'Chantier',big:'?',t:'Des emplois locaux pendant les travaux ?',x:'Le chantier dure jusqu\'en 2030, mais ni le nombre d\'emplois de construction ni un engagement d\'embauche locale ne sont publiés.',st:'q',q:'Combien de personnes travaillent sur le chantier, et y a-t-il un engagement de recrutement ou d\'insertion pour les habitants de Nozay et des environs ?',src:[]}];
+{const LAB={ok:['✅','Prouvé par un document officiel'],ann:['📣','Annoncé, non vérifié'],q:['❓','Pas d\'information publique']};
+ const cnt=k=>RET.filter(r=>r.st===k).length,n=RET.length;
+ $('rtmeter').innerHTML='<b>Promesse-o-mètre</b><div class="rt-bar">'+['ok','ann','q'].map(k=>'<i class="'+k+'" style="flex:'+cnt(k)+'"></i>').join('')+'</div><div class="rt-leg">'+['ok','ann','q'].map(k=>'<span><span class="rt-dot '+k+'"></span>'+cnt(k)+' '+(k==='ok'?'prouvés':k==='ann'?'annoncés':'sans réponse')+'</span>').join('')+'</div>';
+ $('rtgrid').innerHTML=RET.map((r,i)=>'<article class="rt is-'+r.st+'" data-st="'+r.st+'"><div class="rt-top"><span class="rt-ic" aria-hidden="true">'+r.ic+'</span><span class="rt-cat">'+r.cat+'</span><span class="rt-badge '+r.st+'" title="'+LAB[r.st][1]+'">'+LAB[r.st][0]+' '+LAB[r.st][1]+'</span></div>'
+  +'<div class="rt-big">'+r.big+(r.unit?'<small>'+r.unit+'</small>':'')+'</div><h3>'+r.t+'</h3><p class="rt-x"><b>En clair :</b> '+r.x+'</p>'
+  +(r.who?'<p class="rt-who">Qui le dit ? <b>'+r.who+'</b></p>':'')
+  +(r.gap?'<p class="rt-gap"><b>⚠ À savoir :</b> '+r.gap+'</p>':'')
+  +(r.q?'<div class="rt-q"><p>'+r.q+'</p><button type="button" class="rt-copy" data-i="'+i+'">📋 Copier la question pour le 1er décembre</button></div>':'')
+  +(r.src.length?'<details class="rt-src"><summary>Vérifier les sources ('+r.src.length+')</summary><ul>'+r.src.map(([l,u])=>'<li><a href="'+u+'" target="_blank" rel="noopener">'+l+' ↗</a></li>').join('')+'</ul></details>':'')+'</article>').join('');
+ $('rtf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;for(const x of $('rtf').children)x.setAttribute('aria-pressed',x===b);
+  for(const c of $('rtgrid').children)c.hidden=b.dataset.v!=='all'&&c.dataset.st!==b.dataset.v});
+ $('rtgrid').addEventListener('click',e=>{const b=e.target.closest('.rt-copy');if(!b)return;const t=RET[+b.dataset.i].q,done=()=>{b.textContent='✔ Question copiée';setTimeout(()=>b.textContent='📋 Copier la question pour le 1er décembre',2000)};
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}ta.remove();if(ok)done();else prompt('Copiez la question :',t)};if(navigator.clipboard&&isSecureContext)navigator.clipboard.writeText(t).then(done,fb);else fb()})}
 $('src').innerHTML=SR.map(s=>`<li><a href="${s[1]}">${s[0]}</a></li>`).join('');
 setPt('sud');
 }
