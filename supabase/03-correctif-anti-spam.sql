@@ -8,6 +8,9 @@
 --  • Si l'adresse est introuvable, on n'applique PAS une limite commune à
 --    tous les visiteurs (seulement un plafond de sécurité : 100 / heure).
 --  • Les modérateurs connectés ne sont jamais limités.
+--  • Les tests depuis localhost ne sont pas limités par connexion
+--    (seul le plafond de sécurité de 100 / heure s'applique).
+--  Peut être relancé sans risque.
 -- =====================================================================
 
 create or replace function public.questions_before_insert()
@@ -18,6 +21,8 @@ declare
                                     split_part(coalesce(hd ->> 'x-forwarded-for', ''), ',', 1))), '');
   h   text := case when ip is null then null
                    else encode(extensions.digest(ip || '|observatoire', 'sha256'), 'hex') end;
+  -- tests depuis l'ordinateur de développement (http://localhost:…) : pas de limite par connexion
+  dev boolean := coalesce(hd ->> 'origin', '') ~ '^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$';
 begin
   if not public.is_responder() then
     new.status := 'pending';
@@ -25,7 +30,7 @@ begin
     new.answer := null; new.answer_by := null; new.answer_source := null; new.answered_at := null;
     new.answer_emailed_at := null;
 
-    if h is not null then
+    if h is not null and not dev then
       if (select count(*) from public.questions q
             where q.ip_hash = h and q.created_at > now() - interval '1 hour') >= 10 then
         raise exception 'Trop de questions envoyées depuis cette connexion. Réessayez dans une heure.';
