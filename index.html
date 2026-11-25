@@ -154,6 +154,27 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:60px}
 @media(max-width:900px){.sim,.cols{grid-template-columns:minmax(0,1fr)}.grid3{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.tl li{grid-template-columns:minmax(0,1fr);gap:2px}table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}}
 @media(prefers-reduced-motion:no-preference){.meter b{transition:width .3s}}
+/* Frise du chantier (sous l'intro, au-dessus de la carte) */
+.ctl{position:relative;margin:4px 0 28px;padding:30px 0 0}
+.ct-track{position:relative;height:4px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 13px);margin:0 6px}
+.ct-fill{position:absolute;inset:0 auto 0 0;width:100%;background:var(--acc);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+.ct-now{position:absolute;top:-30px;bottom:-4px;left:var(--p100,0%);width:2px;background:var(--acc)}
+.ct-now em{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font:600 12px/1 "Instrument Sans",sans-serif;font-style:normal;color:#fff;background:var(--acc);padding:4px 7px;white-space:nowrap;margin-bottom:-12px}
+.ct-stops{list-style:none;margin:0;padding:0;position:relative;height:60px;margin:0 6px}
+.ct-stops li{position:absolute;top:-12px;left:var(--x);transform:translateX(-50%)}
+.ct-stops li:first-child{transform:translateX(-6px)}.ct-stops li:last-child{transform:translateX(calc(-100% + 6px))}
+.ct-stops button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0 4px 4px;color:var(--ink);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ct-stops li:first-child button{align-items:flex-start}.ct-stops li:last-child button{align-items:flex-end}
+.ct-stops button i{width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink);margin-bottom:6px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.ct-stops button b{font:800 17px/1.1 "Sofia Sans Condensed",sans-serif;white-space:nowrap}
+.ct-stops button span{font-size:12px;line-height:1.3;color:var(--mute);white-space:nowrap;transition:opacity .2s}
+.ct-stops button:hover i{transform:scale(1.35)}.ct-stops button:active i{transform:scale(.9)}
+.ct-stops button:hover b{color:var(--acc)}
+.ct-stops button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.ct-stops button[aria-current=step] i{background:var(--acc);border-color:var(--acc);transform:scale(1.35)}
+.ct-stops button[aria-current=step] b{color:var(--acc)}
+@media(prefers-reduced-motion:no-preference){.ct-fill{transition:transform .9s cubic-bezier(.22,1,.36,1)}}
+@media(max-width:600px){.ct-stops button span{display:none}.ct-stops{height:40px}.ct-stops button b{font-size:15px}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -165,6 +186,15 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:60px}
 <section class="band" id="bruit" style="padding-top:clamp(18px,3vw,36px)"><div class="wrap">
 <h1>Data center de Nozay : l'entendrez-vous chez vous ?</h1>
 <p class="intro">Tapez votre adresse dans la carte. Les couleurs montrent jusqu'où porte le bruit simulé du campus ; la fiche à côté traduit le résultat en sons du quotidien. Campus autorisé le 29 mai 2026, mises en service de fin 2027 à fin 2030.</p>
+<nav class="ctl" aria-label="Calendrier du chantier (cliquez pour voir le bruit à chaque étape)">
+<div class="ct-track" aria-hidden="true"><i class="ct-fill" id="ctfill"></i><span class="ct-now" id="ctnow"><em>Aujourd'hui</em></span></div>
+<ol class="ct-stops" id="ctstops">
+<li style="--x:0%"><button data-v="0" aria-current="step"><i></i><b>Mai 2026</b><span>Autorisation · chantier</span></button></li>
+<li style="--x:33%"><button data-v="1"><i></i><b>Fin 2027</b><span>DC01 en service</span></button></li>
+<li style="--x:68%"><button data-v="2"><i></i><b>2029</b><span>+ DC02 (estimation)</span></button></li>
+<li style="--x:100%"><button data-v="3"><i></i><b>Fin 2030</b><span>Campus complet</span></button></li>
+</ol>
+</nav>
 <div class="sim">
 <div>
 <div class="fig" id="fig"><div id="mapgl"></div><div class="search" role="search"><label for="q" class="sr">Votre adresse</label><svg class="loupe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input id="q" type="search" placeholder="Tapez votre adresse…" autocomplete="off" role="combobox" aria-controls="sug" enterkeyhint="search"><ul id="sug" role="listbox"></ul></div><details class="mopt" id="mopt"><summary><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><path d="M3 5h9M15 5h2M3 10h3M9 10h8M3 15h7M13 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="13.5" cy="5" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="7.5" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="11.5" cy="15" r="2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="mstat">Options</span><svg class="chev" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></summary>
@@ -447,6 +477,13 @@ const seg=(id,key,num)=>$(id).addEventListener('click',e=>{const b=e.target.clos
   for(const g of TW[key])for(const x of $(g).children)x.setAttribute('aria-pressed',x.dataset.v===String(S[key]));
   $('mEssai').style.display=S.scn==='essai'?'':'none';if(key==='per')setPt(S.pt);else update()});
 seg('mper','per');seg('mscn','scn');seg('yr','ph',true);
+// Frise du chantier : position d'aujourd'hui (mai 2026 → fin 2030) + synchro avec « Quand ? »
+{const t0=Date.UTC(2026,4,29),t1=Date.UTC(2030,11,31),p=Math.min(1,Math.max(0,(Date.now()-t0)/(t1-t0)));
+ const ctl=document.querySelector('.ctl');ctl.style.setProperty('--p100',(p*100).toFixed(2)+'%');
+ requestAnimationFrame(()=>requestAnimationFrame(()=>ctl.style.setProperty('--p',p.toFixed(4))));
+ const sync=()=>{for(const b of $('ctstops').querySelectorAll('button'))+b.dataset.v===S.ph?b.setAttribute('aria-current','step'):b.removeAttribute('aria-current')};
+ $('ctstops').addEventListener('click',e=>{const b=e.target.closest('button');if(b)$('yr').children[+b.dataset.v].click()});
+ $('yr').addEventListener('click',()=>requestAnimationFrame(sync));}
 const YI=['2026 : chantier en cours, aucun data center en service','Fin 2027 : premier data center (DC01) · ~400 GWh/an','2029 (estimation) : DC01 + DC02 en service','Fin 2030 : campus complet · ~1 378 GWh/an à pleine charge'];
 $('mopt').addEventListener('toggle',()=>{if($('mopt').open)$('ychip').open=false});$('ychip').addEventListener('toggle',()=>{if($('ychip').open)$('mopt').open=false});
 let playT=null;$('play').addEventListener('click',()=>{if(playT){clearInterval(playT);playT=null;$('play').setAttribute('aria-pressed',false);return}let i=0;const step=()=>{$('yr').children[i].click();if(++i>3){clearInterval(playT);playT=null;$('play').setAttribute('aria-pressed',false)}};$('play').setAttribute('aria-pressed',true);step();playT=setInterval(step,1800)});
