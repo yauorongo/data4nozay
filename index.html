@@ -6,27 +6,27 @@
 <title>Nozay PAR3 — Observatoire</title>
 <link rel="stylesheet" href="maplibre-gl.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@600;800&family=Instrument+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..800&family=Instrument+Sans:wght@400;600&display=swap">
 <style>
 /* VOICE: civic, factual, calm — un observatoire citoyen, pas une plaquette.
    IDEA: le dossier d'enquête publique rendu lisible : registre, plan, chronologie.
    PICTURE: un plan schématique du site avec la carte de bruit simulée en direct.
-   COLOUR and TYPE: palette Data4 : blanc, noir #000, gris #f7f7f7/#e3e3e3, rouge #f50500 pour le bruit ; Sofia Sans Condensed + Instrument Sans.
+   COLOUR and TYPE: palette Data4 : blanc, noir #000, gris #f7f7f7/#e3e3e3, rouge #f50500 pour le bruit ; Archivo (titres, larg. 112 %) + Instrument Sans (texte).
    LAYOUT: bandeau titre + chiffres, simulateur pleine largeur, chronologie, bâtiments, écarts, sources. */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0d0d0d);--ink:light-dark(#000000,#f7f7f7);--mute:light-dark(#5e5e5e,#aeaeae);--line:light-dark(#e3e3e3,#2f2f2f);--acc:light-dark(#f50500,#ff3b33);--soft:light-dark(#fff0ef,#2a0d0c);--panel:light-dark(#f7f7f7,#1a1a1a)}
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0d0d0d);--ink:light-dark(#000000,#f7f7f7);--mute:light-dark(#5e5e5e,#aeaeae);--line:light-dark(#e3e3e3,#2f2f2f);--acc:light-dark(#f50500,#ff3b33);--soft:light-dark(#f7f7f7,#1f1f1f);--panel:light-dark(#f7f7f7,#1a1a1a)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,sans-serif;overflow-x:clip}
-h1,h2,h3{font-family:"Sofia Sans Condensed",sans-serif;font-weight:800;line-height:1.05;text-wrap:balance;margin:0 0 .4em}
+h1,h2,h3{font-family:"Archivo",sans-serif;font-weight:800;line-height:1.05;text-wrap:balance;margin:0 0 .4em}
 h1{font-size:clamp(34px,5.2vw,52px)}h2{font-size:clamp(28px,3.6vw,40px)}h3{font-size:22px}
 p{max-width:68ch;margin:.4em 0 1em}a{color:inherit;text-decoration-color:var(--acc);text-underline-offset:3px}
 .band{padding:clamp(28px,4vw,64px) max(5vw,16px)}.wrap{max-width:1240px;margin:0 auto}
 .nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:18px;padding:10px max(5vw,16px);overflow-x:auto;white-space:nowrap;font-size:15px}
-.nav a,.nav b{flex:none}.nav b{font-family:"Sofia Sans Condensed";font-size:19px;margin-right:8px}.nav a{text-decoration:none;color:var(--mute)}.nav a:hover{color:var(--ink)}
+.nav a,.nav b{flex:none}.nav b{font-family:"Archivo";font-size:19px;margin-right:8px}.nav a{text-decoration:none;color:var(--mute)}.nav a:hover{color:var(--ink)}
 .hero{background:var(--ink);color:var(--bg)}.hero p{color:light-dark(#e3e3e3,#4a4a4a)}
 .hero .lead{font-size:18px}
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;margin-top:28px;background:var(--acc)}
-.kpi{background:var(--ink);padding:16px 18px}.kpi strong{display:block;font:800 clamp(30px,4vw,46px)/1 "Sofia Sans Condensed";color:var(--acc)}
+.kpi{background:var(--ink);padding:16px 18px}.kpi strong{display:block;font:800 clamp(30px,4vw,46px)/1 "Archivo";color:var(--acc)}
 .kpi span{font-size:14px;color:light-dark(#e3e3e3,#4a4a4a)}
 .sim{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px;align-items:start}
 .fig{position:relative;aspect-ratio:1/1;background:var(--panel);border:1px solid var(--line)}
@@ -60,7 +60,7 @@ p{max-width:68ch;margin:.4em 0 1em}a{color:inherit;text-decoration-color:var(--a
 .face.on{opacity:1;color:var(--ink);font-weight:600;background:var(--bg)}.face.f0.on .ic{color:#00a36e}.face.f1.on .ic{color:#d99a00}.face.f2.on .ic{color:#f50500}
 .edu{grid-column:1/-1;margin-top:28px;padding-top:18px;border-top:2px solid var(--ink)}
 .educ{background:var(--panel);padding:16px;border-radius:10px}.educ p{margin:8px 0 0;font-size:15px}
-.pics{display:flex;align-items:center;gap:8px;min-height:44px}.pics b{font-size:22px}.num{font:800 20px "Sofia Sans Condensed",sans-serif;color:var(--acc)}
+.pics{display:flex;align-items:center;gap:8px;min-height:44px}.pics b{font-size:22px}.num{font:800 20px "Archivo",sans-serif;color:var(--acc)}
 .emo{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;font-size:20px;line-height:1;display:inline-block;vertical-align:-3px}
 .emo.big{font-size:36px}.legend .emo{font-size:20px}.rcv span .emo{font-size:18px;vertical-align:-3px}
 .refs .emo{display:block;font-size:30px;margin:0 auto 4px}
@@ -112,7 +112,7 @@ p{max-width:68ch;margin:.4em 0 1em}a{color:inherit;text-decoration-color:var(--a
 .rcv span{font:600 12px/1.2 "Instrument Sans",sans-serif;color:#111;background:rgba(255,255,255,.9);padding:2px 6px;white-space:nowrap}
 .rcv.on i{width:18px;height:18px;background:#f50500}.rcv.on span{font-size:13px;background:#111;color:#fff}
 .rcv.home{flex-direction:column-reverse;gap:2px}.rcv.home i{width:20px;height:20px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#fff}.rcv.home.on i{background:#f50500}
-.dclab{font:800 13px "Sofia Sans Condensed",sans-serif;color:#fff;background:#111;padding:1px 6px;pointer-events:none}
+.dclab{font:800 13px "Archivo",sans-serif;color:#fff;background:#111;padding:1px 6px;pointer-events:none}
 @media(max-width:600px){.rcv:not(.on) span{display:none}}
 .fig>canvas,.fig>img{position:absolute;inset:0;width:100%;height:100%}
 :root[data-theme=dark] .fig img{filter:brightness(.8)}
@@ -134,7 +134,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 input[type=range]{width:100%;accent-color:var(--acc);height:28px}select{font:inherit;font-size:16px;min-height:44px;width:100%;padding:6px 8px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:4px}
 .row{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--mute)}.row output{color:var(--ink);font-weight:600;white-space:nowrap}
 .result{background:var(--soft);border-left:4px solid var(--acc);padding:16px 18px}
-.big{font:800 clamp(40px,6vw,64px)/1 "Sofia Sans Condensed"}.verdict{font-weight:600;margin-top:6px}
+.big{font:800 clamp(40px,6vw,64px)/1 "Archivo"}.verdict{font-weight:600;margin-top:6px}
 .meter{height:12px;background:var(--line);margin:10px 0 4px;position:relative}.meter b{position:absolute;inset:0 auto 0 0;background:var(--acc)}.meter s{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
 .calc{font-size:14px;color:var(--mute)}.calc td{padding:2px 8px 2px 0}.calc td:last-child{text-align:right;color:var(--ink);white-space:nowrap}
 .warn{font-size:14px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
@@ -185,7 +185,7 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:60px}
 .ct-stops button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0 4px 4px;color:var(--ink);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .ct-stops li:first-child button{align-items:flex-start;padding-left:0}.ct-stops li:last-child button{align-items:flex-end;padding-right:0}
 .ct-stops button i{width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink);margin-bottom:8px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
-.ct-stops button b{font:800 17px/1.1 "Sofia Sans Condensed",sans-serif;white-space:nowrap}
+.ct-stops button b{font:800 17px/1.1 "Archivo",sans-serif;white-space:nowrap}
 .ct-stops button span{font-size:12px;line-height:1.3;color:var(--mute);white-space:nowrap}
 .ct-stops button:hover i{transform:scale(1.35)}.ct-stops button:active i{transform:scale(.9)}.ct-stops button:hover b{color:var(--acc)}
 .ct-stops button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
@@ -198,16 +198,120 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:60px}
 @keyframes ctnudge{0%,55%,100%{transform:translateX(var(--tx,0px))}68%{transform:translateX(calc(var(--tx,0px) + 10px))}80%{transform:translateX(calc(var(--tx,0px) - 3px))}90%{transform:translateX(calc(var(--tx,0px) + 2px))}}
 @keyframes ctpulse{0%{opacity:.7;transform:scale(.6)}70%,100%{opacity:0;transform:scale(1.25)}}
 @media(max-width:600px){.ct-stops button span{display:none}.ct-stops{height:36px}.ct-stops button b{font-size:15px}.ct-hint{font-size:12px}}
+/* ===== Structure inspirée de data4group.com : barre noire, menu blanc, hero noir, sections blanches pleine largeur ===== */
+html{scroll-padding-top:88px}
+h1,h2,h3{font-stretch:112%;letter-spacing:-.02em}h1,h2{text-transform:uppercase;line-height:1.02}
+h2{font-size:clamp(26px,3.2vw,38px)}
+a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.topbar{background:#000;color:#fff;padding:7px max(5vw,16px);font-size:12px}
+.topbar>div{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.tb-note{margin-right:auto;color:#aeaeae;line-height:1.3}.tb-note b{color:#fff;font-weight:600}
+.tb-link{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #f50500;color:#fff;text-decoration:none;font:700 11px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.04em;text-transform:uppercase;padding:8px 10px;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.tb-link svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tb-link:hover{background:#f50500;transform:translateY(-1px)}.tb-link:active{transform:scale(.96)}.tb-link:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.mainnav{position:sticky;top:0;z-index:20;background:var(--bg);padding:0 max(5vw,16px);border-bottom:1px solid var(--line);box-shadow:0 1px 1px rgba(0,0,0,.02),0 10px 28px -20px rgba(0,0,0,.35)}
+.mainnav>div{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:12px 28px;min-height:76px}
+.brand{display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none;flex:none}
+.brand svg{width:36px;height:36px;flex:none;box-shadow:0 0 0 1px var(--line)}
+.brand b{display:block;font:800 23px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:-.02em}
+.brand small{display:block;margin-top:5px;font:600 9.5px/1 "Instrument Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.menu{display:flex;gap:4px 22px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.menu a{position:relative;padding:10px 0;font:700 13px/1 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.menu a::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:2px;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.menu a:hover::after,.menu a:focus-visible::after{transform:scaleX(1)}.menu a:active{opacity:.6}
+.cta-y{flex:none;background:#ffc900;color:#000;font:700 12px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.03em;text-transform:uppercase;padding:15px 17px;text-decoration:none;box-shadow:0 2px 4px rgba(255,201,0,.25),0 10px 20px -10px rgba(204,150,0,.8);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.cta-y:hover{transform:translateY(-2px)}.cta-y:active{transform:scale(.97)}.cta-y:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+@media(max-width:1080px){.mainnav>div{flex-wrap:wrap;padding:10px 0 0}.cta-y{margin-left:auto}.menu{order:3;width:100%;margin:0;padding-bottom:4px}}
+@media(max-width:600px){.tb-note{flex-basis:100%}.brand b{font-size:19px}.brand svg{width:30px;height:30px}.cta-y{padding:12px 12px;font-size:11px}}
+
+.d4hero{position:relative;overflow:hidden;background:#000;color:#fff;padding:0 max(5vw,16px);isolation:isolate}
+.d4hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 38% 62% at 74% 50%,rgba(255,255,255,.58),rgba(255,255,255,.16) 45%,transparent 72%),radial-gradient(ellipse 30% 40% at 80% 85%,rgba(245,5,0,.22),transparent 70%),radial-gradient(ellipse 40% 60% at 0% 100%,rgba(245,5,0,.14),transparent 70%)}
+.d4hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.18;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.d4hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:center;gap:clamp(28px,5vw,72px);min-height:min(80vh,640px);padding:clamp(44px,6vw,92px) 0}
+.eyebrow{display:flex;align-items:center;gap:12px;font:700 12px/1.2 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.14em;text-transform:uppercase;color:#aeaeae}
+.eyebrow svg{width:46px;height:30px;flex:none}
+.d4hero h1{margin:22px 0 20px;font:800 clamp(36px,5.2vw,66px)/.98 "Archivo",sans-serif;font-stretch:112%;letter-spacing:-.025em;color:#fff}
+.d4hero h1 span{display:block;font-weight:300}
+.d4hero .lede{color:#e3e3e3;font-size:17px;line-height:1.7;max-width:50ch;margin:0 0 26px}.d4hero .lede q{color:#fff;font-weight:600}
+.hbtns{display:flex;flex-wrap:wrap;gap:12px}
+.btn-r,.btn-o{display:inline-flex;align-items:center;gap:10px;font:700 14px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.02em;text-transform:uppercase;padding:17px 20px;text-decoration:none;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.btn-r{background:#f50500;color:#fff;box-shadow:0 2px 4px rgba(245,5,0,.25),0 18px 30px -14px rgba(245,5,0,.75)}
+.btn-o{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.85)}
+.btn-r svg,.btn-o svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.btn-r:hover,.btn-o:hover{transform:translateY(-2px)}.btn-r:hover svg,.btn-o:hover svg{transform:translateX(3px)}
+.btn-r:active,.btn-o:active{transform:scale(.97)}.btn-r:focus-visible,.btn-o:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.facts{list-style:none;display:flex;flex-wrap:wrap;margin:40px 0 0;padding:0;font:800 clamp(15px,1.5vw,19px)/1.5 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase}
+.facts li+li::before{content:"-";color:#ffc900;margin:0 14px}
+.facts small{display:block;width:100%;margin-top:8px;font:400 12px/1.4 "Instrument Sans",sans-serif;text-transform:none;color:#aeaeae}
+.vwrap{position:relative}
+.vid{position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;border:0;background:#111;cursor:pointer;overflow:hidden;color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.35),0 24px 48px -16px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.12)}
+.vid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.vid .tint{position:absolute;inset:0;background:#3a0a08;mix-blend-mode:multiply;opacity:.35}
+.vid .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0) 55%)}
+.vid .pl{position:absolute;left:50%;top:50%;width:78px;height:78px;margin:-39px 0 0 -39px;border-radius:50%;background:#f50500;display:grid;place-items:center;box-shadow:0 0 0 8px rgba(245,5,0,.25),0 14px 30px -8px rgba(0,0,0,.7);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.vid .pl svg{width:26px;height:26px;fill:#fff;margin-left:4px}
+.vid .vt{position:absolute;left:18px;right:18px;bottom:14px;text-align:left;font:800 clamp(13px,1.3vw,16px)/1.25 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase}
+.vid:hover img{transform:scale(1.04)}.vid:hover .pl{transform:scale(1.1)}.vid:active .pl{transform:scale(.94)}
+.vid:focus-visible{outline:3px solid #ffc900;outline-offset:4px}
+.vwrap iframe{display:block;width:100%;aspect-ratio:16/9;border:0;box-shadow:0 24px 48px -16px rgba(0,0,0,.85)}
+.vcap{margin:12px 0 0;font-size:12px;color:#5e5e5e;max-width:none}.vcap a{color:inherit}
+@media(prefers-reduced-motion:no-preference){
+ .d4hero .rv{opacity:0;transform:translateY(18px);animation:rv .9s cubic-bezier(.22,1,.36,1) forwards}
+ .d4hero .rv:nth-child(2){animation-delay:.08s}.d4hero .rv:nth-child(3){animation-delay:.16s}.d4hero .rv:nth-child(4){animation-delay:.24s}.d4hero .rv:nth-child(5){animation-delay:.32s}
+ .vwrap.rv{animation-delay:.2s}}
+@keyframes rv{to{opacity:1;transform:none}}
+@media(max-width:900px){.d4hero .wrap{grid-template-columns:minmax(0,1fr);min-height:0}.d4hero::before{background:radial-gradient(ellipse 80% 40% at 50% 82%,rgba(255,255,255,.45),rgba(255,255,255,.1) 50%,transparent 75%),radial-gradient(ellipse 60% 40% at 0% 100%,rgba(245,5,0,.16),transparent 70%)}.vcap{color:#aeaeae}}
+
+/* Sections : blanc dominant, gris clair en alternance, plus de bloc noir ni rose */
+#projet-bref{border-top:1px solid var(--line)}
+#projet-bref .lead{color:var(--ink)}
+#projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
+#projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
+.card{top:92px}
+.menu a{flex:none}.brand,.cta-y,.tb-link{flex:none}
+.d4hero .lede q{quotes:'« ' ' »'}
+.vcap{color:#aeaeae}
+.d4hero::before{background:radial-gradient(ellipse 36% 60% at 74% 50%,rgba(255,255,255,.8),rgba(255,255,255,.28) 42%,transparent 70%),radial-gradient(ellipse 40% 60% at 0% 100%,rgba(245,5,0,.14),transparent 70%)}
+.facts{font-size:clamp(14px,1.25vw,17px)}
+@media(max-width:1320px){.mainnav>div{flex-wrap:wrap;padding:10px 0 0}.cta-y{margin-left:auto}.menu{order:3;width:100%;margin:0;padding-bottom:4px}}
+@media(max-width:900px){.d4hero::before{background:radial-gradient(ellipse 90% 34% at 50% 80%,rgba(255,255,255,.6),rgba(255,255,255,.15) 50%,transparent 75%)}}
+@media(max-width:600px){.mainnav>div{gap:8px 10px}.brand small{display:none}.cta-y{padding:11px 10px;font-size:10.5px}.facts li+li::before{margin:0 9px}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
-<nav class="nav"><b>Nozay · PAR3</b><a href="#bruit">Simulateur de bruit</a><a href="#projet-bref">En bref</a><a href="#avancement">Avancement</a><a href="#projet">Le projet en chiffres</a><a href="#ecarts">Ce que les données ne disent pas</a><a href="#sources">Sources</a></nav>
+<header>
+<div class="topbar"><div>
+<span class="tb-note"><b>Site citoyen indépendant</b> · non affilié à Data4 ni à la mairie de Nozay</span>
+<a class="tb-link" href="https://www.youtube.com/watch?v=IasSO4DZy6o" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="2"/><path d="M6.5 6v4l3.5-2z" fill="currentColor"/></svg>Vidéo Data4</a>
+<a class="tb-link" href="https://nozay91.fr/fr/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14h12M3 14V7l5-4 5 4v7M6.5 14v-4h3v4"/></svg>Mairie de Nozay</a>
+<a class="tb-link" href="#sources"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h6l3 3v9H4zM10 2v3h3M6.5 8.5h4M6.5 11h4"/></svg>Sources</a>
+</div></div>
+<nav class="mainnav" aria-label="Menu principal"><div>
+<a class="brand" href="#top" aria-label="Observatoire Nozay PAR3, haut de page"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" fill="#000"/><g fill="#f50500"><rect x="7" y="15" width="3.2" height="6"/><rect x="12.2" y="11" width="3.2" height="14"/><rect x="17.4" y="7" width="3.2" height="22"/></g><g fill="#ffc900"><rect x="22.6" y="12" width="3.2" height="12"/></g><g fill="#fff"><rect x="27.8" y="16" width="3.2" height="4"/></g></svg><span><b>NOZAY · PAR3</b><small>Observatoire citoyen</small></span></a>
+<div class="menu"><a href="#bruit">Simulateur de bruit</a><a href="#projet-bref">En bref</a><a href="#avancement">Avancement</a><a href="#projet">Le projet en chiffres</a><a href="#ecarts">Points ouverts</a></div>
+<a class="cta-y" href="#bruit">Simuler le bruit</a>
+</div></nav>
+</header>
+
+<section class="d4hero" id="top"><div class="wrap">
+<div>
+<div class="eyebrow rv"><svg viewBox="0 0 46 30" aria-hidden="true"><g fill="#f50500"><rect x="0" y="11" width="5" height="8"/><rect x="8" y="5" width="5" height="20"/><rect x="16" y="0" width="5" height="30"/></g><rect x="24" y="7" width="5" height="16" fill="#ffc900"/><rect x="32" y="11" width="5" height="8" fill="#fff"/><rect x="40" y="13" width="5" height="4" fill="#5e5e5e"/></svg>Observatoire citoyen · Nozay 91620</div>
+<h1 class="rv">Campus de data centers PAR3 <span>à Nozay</span></h1>
+<p class="lede rv">Data4 présente son campus de l'ancien site Nokia comme <q>le plus grand campus de data centers dédié à l'IA en France</q>. Ce site indépendant rassemble les chiffres publics et vous laisse simuler ce que vous entendrez chez vous.</p>
+<div class="hbtns rv"><a class="btn-r" href="#bruit">Écouter chez moi<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+<ul class="facts rv"><li>127,5 MW IT</li><li>3 data centers</li><li>2 Md€</li><li>2027 → 2030</li><small>Puissance informatique et calendrier : dossier d'autorisation. Investissement : annonce Data4 du 16 mai 2025.</small></ul>
+</div>
+<div class="vwrap rv" id="vwrap">
+<button class="vid" id="vid" type="button" aria-label="Lire la vidéo de présentation de Data4 (YouTube)"><img src="https://i.ytimg.com/vi/IasSO4DZy6o/hqdefault.jpg" alt="" loading="eager" width="480" height="360"><span class="tint"></span><span class="shade"></span><span class="pl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5l15 8.5-15 8.5z"/></svg></span><span class="vt">PAR03, plus grand campus de data centers dédié à l'IA en France</span></button>
+<p class="vcap">Vidéo publiée par Data4 le 30 mai 2025 (1 min 47) · lecture via YouTube, sans cookie tant que vous ne cliquez pas.</p>
+</div>
+</div></section>
 
 
 
 <section class="band" id="bruit" style="padding-top:clamp(18px,3vw,36px)"><div class="wrap">
-<h1>Data center de Nozay : l'entendrez-vous chez vous ?</h1>
+<h2>L'entendrez-vous chez vous ?</h2>
 <p class="intro">Tapez votre adresse dans la carte. Les couleurs montrent jusqu'où porte le bruit simulé du campus ; la fiche à côté traduit le résultat en sons du quotidien. Campus autorisé le 29 mai 2026, mises en service de fin 2027 à fin 2030.</p>
 <div class="ctline" id="ctline" role="group" aria-label="Calendrier du chantier : simulation dans le temps">
 <div class="ct-head"><button class="ct-play" id="ctplay" aria-pressed="false"><span class="pi"><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.2l8.3 4.8-8.3 4.8z"/></svg><svg class="i-pause" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1.5h3v9H2zM7 1.5h3v9H7z"/></svg></span><span class="lbl">Simuler l'évolution</span></button>
@@ -282,7 +386,7 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:60px}
 </div></div>
 </div></section>
 
-<section class="band hero" id="projet-bref"><div class="wrap">
+<section class="band" id="projet-bref"><div class="wrap">
 <h2>Le campus de data centers PAR3 est autorisé. Voici ce que disent les dossiers publics.</h2>
 <p class="lead">Sur l'ancien site Nokia, route de Villejust, Data4 construit trois data centers. L'autorisation préfectorale date du 29 mai 2026 ; les mises en service s'étalent de fin 2027 à fin 2030. Cet observatoire rassemble les chiffres publiés et permet à chaque Nozéen de simuler le bruit chez lui.</p>
 <div class="kpis">
@@ -323,7 +427,7 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:60px}
 </div>
 </div></section>
 
-<section class="band" id="ecarts" style="background:var(--soft)"><div class="wrap">
+<section class="band" id="ecarts" style="background:var(--panel)"><div class="wrap">
 <h2>Ce que les données ne disent pas encore</h2>
 <p>Croiser les sources fait apparaître des écarts qu'un habitant ne peut pas trancher seul. Les signaler, c'est le travail d'un data manager.</p>
 <div class="grid3">
@@ -538,6 +642,7 @@ let ctPlay=()=>{};
  addEventListener('resize',()=>setT(t,true));setT(t,true);}
 const YI=['2026 : chantier en cours, aucun data center en service','Fin 2027 : premier data center (DC01) · ~400 GWh/an','2029 (estimation) : DC01 + DC02 en service','Fin 2030 : campus complet · ~1 378 GWh/an à pleine charge'];
 $('mopt').addEventListener('toggle',()=>{if($('mopt').open)$('ychip').open=false});$('ychip').addEventListener('toggle',()=>{if($('ychip').open)$('mopt').open=false});
+$('vid').addEventListener('click',()=>{$('vwrap').querySelector('.vid').outerHTML='<iframe src="https://www.youtube-nocookie.com/embed/IasSO4DZy6o?autoplay=1&rel=0" title="PAR03, plus grand campus de data centers dédié à l\'IA en France (Data4)" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>'});
 $('play').addEventListener('click',()=>{$('ychip').open=false;ctPlay()});
 $('mnGE').addEventListener('input',()=>{$('nGE').value=$('mnGE').value;update()});
 
