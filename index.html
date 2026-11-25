@@ -13,8 +13,8 @@
    PICTURE: un plan schématique du site avec la carte de bruit simulée en direct.
    COLOUR and TYPE: palette Data4 : blanc, noir #000, gris #f7f7f7/#e3e3e3, rouge #f50500 pour le bruit ; Archivo (titres, larg. 112 %) + Instrument Sans (texte).
    LAYOUT: bandeau titre + chiffres, simulateur pleine largeur, chronologie, bâtiments, écarts, sources. */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0d0d0d);--ink:light-dark(#000000,#f7f7f7);--mute:light-dark(#5e5e5e,#aeaeae);--line:light-dark(#e3e3e3,#2f2f2f);--acc:light-dark(#f50500,#ff3b33);--soft:light-dark(#f7f7f7,#1f1f1f);--panel:light-dark(#f7f7f7,#1a1a1a)}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+:root{color-scheme:light;--bg:light-dark(#ffffff,#0d0d0d);--ink:light-dark(#000000,#f7f7f7);--mute:light-dark(#5e5e5e,#aeaeae);--line:light-dark(#e3e3e3,#2f2f2f);--acc:light-dark(#f50500,#ff3b33);--soft:light-dark(#f7f7f7,#1f1f1f);--panel:light-dark(#f7f7f7,#1a1a1a)}
+:root[data-theme]{color-scheme:light}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,sans-serif;overflow-x:clip}
 h1,h2,h3{font-family:"Archivo",sans-serif;font-weight:800;line-height:1.05;text-wrap:balance;margin:0 0 .4em}
@@ -268,6 +268,24 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+.hsearch{margin:0 0 22px;max-width:580px}
+.hsearch label{display:block;margin-bottom:10px;font:700 12px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.12em;text-transform:uppercase;color:#ffc900}
+.hs-row{position:relative;display:flex;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.3),0 18px 40px -18px rgba(245,5,0,.55)}
+.hs-row:focus-within{outline:3px solid #ffc900;outline-offset:3px}
+.hs-row>svg{position:absolute;left:16px;top:50%;width:20px;height:20px;margin-top:-10px;fill:none;stroke:#5e5e5e;stroke-width:2.2;stroke-linecap:round;pointer-events:none}
+.hs-row input{flex:1;min-width:0;height:58px;border:0;padding:0 12px 0 46px;background:transparent;color:#000;font:16px "Instrument Sans",sans-serif;outline:none}
+.hs-row input::placeholder{color:#5e5e5e}
+.hs-row button{flex:none;display:inline-flex;align-items:center;gap:8px;border:0;padding:0 22px;background:#f50500;color:#fff;font:700 14px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.02em;text-transform:uppercase;cursor:pointer}
+.hs-row button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.hs-row button:hover{background:#c70e00}.hs-row button:hover svg{transform:translateX(3px)}.hs-row button:active svg{transform:scale(.85)}
+.hs-row button:focus-visible{outline:3px solid #ffc900;outline-offset:-5px}
+.hs-note{margin:8px 0 0;font-size:12px;color:#aeaeae}
+#sug2{list-style:none;margin:0;padding:4px 0;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#fff;color:#111;box-shadow:0 2px 6px rgba(0,0,0,.2),0 24px 48px -16px rgba(0,0,0,.6);max-height:320px;overflow:auto}
+#sug2:empty{display:none}#sug2 li{padding:11px 16px 11px 44px;cursor:pointer;font-size:15px;position:relative}
+#sug2 li::before{content:"📍";position:absolute;left:16px;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+#sug2 li:hover,#sug2 li[aria-selected=true]{background:#fff0ef}#sug2 li.none{color:#666;cursor:default}#sug2 li.none::before{content:""}
+#sug li small,#sug2 li small{display:block;font-size:12px;color:#8a1a14;margin-top:2px}
+@media(max-width:600px){.hs-row button{padding:0 14px}.hs-row input{height:54px}}
 .menu a{flex:none}.brand,.cta-y,.tb-link{flex:none}
 .d4hero .lede q{quotes:'« ' ' »'}
 .vcap{color:#aeaeae}
@@ -299,7 +317,8 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 <div class="eyebrow rv"><svg viewBox="0 0 46 30" aria-hidden="true"><g fill="#f50500"><rect x="0" y="11" width="5" height="8"/><rect x="8" y="5" width="5" height="20"/><rect x="16" y="0" width="5" height="30"/></g><rect x="24" y="7" width="5" height="16" fill="#ffc900"/><rect x="32" y="11" width="5" height="8" fill="#fff"/><rect x="40" y="13" width="5" height="4" fill="#5e5e5e"/></svg>Observatoire citoyen · Nozay 91620</div>
 <h1 class="rv">Campus de data centers PAR3 <span>à Nozay</span></h1>
 <p class="lede rv">Data4 présente son campus de l'ancien site Nokia comme <q>le plus grand campus de data centers dédié à l'IA en France</q>. Ce site indépendant rassemble les chiffres publics et vous laisse simuler ce que vous entendrez chez vous.</p>
-<div class="hbtns rv"><a class="btn-r" href="#bruit">Écouter chez moi<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+<form class="hsearch rv" id="hsearch" role="search" autocomplete="off"><label for="q2">Simulez le bruit chez vous</label><div class="hs-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input id="q2" type="search" placeholder="Votre adresse (ex. 12 rue de Villarceau)" role="combobox" aria-controls="sug2" aria-autocomplete="list" enterkeyhint="search"><button type="submit">Simuler<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><ul id="sug2" role="listbox"></ul></div><p class="hs-note">Toutes les adresses de France, même hors du plan.</p></form>
+<div class="hbtns rv"><a class="btn-o" href="#projet">Le projet en chiffres<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
 <ul class="facts rv"><li>127,5 MW IT</li><li>3 data centers</li><li>2 Md€</li><li>2027 → 2030</li><small>Puissance informatique et calendrier : dossier d'autorisation. Investissement : annonce Data4 du 16 mai 2025.</small></ul>
 </div>
 <div class="vwrap rv" id="vwrap">
@@ -574,15 +593,29 @@ const lx=v=>Math.max(0,Math.min(100,(v-25)/50*100));
 function plain(c){if(S.ph===0)return'En 2026, le campus est en chantier : aucun data center ne fonctionne encore. (Le bruit du chantier lui-même n\'est pas simulé.)';if(c<20)return'Chez vous, le data center serait inaudible : son bruit se perd dans celui du quartier.';const d=desc(c);return'Chez vous, le data center s\'entendrait comme '+d[2]+' (environ '+Math.round(c)+' dB).'}
 // ---------- Recherche d'adresse (Base Adresse Nationale) ----------
 let AD=[];const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
-fetch('adresses.csv').then(r=>r.ok?r.text():Promise.reject()).then(t=>{AD=t.trim().split('\n').slice(1).map(l=>{const c=l.split(';');const s=c[0]+' '+c[1]+', '+c[2];return{s,n:norm(s),lat:+c[3],lon:+c[4]}});$('q').placeholder='Tapez votre adresse (ex. 12 rue de Villarceau)'}).catch(()=>{$('q').placeholder='Recherche indisponible ici : cliquez sur le plan'});
-let sel=-1,hits=[];
-function showSug(){const q=norm($('q').value);if(q.length<3){$('sug').innerHTML='';hits=[];return}const tk=q.split(' ');
+fetch('adresses.csv').then(r=>r.ok?r.text():Promise.reject()).then(t=>{AD=t.trim().split('\n').slice(1).map(l=>{const c=l.split(';');const s=c[0]+' '+c[1]+', '+c[2];return{s,n:norm(s),lat:+c[3],lon:+c[4]}});$('q').placeholder='Tapez votre adresse (ex. 12 rue de Villarceau)'}).catch(()=>{$('q').placeholder='Tapez votre adresse…'});
+// Deux champs d'adresse (sur la carte : #q, dans le hero : #q2). Adresses du plan en local, au-delà : Géoplateforme (BAN).
+let sel=-1,hits=[],cur='q',banT=0,banN=0;const SB={q:'sug',q2:'sug2'};
+const inPlan=(lat,lon)=>lon>=2.178791&&lon<=2.301209&&lat>=48.624557&&lat<=48.70541;
+function render(){const L=$(SB[cur]);for(const k in SB)if(k!==cur)$(SB[k]).innerHTML='';
+  L.innerHTML=hits.length?hits.map((h,i)=>`<li role="option" data-i="${i}" aria-selected="${i===sel}">${esc(h.s)}${h.far?'<small>Hors du plan : le bruit du campus y est négligeable</small>':''}</li>`).join(''):`<li class="none">${L.dataset.wait?'Recherche…':'Aucune adresse trouvée'}</li>`}
+function showSug(id){cur=id;const raw=$(id).value.trim(),q=norm(raw);clearTimeout(banT);const L=$(SB[id]);delete L.dataset.wait;
+  if(q.length<3){L.innerHTML='';hits=[];return}const tk=q.split(' ');
   hits=AD.filter(a=>tk.every(t=>a.n.includes(t))).sort((a,b)=>{const va=a.s.replace(/^\S+ /,''),vb=b.s.replace(/^\S+ /,'');return va.localeCompare(vb,'fr')||parseInt(a.s)-parseInt(b.s)||a.s.length-b.s.length}).slice(0,8);
-  $('sug').innerHTML=hits.length?hits.map((h,i)=>`<li role="option" data-i="${i}" aria-selected="${i===sel}">${esc(h.s)}</li>`).join(''):'<li class="none">Aucune adresse trouvée dans le périmètre du plan</li>'}
-function pick(h){const q=P.find(o=>o.k==='perso');q.x=(h.lon-2.24)*73516;q.y=(h.lat-48.665)*111319.5;S.addr=h.s;$('q').value=h.s;$('sug').innerHTML='';hits=[];$('hint').style.display='none';S.home=1;setPt('perso');if(map){const bb=new maplibregl.LngLatBounds([h.lon,h.lat],[h.lon,h.lat]);ZONE.forEach(z=>bb.extend(toLL(z[0],z[1])));const W=$('fig').clientWidth;map.fitBounds(bb,{padding:{top:W<600?120:110,bottom:W<600?70:80,left:W<600?30:60,right:W<600?50:70},maxZoom:17,duration:1500,bearing:map.getBearing(),pitch:map.getPitch()})}}
-$('q').addEventListener('input',()=>{sel=-1;showSug()});
-$('q').addEventListener('keydown',e=>{if(!hits.length)return;if(e.key==='ArrowDown'){sel=Math.min(hits.length-1,sel+1);showSug();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);showSug();e.preventDefault()}else if(e.key==='Enter'){pick(hits[Math.max(0,sel)]);e.preventDefault()}else if(e.key==='Escape'){$('sug').innerHTML='';hits=[]}});
-$('sug').addEventListener('click',e=>{const li=e.target.closest('li[data-i]');if(li)pick(hits[+li.dataset.i])});
+  if(hits.length<3&&q.length>=4){const n=++banN;if(!hits.length)L.dataset.wait='1';
+    banT=setTimeout(()=>fetch('https://data.geopf.fr/geocodage/search?limit=6&lat=48.665&lon=2.24&q='+encodeURIComponent(raw)).then(r=>r.ok?r.json():Promise.reject()).then(j=>{if(n!==banN)return;
+      const seen=new Set(hits.map(h=>norm(h.s)));for(const f of j.features||[]){const s=f.properties.label,[lon,lat]=f.geometry.coordinates;if(!seen.has(norm(s))){seen.add(norm(s));hits.push({s,lat,lon,far:!inPlan(lat,lon)})}}
+      hits=hits.slice(0,8);delete L.dataset.wait;render()}).catch(()=>{if(n===banN){delete L.dataset.wait;render()}}),280)}
+  render()}
+function pick(h){if(!h)return;const fromHero=cur==='q2';const q=P.find(o=>o.k==='perso');q.x=(h.lon-2.24)*73516;q.y=(h.lat-48.665)*111319.5;S.addr=h.s;$('q').value=$('q2').value=h.s;$('sug').innerHTML=$('sug2').innerHTML='';hits=[];$('hint').style.display='none';S.home=1;setPt('perso');
+  if(fromHero)$('bruit').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+  if(map){const bb=new maplibregl.LngLatBounds([h.lon,h.lat],[h.lon,h.lat]);ZONE.forEach(z=>bb.extend(toLL(z[0],z[1])));const W=$('fig').clientWidth;map.fitBounds(bb,{padding:{top:W<600?120:110,bottom:W<600?70:80,left:W<600?30:60,right:W<600?50:70},maxZoom:17,duration:1500,bearing:map.getBearing(),pitch:map.getPitch()})}}
+for(const id of ['q','q2']){
+  $(id).addEventListener('input',()=>{sel=-1;showSug(id)});
+  $(id).addEventListener('keydown',e=>{cur=id;if(e.key==='Escape'){$(SB[id]).innerHTML='';hits=[];return}if(!hits.length)return;if(e.key==='ArrowDown'){sel=Math.min(hits.length-1,sel+1);render();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);render();e.preventDefault()}else if(e.key==='Enter'){pick(hits[Math.max(0,sel)]);e.preventDefault()}});
+  $(SB[id]).addEventListener('click',e=>{const li=e.target.closest('li[data-i]');if(li)pick(hits[+li.dataset.i])})}
+$('hsearch').addEventListener('submit',e=>{e.preventDefault();if(cur==='q2'&&hits.length)pick(hits[Math.max(0,sel)]);else{$('q2').focus();showSug('q2')}});
+document.addEventListener('click',e=>{if(!e.target.closest('.search,.hsearch')){$('sug').innerHTML=$('sug2').innerHTML=''}});
 // ---------- Calcul et affichage ----------
 function update(){
   const p=P.find(q=>q.k===S.pt),src=sources(),c=lp(src,p.x,p.y),res=+$('res').value;
