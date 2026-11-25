@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Répondre — Observatoire citoyen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..800&family=Instrument+Sans:wght@400;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{color-scheme:light;--bg:#fff;--ink:#000;--mute:#5e5e5e;--line:#e3e3e3;--panel:#f7f7f7;--acc:#f50500;--ok:#00a36e;--warn:#ffc900}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--panel);color:var(--ink);font:15px/1.6 "Instrument Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Archivo",sans-serif;font-stretch:112%;font-weight:800;letter-spacing:-.02em;margin:0}
+.top{background:#000;color:#fff;padding:14px max(4vw,16px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.top h1{font-size:18px;text-transform:uppercase}.top small{color:#aeaeae}.top .me{margin-left:auto;font-size:13px;color:#e3e3e3}
+.wrap{max-width:1100px;margin:0 auto;padding:24px max(4vw,16px) 60px}
+.card{background:#fff;border-radius:16px;padding:22px;box-shadow:0 0 0 1px rgba(0,0,0,.05),0 12px 28px -16px rgba(0,0,0,.3)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:#000;color:#fff;font:700 13px/1 "Instrument Sans",sans-serif;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.96)}.btn:focus-visible{outline:3px solid var(--acc);outline-offset:2px}.btn:disabled{opacity:.5;cursor:wait}
+.btn.red{background:var(--acc)}.btn.green{background:var(--ok)}.btn.ghost{background:#fff;color:#000;box-shadow:inset 0 0 0 1.5px #000}.btn.sm{min-height:32px;padding:0 12px;font-size:12px}
+input,select,textarea{font:15px "Instrument Sans",sans-serif;border:0;border-radius:10px;padding:10px 12px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);width:100%;color:#000}
+input:focus,select:focus,textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--acc)}
+label{display:block;font-weight:700;font-size:13px;margin:10px 0 4px}
+.login{max-width:440px;margin:8vh auto}.login p{color:var(--mute)}
+.msg{margin-top:12px;font-weight:600}.msg.ok{color:#00794f}.msg.err{color:var(--acc)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.tabs button{border:0;border-radius:999px;min-height:40px;padding:0 16px;background:#fff;font:600 14px "Instrument Sans",sans-serif;cursor:pointer;box-shadow:0 0 0 1px var(--line),0 6px 16px -10px rgba(0,0,0,.35)}
+.tabs button[aria-pressed=true]{background:#000;color:#fff}.tabs .n{display:inline-block;margin-left:6px;min-width:20px;padding:2px 6px;border-radius:10px;background:var(--panel);color:#000;font-size:11px}
+.tabs button[aria-pressed=true] .n{background:rgba(255,255,255,.2);color:#fff}
+.q{background:#fff;border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 0 0 1px rgba(0,0,0,.05),0 8px 20px -14px rgba(0,0,0,.3);border-left:4px solid var(--warn)}
+.q.forwarded{border-left-color:var(--acc)}.q.answered{border-left-color:var(--ok)}.q.rejected{border-left-color:#aeaeae;opacity:.75}
+.q .meta{font-size:12.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 12px}.q .txt{font-weight:700;font-size:16px;margin:6px 0 10px}
+.q .acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.q .ans{margin-top:10px;padding:12px;border-radius:10px;background:#eefaf4;font-size:14px}
+.q details{margin-top:12px}.q summary{cursor:pointer;font-weight:700;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.empty{color:var(--mute);padding:20px;text-align:center}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--mute)}
+.help{font-size:13px;color:var(--mute);margin:6px 0 0}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><h1>Répondre aux questions</h1><small>Observatoire citoyen · espace réservé</small><span class="me" id="me"></span></header>
+<main class="wrap" id="app"><p class="empty">Chargement…</p></main>
+<script>
+const SB_URL='https://qijmobutlbwuiovydiev.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpam1vYnV0bGJ3dWlvdnlkaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU2MTYwMjIsImV4cCI6MjExMTE5MjAyMn0.F5EFdL6BjeE--1gQnw4AD6UUfBeG_qxbI3daKOOdhK4';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fd=s=>s?new Date(s).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}):'';
+const CAT={bruit:'🔊 Bruit',emplois:'👷 Emplois',chaleur:'🔥 Chaleur',chantier:'🏗️ Chantier',environnement:'🌱 Environnement',circulation:'🚗 Circulation',autre:'💬 Autre'};
+const BY={data4:'Data4',mairie:'Mairie',observatoire:'Observatoire (sources publiques)',autre:'Autre'};
+const ROLE={admin:'Administrateur',data4:'Data4',mairie:'Mairie',observatoire:'Observatoire'};
+let me=null,tab='pending',rows=[];
+
+async function start(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session)return login();
+  const email=session.user.email.toLowerCase();
+  const {data:r}=await sb.from('responders').select('*').eq('email',email).maybeSingle();
+  if(!r||!r.active){app.innerHTML='<div class="card login"><h2>Accès non autorisé</h2><p>Le compte <b>'+esc(email)+'</b> n\'est pas dans la liste des répondants. Demandez à l\'administrateur de l\'observatoire de vous ajouter.</p><button class="btn ghost" id="out">Se déconnecter</button></div>';$('#out').onclick=logout;return}
+  me=r;$('#me').innerHTML=esc(r.name||email)+' · '+ROLE[r.role]+' · <a href="#" id="lo" style="color:#fff">Déconnexion</a>';$('#lo').onclick=e=>{e.preventDefault();logout()};
+  load();
+}
+function login(){
+  app.innerHTML='<div class="card login"><h2>Connexion</h2><p>Saisissez votre email : vous recevrez un <b>lien de connexion</b> (pas de mot de passe).</p><form id="lf"><label for="em">Email</label><input id="em" type="email" required autocomplete="email"><p></p><button class="btn red" id="lb">Recevoir le lien</button><p class="msg" id="lm" role="status"></p></form></div>';
+  $('#lf').onsubmit=async e=>{e.preventDefault();const b=$('#lb');b.disabled=true;
+    const {error}=await sb.auth.signInWithOtp({email:$('#em').value.trim().toLowerCase(),options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
+    b.disabled=false;$('#lm').className='msg '+(error?'err':'ok');$('#lm').textContent=error?('Erreur : '+error.message):'✔ Lien envoyé ! Ouvrez votre boîte mail (vérifiez aussi les indésirables) et cliquez sur le lien.'};
+}
+async function logout(){await sb.auth.signOut();me=null;$('#me').textContent='';login()}
+
+async function load(){
+  const {data,error}=await sb.from('questions').select('id,created_at,question,category,status,forwarded_to,forwarded_at,answer,answer_by,answer_source,answered_at').order('created_at',{ascending:false});
+  if(error){app.innerHTML='<p class="msg err">Erreur de chargement : '+esc(error.message)+'</p>';return}
+  rows=data;render();
+}
+function render(){
+  const T=[['pending','⏳ À modérer'],['published','📣 Publiées, sans réponse'],['forwarded','📨 Transmises'],['answered','✅ Répondues'],['rejected','🚫 Rejetées']];
+  if(me.role==='admin')T.push(['team','👥 Équipe']);
+  const n=k=>rows.filter(r=>r.status===k).length;
+  let h='<div class="tabs">'+T.map(([k,l])=>'<button data-t="'+k+'" aria-pressed="'+(tab===k)+'">'+l+(k!=='team'?'<span class="n">'+n(k)+'</span>':'')+'</button>').join('')+'</div>';
+  if(tab==='team'){app.innerHTML=h+'<div id="team"></div>';bindTabs();return team()}
+  const list=rows.filter(r=>r.status===tab);
+  h+=list.length?list.map(qHTML).join(''):'<div class="card empty">Rien ici pour le moment.</div>';
+  app.innerHTML=h;bindTabs();
+  app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>act(b.dataset.act,b.dataset.id,b));
+}
+function bindTabs(){app.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()})}
+function qHTML(q){
+  const admin=me.role==='admin';
+  let a='';
+  if(q.status==='pending')a+='<button class="btn green sm" data-act="publish" data-id="'+q.id+'">✔ Publier</button><button class="btn ghost sm" data-act="reject" data-id="'+q.id+'">Rejeter</button>';
+  if(q.status==='rejected')a+='<button class="btn ghost sm" data-act="publish" data-id="'+q.id+'">Republier</button>';
+  if(admin)a+='<button class="btn ghost sm" data-act="delete" data-id="'+q.id+'" title="Suppression définitive">🗑 Supprimer</button>';
+  const fwd=q.status!=='rejected'?'<details><summary>📨 Marquer comme transmise</summary><div class="grid2"><div><label>Transmise à</label><select id="fw-'+q.id+'"><option>Data4</option><option>Mairie de Nozay</option><option>Préfecture</option></select></div><div><label>&nbsp;</label><button class="btn sm" data-act="forward" data-id="'+q.id+'">Enregistrer</button></div></div></details>':'';
+  const def=me.role==='data4'?'data4':me.role==='mairie'?'mairie':'observatoire';
+  const ans=q.status!=='rejected'?'<details'+(q.status==='forwarded'||q.status==='published'?'':'')+'><summary>✍️ '+(q.answer?'Modifier la réponse':'Répondre')+'</summary><label for="an-'+q.id+'">Réponse (publique)</label><textarea id="an-'+q.id+'" rows="4">'+esc(q.answer)+'</textarea><div class="grid2"><div><label>Réponse de</label><select id="by-'+q.id+'">'+Object.entries(BY).map(([k,l])=>'<option value="'+k+'"'+((q.answer_by||def)===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div><div><label>Source (lien ou référence)</label><input id="so-'+q.id+'" value="'+esc(q.answer_source)+'" placeholder="https://… ou « Réunion publique du 1er déc. 2026 »"></div></div><p class="help">La réponse est publiée immédiatement sur le site.</p><button class="btn red sm" data-act="answer" data-id="'+q.id+'">Publier la réponse</button></details>':'';
+  return '<article class="q '+q.status+'"><div class="meta"><span>'+(CAT[q.category]||q.category)+'</span><span>Reçue le '+fd(q.created_at)+'</span>'+(q.forwarded_to?'<span>Transmise à '+esc(q.forwarded_to)+' le '+fd(q.forwarded_at)+'</span>':'')+'</div><p class="txt">« '+esc(q.question)+' »</p>'+(q.answer?'<div class="ans"><b>'+(BY[q.answer_by]||'')+'</b> · '+fd(q.answered_at)+'<br>'+esc(q.answer)+'</div>':'')+'<div class="acts">'+a+'</div>'+fwd+ans+'</article>';
+}
+async function act(k,id,b){
+  b.disabled=true;let r;
+  if(k==='publish')r=await sb.from('questions').update({status:'published'}).eq('id',id);
+  if(k==='reject')r=await sb.from('questions').update({status:'rejected'}).eq('id',id);
+  if(k==='forward')r=await sb.from('questions').update({status:'forwarded',forwarded_to:$('#fw-'+id).value,forwarded_at:new Date().toISOString()}).eq('id',id);
+  if(k==='answer'){const t=$('#an-'+id).value.trim();if(t.length<3){alert('La réponse est vide.');b.disabled=false;return}
+    r=await sb.from('questions').update({answer:t,answer_by:$('#by-'+id).value,answer_source:$('#so-'+id).value.trim()||null,status:'answered'}).eq('id',id)}
+  if(k==='delete'){if(!confirm('Supprimer définitivement cette question ?')){b.disabled=false;return}r=await sb.from('questions').delete().eq('id',id)}
+  if(r&&r.error){alert('Erreur : '+r.error.message);b.disabled=false;return}
+  load();
+}
+async function team(){
+  const {data,error}=await sb.from('responders').select('*').order('created_at');
+  if(error){$('#team').innerHTML='<p class="msg err">'+esc(error.message)+'</p>';return}
+  $('#team').innerHTML='<div class="card"><h2 style="font-size:20px">Équipe des répondants</h2><p class="help">Ajoutez l\'email d\'une personne (Data4, mairie…) : elle pourra se connecter sur cette page avec un lien reçu par email. Désactivez-la quand elle change de poste.</p>'
+   +'<table><thead><tr><th>Email</th><th>Nom</th><th>Rôle</th><th>Actif</th><th></th></tr></thead><tbody>'+data.map(p=>'<tr><td>'+esc(p.email)+'</td><td>'+esc(p.name)+'</td><td>'+ROLE[p.role]+'</td><td>'+(p.active?'✅':'—')+'</td><td>'+(p.email===me.email?'<small>vous</small>':'<button class="btn ghost sm" data-tog="'+esc(p.email)+'" data-a="'+p.active+'">'+(p.active?'Désactiver':'Réactiver')+'</button> <button class="btn ghost sm" data-del="'+esc(p.email)+'">Retirer</button>')+'</td></tr>').join('')+'</tbody></table>'
+   +'<form id="addf" class="grid2" style="margin-top:14px"><div><label>Email</label><input id="ae" type="email" required></div><div><label>Nom affiché</label><input id="an" placeholder="Ex. Responsable projet Data4"></div><div><label>Rôle</label><select id="ar"><option value="data4">Data4</option><option value="mairie">Mairie</option><option value="observatoire">Observatoire</option><option value="admin">Administrateur</option></select></div><div><label>&nbsp;</label><button class="btn red">Ajouter</button></div></form></div>';
+  $('#addf').onsubmit=async e=>{e.preventDefault();const {error}=await sb.from('responders').insert({email:$('#ae').value.trim().toLowerCase(),name:$('#an').value.trim()||null,role:$('#ar').value});if(error)alert('Erreur : '+error.message);team()};
+  $('#team').querySelectorAll('[data-tog]').forEach(b=>b.onclick=async()=>{await sb.from('responders').update({active:b.dataset.a!=='true'}).eq('email',b.dataset.tog);team()});
+  $('#team').querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Retirer '+b.dataset.del+' ?')){await sb.from('responders').delete().eq('email',b.dataset.del);team()}});
+}
+sb.auth.onAuthStateChange((ev)=>{if(ev==='SIGNED_IN'&&!me)start()});
+start();
+</script>
+</body>
+</html>

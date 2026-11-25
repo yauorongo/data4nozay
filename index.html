@@ -610,6 +610,42 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 .rt-row .rt-meter{border-radius:14px;box-shadow:0 0 0 1px rgba(0,0,0,.05),0 12px 28px -16px rgba(0,0,0,.3)}.rt-bar{border-radius:6px;overflow:hidden}
 .rr-gap summary{border-radius:999px}.rr .rt-copy{border-radius:999px}.nx-tag,.nx-st{border-radius:4px}
 @media(max-width:700px){.rt-filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px 4px 10px;margin:0 -4px 6px}.rt-filters::-webkit-scrollbar{display:none}.rt-filters button{flex:none}}
+/* Vos questions */
+#questions{background:var(--bg);border-top:1px solid var(--line)}
+.q-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 40px;margin-bottom:20px}.q-head h2{margin:0}.q-head p{margin:0;max-width:62ch;color:var(--mute)}
+.q-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start;margin-bottom:32px}
+.q-form{background:var(--bg);border-radius:18px;padding:22px;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.05),0 16px 36px -18px rgba(0,0,0,.3)}
+.q-lab{display:block;font:800 12px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}
+.q-form textarea{width:100%;resize:vertical;min-height:110px;border:0;border-radius:12px;padding:14px;background:var(--panel);font:16px/1.5 "Instrument Sans",sans-serif;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.q-form textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--acc)}
+.q-row{display:flex;justify-content:flex-end;margin:4px 0 12px}.q-count{font-size:12px;color:var(--mute)}
+.q-cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.q-cats button{min-height:36px;padding:0 12px;border:0;border-radius:999px;background:var(--panel);color:var(--ink);font:600 13px/1 "Instrument Sans",sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.q-cats button:hover{transform:translateY(-1px)}.q-cats button:active{transform:scale(.95)}.q-cats button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.q-cats button[aria-checked=true]{background:#000;color:#fff;box-shadow:0 6px 14px -8px rgba(0,0,0,.6)}
+.q-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.q-send{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border:0;border-radius:999px;background:var(--acc);color:#fff;font:700 14px/1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;box-shadow:0 2px 4px rgba(245,5,0,.25),0 14px 28px -12px rgba(245,5,0,.7);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.q-send svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.q-send:hover{transform:translateY(-2px)}.q-send:active{transform:scale(.97)}.q-send:focus-visible{outline:3px solid #000;outline-offset:3px}.q-send:disabled{opacity:.6;cursor:wait}
+.q-msg{min-height:1.4em;margin:12px 0 0;font-size:14px;font-weight:600}.q-msg.ok{color:#00794f}.q-msg.err{color:var(--acc)}
+.q-legal{margin:8px 0 0;font-size:12.5px;color:var(--mute);line-height:1.5}
+.q-steps{list-style:none;margin:0;padding:6px 0;display:grid;gap:14px;counter-reset:none}
+.q-steps li{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5}
+.q-steps b{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#000;color:#fff;font:800 13px/1 "Archivo",sans-serif}
+.q-steps li:last-child b{background:var(--acc)}
+.q-list-head h3{font-size:18px;margin:0 0 12px;text-transform:none}.q-list-head h3 span{font-size:12px;vertical-align:3px;background:#000;color:#fff;padding:3px 7px;border-radius:4px;margin-left:4px}.q-list-head h3 span:empty{display:none}
+.q-empty{padding:22px;border-radius:16px;background:var(--panel);color:var(--mute);margin:0}.q-empty a{color:var(--ink);font-weight:600}
+#qlist.car .qa{border-radius:16px;overflow:hidden;position:relative;padding:18px;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.05),0 12px 28px -14px rgba(0,0,0,.28);display:flex;flex-direction:column;gap:8px;border:0}
+#qlist.car .qa::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:#ffc900}
+#qlist.car .qa.is-forwarded::before{background:var(--acc)}#qlist.car .qa.is-answered::before{background:#00a36e}
+.qa-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.qa-cat{font-size:12px;font-weight:600;color:var(--mute)}
+.qa-st.ok{background:#00a36e;color:#fff}
+.qa-q{margin:0;font:700 16px/1.4 "Instrument Sans",sans-serif}.qa-d{margin:0;font-size:12.5px;color:var(--mute)}
+.qa-a{margin-top:auto;padding:12px 14px;border-radius:12px;background:#eefaf4;font-size:14px;line-height:1.55}.qa-a p{margin:4px 0 6px}
+.qa-by{font:800 11px/1.3 "Archivo",sans-serif;font-stretch:112%;text-transform:uppercase;letter-spacing:.04em;color:#00613f}
+.qa-wait{background:var(--panel);color:var(--mute);font-size:13px}.qa-src{font-size:12.5px;color:var(--mute)}
+@media(max-width:900px){.q-grid{grid-template-columns:minmax(0,1fr)}.q-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.q-steps{grid-template-columns:minmax(0,1fr)}.q-form{padding:16px}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -624,7 +660,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <nav class="mainnav" aria-label="Menu principal"><div>
 <a class="brand" href="#top" aria-label="Observatoire Nozay PAR3, haut de page"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" fill="#000"/><g fill="#f50500"><rect x="7" y="15" width="3.2" height="6"/><rect x="12.2" y="11" width="3.2" height="14"/><rect x="17.4" y="7" width="3.2" height="22"/></g><g fill="#ffc900"><rect x="22.6" y="12" width="3.2" height="12"/></g><g fill="#fff"><rect x="27.8" y="16" width="3.2" height="4"/></g></svg><span><b>NOZAY · PAR3</b><small>Observatoire citoyen</small></span></a>
 <button type="button" class="menu-btn" id="menubtn" aria-expanded="false" aria-controls="menu"><span class="mb-ic" aria-hidden="true"><i></i><i></i><i></i></span>Menu</button>
-<div class="menu" id="menu"><a href="#bruit">Simulateur</a><a href="#actus">Actualités</a><a href="#retombees">Retombées</a><a href="#avancement">Avancement</a><a href="#projet">Chiffres</a><a href="#ecarts">Points ouverts</a></div>
+<div class="menu" id="menu"><a href="#actus">Actualités</a><a href="#retombees">Retombées</a><a href="#questions">Questions</a><a href="#avancement">Avancement</a><a href="#projet">Chiffres</a><a href="#ecarts">Points ouverts</a></div>
 <a class="cta-y" href="#bruit">Simuler le bruit</a>
 </div></nav>
 <div class="annonce" id="annonce" hidden></div>
@@ -754,6 +790,32 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 <button data-v="q" aria-pressed="false"><span class="rt-dot q"></span>À demander</button></div>
 <div class="rr-list" id="rtgrid"></div>
 <p class="rt-legal">Les annonces de Data4 et des élus sont reproduites telles quelles, avec leur source. « Prouvé » signifie que l'information figure dans un document officiel (dossier d'enquête, avis de l'Autorité environnementale, acte préfectoral) : elle reste un engagement à suivre dans le temps.</p>
+</div></section>
+
+<section class="band" id="questions"><div class="wrap">
+<div class="q-head"><h2>Vos questions</h2><p>Posez votre question sur le projet. Elle est relue, publiée anonymement, transmise à Data4 ou à la commune, et la réponse s'affiche ici.</p></div>
+<div class="q-grid">
+<form class="q-form" id="qform" novalidate>
+<label class="q-lab" for="qtext">Votre question</label>
+<textarea id="qtext" maxlength="1000" rows="4" required placeholder="Ex. : À quelle fréquence les groupes électrogènes seront-ils testés, et à quelles heures ?"></textarea>
+<div class="q-row"><span class="q-count" id="qcount">0 / 1000</span></div>
+<div class="q-lab" id="qcatl">Thème</div>
+<div class="q-cats" id="qcats" role="radiogroup" aria-labelledby="qcatl"></div>
+<input type="text" id="qhp" name="website" tabindex="-1" autocomplete="off" class="q-hp" aria-hidden="true">
+<button type="submit" class="q-send" id="qsend">Envoyer ma question<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+<p class="q-msg" id="qmsg" role="status" aria-live="polite"></p>
+<p class="q-legal">🔒 Anonyme : ni nom, ni email demandés. N'écrivez pas d'informations personnelles. Les questions sont relues avant publication (lien avec le projet, ton respectueux).</p>
+</form>
+<ol class="q-steps" aria-label="Comment ça marche">
+<li><b>1</b><span><strong>Vous posez</strong> votre question, sans créer de compte.</span></li>
+<li><b>2</b><span><strong>Relecture</strong> par l'observatoire, puis publication anonyme.</span></li>
+<li><b>3</b><span><strong>Transmission</strong> à Data4 ou à la mairie, avec la date.</span></li>
+<li><b>4</b><span><strong>Réponse publiée ici</strong>, avec son auteur et sa source.</span></li>
+</ol>
+</div>
+<div class="q-list-head"><h3>Questions publiées <span id="qn"></span></h3></div>
+<div class="rt-filters" id="qf" role="group" aria-label="Filtrer les questions"></div>
+<div class="nr-list" id="qlist"><p class="q-empty">Chargement des questions…</p></div>
 </div></section>
 
 <section class="band" id="avancement" style="background:var(--panel)"><div class="wrap">
@@ -1200,6 +1262,40 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
  $('avtrack').querySelector('.av-pjump').addEventListener('click',()=>{set(true);btn.scrollIntoView({block:'nearest',behavior:'smooth'})});
  // sur petit écran, centrer « Aujourd'hui »
  requestAnimationFrame(()=>{const s=document.querySelector('.av-scroll'),t=$('avtrack').querySelector('.is-today');if(s.scrollWidth>s.clientWidth)s.scrollLeft=t.offsetLeft-s.clientWidth/2+t.offsetWidth/2})}
+// « Vos questions » : envoi anonyme + affichage des questions publiées (Supabase, clé publique « anon »)
+{const SB={url:'https://qijmobutlbwuiovydiev.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpam1vYnV0bGJ3dWlvdnlkaWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU2MTYwMjIsImV4cCI6MjExMTE5MjAyMn0.F5EFdL6BjeE--1gQnw4AD6UUfBeG_qxbI3daKOOdhK4'};
+ const api=(p,o={})=>fetch(SB.url+'/rest/v1/'+p,{...o,headers:{apikey:SB.key,Authorization:'Bearer '+SB.key,'Content-Type':'application/json',...(o.headers||{})}});
+ const CATS=[['bruit','🔊 Bruit'],['emplois','👷 Emplois'],['chaleur','🔥 Chaleur'],['chantier','🏗️ Chantier'],['environnement','🌱 Environnement'],['circulation','🚗 Circulation'],['autre','💬 Autre']],CL=Object.fromEntries(CATS);
+ const BY={data4:'Réponse officielle de Data4',mairie:'Réponse de la mairie',observatoire:'Réponse de l\'observatoire (sources publiques)',autre:'Réponse'};
+ const MO=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],fd=s=>{const d=new Date(s);return d.getDate()+' '+MO[d.getMonth()]+' '+d.getFullYear()};
+ let cat='bruit';
+ $('qcats').innerHTML=CATS.map(([k,l])=>'<button type="button" role="radio" data-v="'+k+'" aria-checked="'+(k===cat)+'">'+l+'</button>').join('');
+ $('qcats').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cat=b.dataset.v;for(const x of $('qcats').children)x.setAttribute('aria-checked',x===b)});
+ const ta=$('qtext');ta.addEventListener('input',()=>{$('qcount').textContent=ta.value.length+' / 1000'});
+ const msg=(t,ok)=>{$('qmsg').textContent=t;$('qmsg').className='q-msg '+(ok?'ok':'err')};
+ $('qform').addEventListener('submit',async e=>{e.preventDefault();const q=ta.value.trim();
+  if($('qhp').value)return msg('Merci !',true);
+  if(q.length<10)return msg('Votre question est un peu courte : précisez-la (10 caractères minimum).');
+  const btn=$('qsend');btn.disabled=true;msg('Envoi…',true);
+  try{const r=await api('questions',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({question:q,category:cat})});
+   if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(/Trop de questions/.test(j.message||'')?j.message:'Envoi impossible pour le moment. Réessayez plus tard.')}
+   ta.value='';$('qcount').textContent='0 / 1000';msg('✔ Merci ! Votre question a bien été reçue. Elle sera publiée ici après relecture.',true)}
+  catch(err){msg(err.message||'Envoi impossible pour le moment.')}finally{btn.disabled=false}});
+ // affichage
+ const ST={published:['En attente de réponse','soon'],forwarded:['Transmise','live'],answered:['Répondue','ok']};
+ const card=q=>{const s=ST[q.status]||ST.published;
+  return '<article class="nr qa is-'+q.status+'" data-st="'+q.status+'"><div class="qa-top"><span class="qa-cat">'+(CL[q.category]||CL.autre)+'</span><span class="nx-st qa-st '+s[1]+'">'+s[0]+'</span></div>'
+   +'<p class="qa-q">« '+esc(q.question)+' »</p><p class="qa-d">Posée le '+fd(q.created_at)+(q.forwarded_to?' · transmise à <b>'+esc(q.forwarded_to)+'</b>'+(q.forwarded_at?' le '+fd(q.forwarded_at):''):'')+'</p>'
+   +(q.answer?'<div class="qa-a"><span class="qa-by">'+(BY[q.answer_by]||BY.autre)+(q.answered_at?' · '+fd(q.answered_at):'')+'</span><p>'+esc(q.answer)+'</p>'+(q.answer_source?(/^https?:\/\//.test(q.answer_source)?'<a class="nr-src" href="'+esc(q.answer_source)+'" target="_blank" rel="noopener">Source ↗</a>':'<span class="qa-src">Source : '+esc(q.answer_source)+'</span>'):'')+'</div>':'<div class="qa-a qa-wait">Réponse attendue. Elle sera publiée ici dès réception.</div>')+'</article>'};
+ api('questions_public?select=*&order=created_at.desc&limit=200').then(r=>r.ok?r.json():Promise.reject()).then(rows=>{
+  $('qn').textContent=rows.length?rows.length:'';
+  if(!rows.length){$('qlist').innerHTML='<p class="q-empty">Aucune question publiée pour l\'instant. <a href="#qform">Soyez le premier à poser la vôtre ↑</a></p>';$('qf').hidden=true;return}
+  $('qlist').innerHTML=rows.map(card).join('');
+  const F=[['all','Tout'],['answered','✅ Répondues'],['forwarded','📨 Transmises'],['published','⏳ En attente']],cards=[...$('qlist').children];
+  $('qf').innerHTML=F.map(([k,l],i)=>'<button type="button" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+l+' <span class="fc">'+(k==='all'?cards.length:cards.filter(c=>c.dataset.st===k).length)+'</span></button>').join('');
+  const car=makeCar($('qlist'),'Questions publiées');
+  $('qf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;for(const x of $('qf').children)x.setAttribute('aria-pressed',x===b);for(const c of cards)c.hidden=b.dataset.v!=='all'&&c.dataset.st!==b.dataset.v;requestAnimationFrame(car.reset)})})
+ .catch(()=>{$('qlist').innerHTML='<p class="q-empty">Les questions publiées ne peuvent pas être chargées pour le moment.</p>';$('qf').hidden=true})}
 // Sources : regroupées par type, une ligne par document
 {const G=[['Documents officiels',/mrae|registre-numerique|essonne\.gouv|pappers|nozay91|villebon/],['Data4, mairie & presse',/data4group|echo-des-villes|laclepublique|dcmag|facebook|synthmedia|universite-paris-saclay/],['Données & méthode',/./]];
  const grp=G.map(g=>({g,items:[]}));for(const s of SR){grp[G.findIndex(g=>g[1].test(s[1]))].items.push(s)}
