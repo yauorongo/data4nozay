@@ -288,10 +288,10 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 /* Actualités en cartes */
 #news.car .nr{background:var(--bg);border:1px solid var(--line);border-top:3px solid #000;box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 24px -18px rgba(0,0,0,.35);align-self:flex-start}
 #news.car .nr.is-live{border-top-color:var(--acc)}#news.car .nr.is-soon{border-top-color:#ffc900}#news.car .nr.is-done{border-top-color:#aeaeae}
-#news.car .nr summary{padding:14px 12px;align-items:flex-start}
+#news.car .nr{display:flex;flex-direction:column;align-self:stretch}#news.car .nr-sum{display:flex;align-items:flex-start;gap:14px;padding:14px 14px 8px}
 #news.car .nr-t{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 #news.car .nr-meta{white-space:normal}
-#news.car .nr-more{padding:0 14px 14px}
+#news.car .nr-more{flex:1;display:flex;flex-direction:column;padding:0 14px 14px 78px}#news.car .nr-more p{font-size:13.5px;line-height:1.55}#news.car .nr-src{margin-top:auto;align-self:flex-start}@media(max-width:700px){#news.car .nr-more{padding-left:14px}}
 /* Engagements en cartes */
 #rtgrid.car .rr{height:auto}
 @media(max-width:1100px){.car>*{flex-basis:calc((100% - 14px) / 2)}}
@@ -1028,7 +1028,7 @@ const NEWS=[
  const card=n=>{const d0=at(n.d),st=stat(n),d1=n.f?at(n.f):null;
   const badge=st==='live'?'<span class="nx-st live">En cours</span>':st==='soon'?'<span class="nx-st soon">À venir</span>':n.rdv?'<span class="nx-st done">Terminé</span>':'';
   const meta=n.rdv?'🕗 '+JO[d0.getDay()]+(n.h?', '+hr(n):'')+' · 📍 '+n.lieu:d1?'Du '+fd(d0)+' au '+fd(d1):fd(d0);
-  return '<details class="nr is-'+st+(n.rdv?' is-rdv':'')+'"><summary><span class="nr-date"><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+'</span><i>'+d0.getFullYear()+'</i></span><span class="nr-main"><span class="nr-tags"><span class="nx-tag">'+n.tag+'</span>'+badge+'</span><b class="nr-t">'+n.t+'</b><span class="nr-meta">'+meta+'</span></span><span class="nr-more-ic" aria-hidden="true"></span></summary><div class="nr-more"><p>'+n.x+'</p><a class="nr-src" href="'+n.url+'" target="_blank" rel="noopener">Source : '+n.src+' ↗</a></div></details>'};
+  return '<article class="nr is-'+st+(n.rdv?' is-rdv':'')+'"><div class="nr-sum"><span class="nr-date"><b>'+d0.getDate()+'</b><span>'+MO[d0.getMonth()]+'</span><i>'+d0.getFullYear()+'</i></span><span class="nr-main"><span class="nr-tags"><span class="nx-tag">'+n.tag+'</span>'+badge+'</span><b class="nr-t">'+n.t+'</b><span class="nr-meta">'+meta+'</span></span></div><div class="nr-more"><p>'+n.x+'</p><a class="nr-src" href="'+n.url+'" target="_blank" rel="noopener">Source : '+n.src+' ↗</a></div></article>'};
  $('news').innerHTML=NEWS.map(card).join('');
  // Prochain rendez-vous : carte mise en avant + bandeau sous le menu + fichier agenda (.ics)
  const nx=NEWS.filter(n=>n.rdv&&stat(n)!=='done').sort((p,q)=>at(p.d)-at(q.d))[0];
