@@ -851,6 +851,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
  .qtab .qr-m .c-st{grid-row:2;padding-left:58px}.qtab .qr-m .c-ch{grid-row:1/3;grid-column:2;display:grid;place-items:center;padding:0 12px 0 0}
  .qtab .qr-d{display:block}.qtab .qr-d[hidden]{display:none}.qtab .qr-d td{display:block;padding:0 14px 16px}
  .qtab{display:block}}
+#questions .q-head{align-items:center}#questions .q-head h2{margin:0}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -914,7 +915,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 </div>
 <div class="mbar" role="toolbar" aria-label="Affichage de la carte">
 <div class="mseg" id="fond"><button data-v="photo" aria-pressed="true">Photo</button><button data-v="plan" aria-pressed="false">Plan</button></div>
-<div class="mseg" id="vue"><button data-v="2d" aria-pressed="true">2D</button><button data-v="3d" aria-pressed="false">3D</button></div>
+<div class="mseg" id="vue"><button data-v="2d" aria-pressed="false">2D</button><button data-v="3d" aria-pressed="true">3D</button></div>
 <button class="mico" id="nz" aria-pressed="true" title="Afficher ou masquer la couche de bruit"><i class="dot"></i>Bruit</button>
 <button class="mico" id="fs" aria-pressed="false" title="Plein écran" aria-label="Plein écran"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
 </div>
@@ -996,7 +997,7 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 </div></section>
 
 <section class="band" id="questions"><div class="wrap">
-<div class="q-head"><h2>Vos questions</h2><div class="q-intro"><p>Toutes les questions sont lues et transmises aux personnes concernées (Data4, mairie…). Si une question peut intéresser tout le monde, elle est publiée ici anonymement avec sa réponse, sauf si vous avez demandé une réponse personnelle.</p><button type="button" class="q-ask" data-ask><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>Poser une question</button></div></div>
+<div class="q-head"><h2>Vos questions</h2><div class="q-intro"><p>Toutes les questions sont lues et transmises aux personnes concernées (Data4, mairie…). Si une question peut intéresser tout le monde, elle est publiée ici anonymement avec sa réponse, sauf si vous avez demandé une réponse personnelle.</p></div></div>
 <div class="q-list-head"><h3 id="qlisth">Questions publiées <span id="qn"></span></h3><input type="search" class="q-search" id="qsearch" placeholder="Rechercher une question…" aria-label="Rechercher une question" hidden></div>
 <div class="rt-filters" id="qf" role="group" aria-label="Filtrer les questions"></div>
 <div class="q-acc" id="qlist"><p class="q-empty">Chargement des questions…</p></div>
@@ -1194,7 +1195,7 @@ function drawMap(){
 }
 if(hasGL){
   paintNoise();
-  map=new maplibregl.Map({container:'mapgl',center:[2.2375,48.6655],zoom:14.4,minZoom:12,maxZoom:19,maxPitch:75,
+  map=new maplibregl.Map({container:'mapgl',center:[2.2375,48.6655],zoom:14.6,pitch:55,bearing:-20,minZoom:12,maxZoom:19,maxPitch:75,
     maxBounds:[[2.1830,48.6270],[2.2970,48.7030]],attributionControl:false,cooperativeGestures:matchMedia('(pointer:coarse)').matches,
     locale:{'NavigationControl.ZoomIn':'Zoomer','NavigationControl.ZoomOut':'Dézoomer','NavigationControl.ResetBearing':'Remettre au nord','CooperativeGesturesHandler.WindowsHelpText':'Ctrl + molette pour zoomer','CooperativeGesturesHandler.MacHelpText':'⌘ + molette pour zoomer','CooperativeGesturesHandler.MobileHelpText':'Utilisez deux doigts pour déplacer la carte'},
     style:{version:8,sources:{
