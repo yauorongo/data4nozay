@@ -1360,7 +1360,7 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
   if(p&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){mail.focus();return msg('Indiquez une adresse email valide pour recevoir la réponse personnelle.')}
   const btn=$('qsend');btn.disabled=true;msg('Envoi…',true);
   try{const r=await api('questions',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify(p?{question:q,category:cat,private:true,email:em}:{question:q,category:cat})});
-   if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(/Trop de questions|Merci d/.test(j.message||'')?j.message:/column|colonne/i.test(j.message||'')?'La réponse personnelle n\'est pas encore disponible. Décochez l\'option ou réessayez plus tard.':'Envoi impossible pour le moment. Réessayez plus tard.')}
+   if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(/Trop de questions|Beaucoup de questions|Merci d/.test(j.message||'')?j.message:/column|colonne/i.test(j.message||'')?'La réponse personnelle n\'est pas encore disponible. Décochez l\'option ou réessayez plus tard.':'Envoi impossible pour le moment. Réessayez plus tard.')}
    msg('',true);done(p,em)}
   catch(err){msg(err.message||'Envoi impossible pour le moment.')}finally{btn.disabled=false}});
  // affichage

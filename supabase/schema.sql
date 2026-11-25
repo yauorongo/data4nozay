@@ -3,6 +3,7 @@
 --  À exécuter UNE fois dans Supabase > SQL Editor > New query > Run.
 --  Avant d'exécuter : remplacez VOTRE_EMAIL_ADMIN (tout en bas).
 --  Ensuite, exécutez 02-emails-et-reponse-personnelle.sql (emails automatiques).
+--  Puis 03-correctif-anti-spam.sql.
 -- =====================================================================
 
 create extension if not exists pgcrypto with schema extensions;
