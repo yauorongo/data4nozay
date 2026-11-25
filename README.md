@@ -1,7 +1,7 @@
 # Observatoire citoyen — Data center Data4 PAR3, Nozay
 
 Prototype indépendant d'information citoyenne sur le campus de data centers Data4 PAR3
-(ancien site Nokia, route de Villejust, Nozay 91620). Réalisé par Abdalla Gulam, à partir
+(ancien site Nokia, route de Villejust, Nozay 91620). Réalisé par un habitant de Nozay, à partir
 de données publiques. Non affilié à Data4, à la mairie de Nozay ni à la préfecture.
 
 ## Ce que fait le site
