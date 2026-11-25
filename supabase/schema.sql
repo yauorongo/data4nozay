@@ -2,7 +2,7 @@
 --  Observatoire citoyen — « Vos questions » (Supabase / Postgres)
 --  À exécuter UNE fois dans Supabase > SQL Editor > New query > Run.
 --  Avant d'exécuter : remplacez VOTRE_EMAIL_ADMIN (tout en bas).
---  Ensuite, exécutez 02-reponse-personnelle.sql (réponse privée par email).
+--  Ensuite, exécutez 02-emails-et-reponse-personnelle.sql (emails automatiques).
 -- =====================================================================
 
 create extension if not exists pgcrypto with schema extensions;
