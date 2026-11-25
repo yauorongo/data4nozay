@@ -774,6 +774,39 @@ footer .wrap{text-align:center}footer p{margin-left:auto;margin-right:auto;max-w
 .qx-all{min-height:44px;padding:0 22px;border:0;border-radius:999px;background:var(--bg);color:var(--ink);font:700 14px "Instrument Sans",sans-serif;cursor:pointer;box-shadow:0 0 0 1px var(--line),0 8px 20px -12px rgba(0,0,0,.4);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .qx-all:hover{transform:translateY(-2px)}.qx-all:active{transform:scale(.97)}.qx-all:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.qx-pulse{animation:none}}
+/* ===== Passe « moderne » ===== */
+/* Chiffres clés : cartes flottantes */
+#projet-bref .kpis{background:none;border:0;gap:14px}
+#projet-bref .kpi{position:relative;overflow:hidden;border-radius:18px;padding:26px 24px 22px;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04),0 18px 36px -22px rgba(245,5,0,.45);transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+#projet-bref .kpi::before{content:"";position:absolute;left:24px;top:0;width:36px;height:4px;border-radius:0 0 4px 4px;background:var(--acc)}
+#projet-bref .kpi:hover{transform:translateY(-4px)}
+#projet-bref .kpi strong{letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+/* Tableau des bâtiments */
+#projet table.stack{border-collapse:separate;border-spacing:0;width:100%;border-radius:16px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 14px 30px -22px rgba(0,0,0,.35)}
+#projet table.stack th,#projet table.stack td{padding:12px 16px}
+#projet table.stack thead th{background:var(--panel)}
+#projet table.stack tbody tr:last-child td{font-weight:700;border-bottom:0}
+/* Barres de puissance arrondies et animées */
+.bar div{height:14px!important;border-radius:999px;overflow:hidden;margin-top:6px!important}
+.bar div i{border-radius:999px;transform-origin:left center;transform:scaleX(0);transition:transform 1.4s cubic-bezier(.22,1,.36,1)}
+.bars.in .bar div i{transform:scaleX(1)}.bars.in .bar:nth-child(2) div i{transition-delay:.15s}.bars.in .bar:nth-child(3) div i{transition-delay:.3s}
+/* Blocs d'info en cartes */
+.gap{border-top:0;position:relative;padding:22px 22px 20px;border-radius:18px;background:var(--panel)}
+.gap::before{content:"";display:block;width:28px;height:4px;border-radius:2px;background:var(--acc);margin-bottom:14px}
+.gap p{margin-bottom:0}
+#ecarts .gap{background:var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.05),0 14px 30px -22px rgba(0,0,0,.35)}
+#ecarts .gap::before{background:#ffc900}
+.educ{border-radius:18px}
+/* Apparition douce au défilement */
+.js-rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+.js-rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.js-rv{opacity:1;transform:none;transition:none}.bar div i{transform:none;transition:none}}
+/* Bouton flottant compact pendant la descente */
+.q-fab.mini{padding:0;width:56px;justify-content:center}.q-fab.mini span{display:none}
+.q-fab.mini svg{animation:fabpop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes fabpop{from{transform:scale(.6)}to{transform:none}}
+@media(max-width:520px){.q-fab.mini{width:50px}}
+#bruit>.edu{max-width:1240px;margin-inline:auto}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -1469,6 +1502,24 @@ function makeCar(el,label){el.classList.add('car');el.tabIndex=0;el.setAttribute
  $('qx').addEventListener('click',()=>dlg.close());
  dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
  dlg.addEventListener('close',()=>{fab.classList.remove('in-dlg');fab.focus({preventScroll:true})})}
+// Passe moderne : apparition au défilement, compteurs, barres, bouton flottant compact
+{const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const els=[...document.querySelectorAll('.band h2,#projet-bref .kpi,.gap,.educ,#projet table.stack,.q-intro,.av-scroll')];
+ const bars=document.querySelector('.bars');
+ if(RM||!('IntersectionObserver' in window)){bars&&bars.classList.add('in')}else{
+  els.forEach(el=>{el.classList.add('js-rv');const sib=[...el.parentNode.children].filter(x=>x.matches('.kpi,.gap,.educ'));const i=sib.indexOf(el);if(i>0)el.style.transitionDelay=(i*90)+'ms'});
+  // tout élément atteint (ou déjà dépassé) apparaît : rien ne peut rester invisible
+  let todo=bars?els.concat(bars):els.slice(),tk=0;
+  const check=()=>{tk=0;const lim=innerHeight*.92;todo=todo.filter(el=>{if(el.getBoundingClientRect().top<lim){el.classList.add('in');if(el.matches('.kpi'))count(el);return false}return true});if(!todo.length)removeEventListener('scroll',on)};
+  const on=()=>{if(!tk)tk=requestAnimationFrame(check)};addEventListener('scroll',on,{passive:true});addEventListener('resize',on);check();
+  // compteurs : 127,5 MW, 87, 170 m
+  function count(k){const s=k.querySelector('strong'),m=s.textContent.match(/^(\d+)(?:,(\d))?(\s*\D*)$/);if(!m)return;
+   const end=+(m[1]+'.'+(m[2]||0)),dec=m[2]?1:0,suf=m[3],t0=performance.now(),D=1400;
+   const step=now=>{const p=Math.min(1,(now-t0)/D),e=1-Math.pow(1-p,3);s.textContent=(end*e).toFixed(dec).replace('.',',')+suf;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}}
+ // bouton flottant : compact quand on descend, complet quand on remonte
+ const fab=$('qfab');let ly=scrollY,tk=0;
+ addEventListener('scroll',()=>{if(tk)return;tk=requestAnimationFrame(()=>{tk=0;const y=scrollY,d=y-ly;if(Math.abs(d)>8){fab.classList.toggle('mini',d>0&&y>300);ly=y}})},{passive:true});
+ fab.setAttribute('aria-label','Poser une question')}
 // Sources : regroupées par type, une ligne par document
 {const G=[['Documents officiels',/mrae|registre-numerique|essonne\.gouv|pappers|nozay91|villebon/],['Data4, mairie & presse',/youtube|data4group|echo-des-villes|laclepublique|dcmag|facebook|synthmedia|universite-paris-saclay/],['Données & méthode',/./]];
  const grp=G.map(g=>({g,items:[]}));for(const s of SR){grp[G.findIndex(g=>g[1].test(s[1]))].items.push(s)}
