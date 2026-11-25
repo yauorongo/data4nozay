@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nozay PAR3 — Observatoire</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 36 36%27%3E%3Crect width=%2736%27 height=%2736%27 fill=%27%23000%27/%3E%3Cg fill=%27%23f50500%27%3E%3Crect x=%277%27 y=%2715%27 width=%273.2%27 height=%276%27/%3E%3Crect x=%2712.2%27 y=%2711%27 width=%273.2%27 height=%2714%27/%3E%3Crect x=%2717.4%27 y=%277%27 width=%273.2%27 height=%2722%27/%3E%3C/g%3E%3Crect x=%2722.6%27 y=%2712%27 width=%273.2%27 height=%2712%27 fill=%27%23ffc900%27/%3E%3Crect x=%2727.8%27 y=%2716%27 width=%273.2%27 height=%274%27 fill=%27%23fff%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="maplibre-gl.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..800&family=Instrument+Sans:wght@400;600&display=swap">
@@ -268,6 +269,9 @@ a:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 #projet-bref .kpis{background:var(--line);gap:1px;border:1px solid var(--line)}
 #projet-bref .kpi{background:var(--bg);padding:24px 22px}#projet-bref .kpi span{color:var(--mute)}
 .card{top:92px}
+.ring{display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 5px;background:rgba(255,255,255,.95);color:#000;border-radius:11px;font:700 11px/1 "Archivo",sans-serif;font-stretch:112%;white-space:nowrap;pointer-events:auto;cursor:default;box-shadow:0 1px 2px rgba(0,0,0,.2),0 4px 10px -4px rgba(0,0,0,.4)}
+.ring i{width:10px;height:10px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}.ring .emo{font-size:12px;vertical-align:0}
+.fig.night .ring{background:rgba(18,24,38,.92);color:#fff}
 .nightveil{position:absolute;inset:0;pointer-events:none;opacity:0;mix-blend-mode:multiply;background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(120,140,210,.5),rgba(40,55,120,.8));transition:opacity .6s cubic-bezier(.22,1,.36,1)}
 .fig.night .nightveil{opacity:1}
 .fig.night .maplibregl-ctrl-scale{background:rgba(255,255,255,.85)}
@@ -563,13 +567,35 @@ const MX=[247084.5,6215937.7,251626.8,6220480.0],RE=6378137;
 const sq=(x,y,s)=>[[toLL(x-s,y-s),toLL(x+s,y-s),toLL(x+s,y+s),toLL(x-s,y+s),toLL(x-s,y-s)]];
 const inZone=(x,y)=>{let c=false;for(let i=0,j=ZONE.length-1;i<ZONE.length;j=i++){const[a,b]=ZONE[i],[d,e]=ZONE[j];if((b>y)!==(e>y)&&x<(d-a)*(y-b)/(e-b)+a)c=!c}return c};
 const hasGL=typeof maplibregl!=='undefined',DCM=[];let map=null,ready=false;const MK={};
-const NC=document.createElement('canvas');NC.width=256;NC.height=256;
-function paintNoise(){const N=256,c=NC,ctx=c.getContext('2d'),img=ctx.createImageData(N,N),src=sources();
-  const rgb=LV.map(([t,cc])=>[t,parseInt(cc.slice(1,3),16),parseInt(cc.slice(3,5),16),parseInt(cc.slice(5,7),16)]);
-  for(let j=0;j<N;j++){const my=MX[3]-(j+.5)/N*(MX[3]-MX[1]),lat=(2*Math.atan(Math.exp(my/RE))-Math.PI/2)*180/Math.PI;
-    for(let i=0;i<N;i++){const lon=(MX[0]+(i+.5)/N*(MX[2]-MX[0]))/RE*180/Math.PI,[x,y]=fromLL(lon,lat),l=lp(src,x,y);let col=null;for(const r of rgb)if(l>=r[0])col=r;
-      if(col){const k=(j*N+i)*4;img.data[k]=col[1];img.data[k+1]=col[2];img.data[k+2]=col[3];img.data[k+3]=230}}}
-  ctx.putImageData(img,0,0)}
+const NC=document.createElement('canvas');NC.width=NC.height=1024;
+const RINGS=[];
+function paintNoise(){const N=1024,G=200,G1=G+1,ctx=NC.getContext('2d'),img=ctx.createImageData(N,N),D=img.data,src=sources();
+  // 1) niveau sonore calculé aux nœuds d'une grille 200 × 200
+  const F=new Float32Array(G1*G1);
+  for(let j=0;j<=G;j++){const my=MX[3]-j/G*(MX[3]-MX[1]),lat=(2*Math.atan(Math.exp(my/RE))-Math.PI/2)*180/Math.PI;
+    for(let i=0;i<=G;i++){const lon=(MX[0]+i/G*(MX[2]-MX[0]))/RE*180/Math.PI,[x,y]=fromLL(lon,lat);F[j*G1+i]=src.length?lp(src,x,y):-99}}
+  // 2) interpolation bilinéaire en 1024 × 1024 ; 3) couleurs + courbes blanches lissées (anticrénelage selon la pente du champ)
+  const T=LV.map(r=>r[0]),C=LV.map(([,cc])=>[parseInt(cc.slice(1,3),16),parseInt(cc.slice(3,5),16),parseInt(cc.slice(5,7),16)]),sc=G/N,LW=.9;
+  for(let py=0;py<N;py++){const fy=(py+.5)*sc,j0=Math.min(G-1,fy|0),ty=fy-j0;
+    for(let px=0;px<N;px++){const fx=(px+.5)*sc,i0=Math.min(G-1,fx|0),tx=fx-i0,k=j0*G1+i0,a00=F[k],a10=F[k+1],a01=F[k+G1],a11=F[k+G1+1];
+      const l=(a00*(1-tx)+a10*tx)*(1-ty)+(a01*(1-tx)+a11*tx)*ty;
+      const gx=((a10-a00)*(1-ty)+(a11-a01)*ty)*sc,gy=((a01-a00)*(1-tx)+(a11-a10)*tx)*sc,g=Math.hypot(gx,gy)||1e-6;
+      let bd=-1,dmin=1e9;for(let n=0;n<T.length;n++){if(l>=T[n])bd=n;const d=Math.abs(l-T[n])/g;if(d<dmin)dmin=d}
+      const ln=Math.max(0,Math.min(1,LW+.5-dmin)),q=(py*N+px)*4;
+      if(bd<0){if(ln>0){D[q]=D[q+1]=D[q+2]=255;D[q+3]=240*ln}continue}
+      const c=C[bd];D[q]=c[0]+(255-c[0])*ln;D[q+1]=c[1]+(255-c[1])*ln;D[q+2]=c[2]+(255-c[2])*ln;D[q+3]=215+25*ln}}
+  ctx.putImageData(img,0,0);
+  const s=map&&map.getSource&&map.getSource('noise');if(s&&s.play){s.play();requestAnimationFrame(()=>requestAnimationFrame(()=>s.pause()))}
+  ringLabels(src)}
+// Étiquettes « 40 dB » posées sur chaque courbe, chacune sur son propre rayon pour ne pas se chevaucher
+function ringLabels(src){if(!map||!ready)return;const on=$('nz').getAttribute('aria-pressed')==='true';
+  const cx=src.reduce((s,o)=>s+o.x,0)/(src.length||1),cy=src.reduce((s,o)=>s+o.y,0)/(src.length||1),ANG=[12,-14,36,-38,58];
+  LV.forEach(([t,cc],n)=>{if(!RINGS[n]){const el=mkEl('ring','');RINGS[n]={el,m:new maplibregl.Marker({element:el}).setLngLat(toLL(0,0)).addTo(map)}}
+    const R=RINGS[n],a=ANG[n%ANG.length]*Math.PI/180;let d=0;
+    if(on&&src.length){for(let r=20;r<3200;r+=4){if(lp(src,cx+r*Math.cos(a),cy+r*Math.sin(a))<t){d=r;break}}}
+    if(!d){R.el.style.display='none';return}
+    const dd=desc(t+.1);R.el.innerHTML='<i style="background:'+cc+'"></i>'+t+' dB <span class="emo">'+dd[1]+'</span>';R.el.title='Courbe '+t+' dB : comme '+dd[2];
+    R.el.style.display='';R.m.setLngLat(toLL(cx+d*Math.cos(a),cy+d*Math.sin(a)))})}
 const rect=(x0,y0,x1,y1)=>[[toLL(x0,y0),toLL(x1,y0),toLL(x1,y1),toLL(x0,y1),toLL(x0,y0)]];
 function dcGeo(){return{type:'FeatureCollection',features:Object.entries(FP).filter(([k])=>!k.startsWith('DC')||+k[3]<=S.ph).map(([k,f])=>({type:'Feature',properties:{k,h:f[4],t:f[5]},geometry:{type:'Polygon',coordinates:rect(f[0],f[1],f[2],f[3])}}))}}
 let TIP=null;
@@ -606,7 +632,7 @@ if(hasGL){
     locale:{'NavigationControl.ZoomIn':'Zoomer','NavigationControl.ZoomOut':'Dézoomer','NavigationControl.ResetBearing':'Remettre au nord','CooperativeGesturesHandler.WindowsHelpText':'Ctrl + molette pour zoomer','CooperativeGesturesHandler.MacHelpText':'⌘ + molette pour zoomer','CooperativeGesturesHandler.MobileHelpText':'Utilisez deux doigts pour déplacer la carte'},
     style:{version:8,sources:{
       orthoW:{type:'image',url:'ortho_large.jpg',coordinates:CORNW},planW:{type:'image',url:'plan_large.jpg',coordinates:CORNW},ortho:{type:'image',url:'ortho.jpg',coordinates:CORN},plan:{type:'image',url:'plan_hd.jpg',coordinates:CORN},
-      noise:{type:'canvas',canvas:NC,coordinates:CORN,animate:true},
+      noise:{type:'canvas',canvas:NC,coordinates:CORN,animate:false},
       bat:{type:'geojson',data:{type:'FeatureCollection',features:[]}},dc:{type:'geojson',data:dcGeo()},
       zone:{type:'geojson',data:{type:'Feature',geometry:{type:'Polygon',coordinates:[ZONE.concat([ZONE[0]]).map(p=>toLL(p[0],p[1]))]}}}},
      layers:[{id:'bg',type:'background',paint:{'background-color':'#dfe3d6'}},
@@ -645,7 +671,7 @@ if(hasGL){
 const setSeg=(id,v)=>{for(const x of $(id).children)x.setAttribute('aria-pressed',x.dataset.v===v)};
 $('fond').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!ready)return;setSeg('fond',b.dataset.v);const ph=b.dataset.v==='photo';['ortho','orthoW'].forEach(l=>map.setLayoutProperty(l,'visibility',ph?'visible':'none'));['plan','planW'].forEach(l=>map.setLayoutProperty(l,'visibility',ph?'none':'visible'))});
 $('vue').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!map)return;setSeg('vue',b.dataset.v);b.dataset.v==='3d'?map.easeTo({pitch:62,bearing:-25,zoom:Math.max(map.getZoom(),15.3),duration:1200}):map.easeTo({pitch:0,bearing:0,duration:900})});
-$('nz').addEventListener('click',()=>{const on=$('nz').getAttribute('aria-pressed')!=='true';$('nz').setAttribute('aria-pressed',on);if(ready)map.setLayoutProperty('noise','visibility',on?'visible':'none');$('leg').style.opacity=on?1:.4});
+$('nz').addEventListener('click',()=>{const on=$('nz').getAttribute('aria-pressed')!=='true';$('nz').setAttribute('aria-pressed',on);if(ready){map.setLayoutProperty('noise','visibility',on?'visible':'none');ringLabels(sources())}$('leg').style.opacity=on?1:.4});
 // ---------- Plein écran (API du navigateur, sinon toute la fenêtre) ----------
 const fig=$('fig');let pseudo=false;
 const setFs=on=>{$('fs').setAttribute('aria-pressed',on);$('fs').title=on?'Quitter le plein écran':'Plein écran';setTimeout(()=>map&&map.resize(),60)};
