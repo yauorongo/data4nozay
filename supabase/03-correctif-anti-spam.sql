@@ -10,6 +10,7 @@
 --  • Les modérateurs connectés ne sont jamais limités.
 --  • Les tests depuis localhost ne sont pas limités par connexion
 --    (seul le plafond de sécurité de 100 / heure s'applique).
+--  • En test (localhost), l'email aux modérateurs mène vers localhost.
 --  Peut être relancé sans risque.
 -- =====================================================================
 
@@ -50,6 +51,34 @@ begin
   new.ip_hash    := h;
   return new;
 end $$;
+
+-- Email aux modérateurs : en test (question envoyée depuis localhost), le bouton
+-- « Répondre » pointe vers http://localhost:…/repondre.html au lieu du site public.
+create or replace function public.questions_notify_new()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare r record; s public.mail_settings; body text; base text; org text; dev boolean;
+begin
+  select * into s from public.mail_settings limit 1;
+  org  := coalesce(coalesce(nullif(current_setting('request.headers', true), '')::json, '{}'::json) ->> 'origin', '');
+  dev  := org ~ '^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$';
+  base := case when dev then org else coalesce(s.site_url, '') end;
+  body := case when dev then '<p style="padding:8px 12px;background:#fff4c2;font-size:13px">🧪 <b>Question de test</b> envoyée depuis ' || org || '</p>' else '' end
+       || '<p>Une nouvelle question a été posée sur l''observatoire citoyen'
+       || case when new.private then ' — <b>réponse personnelle demandée</b> (elle ne sera pas publiée)' else '' end || ' :</p>'
+       || '<p style="padding:12px 16px;background:#f4f4f4;border-left:4px solid #f50500"><b>« ' || public.html_esc(new.question) || ' »</b></p>'
+       || '<p>Thème : ' || new.category || '</p>'
+       || '<p><a href="' || base || '/repondre.html" style="display:inline-block;background:#f50500;color:#fff;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:bold">Répondre à la question</a></p>'
+       || '<p style="color:#777;font-size:13px">Vous recevez cet email car vous êtes modérateur de l''observatoire citoyen.</p>';
+  for r in select email from public.responders where active loop
+    perform public.send_mail(r.email, case when dev then '[TEST] ' else '' end || 'Nouvelle question à traiter : '
+      || left(new.question, 60) || case when length(new.question) > 60 then '…' else '' end, body);
+  end loop;
+  return null;
+exception when others then
+  raise warning 'notification non envoyée : %', sqlerrm;
+  return null;
+end $$;
+revoke all on function public.questions_notify_new() from public, anon, authenticated;
 
 -- Les anciennes empreintes « vides » (adresse introuvable) ne comptent plus
 update public.questions
